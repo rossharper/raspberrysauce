@@ -112,6 +112,13 @@ function initPassport() {
     ));
 }
 
+function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect('/login')
+}
+
 function createApp() {
     var app = express();
     app.set('views', __dirname + '/views');
@@ -137,12 +144,6 @@ function createApp() {
     app.use(passport.session());
     
     app.use(express.static(__dirname + '/public'));
-
-    app.get('/', function(req, res) {
-        res.render('index', {
-            title: 'Home'
-        })
-    })
 
     app.get('/login', function(req, res) {
         res.render('login', {
@@ -170,7 +171,22 @@ function createApp() {
 
     app.get('/logout', function(req, res) {
         req.logout();
-        res.redirect('/');
+        res.redirect('/login');
+    });
+
+    app.all('*', function(req, res, next) {
+        if (req.params === '/login') {
+            next();
+        }
+        else {
+            ensureAuthenticated(req, res, next);
+        }
+    });
+
+    app.get('/', function(req, res) {
+        res.render('index', {
+            title: 'Home'
+        })
     });
 
     return app;
