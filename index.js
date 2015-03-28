@@ -18,7 +18,8 @@ var express = require('express'),
     LocalStrategy = require('passport-local').Strategy,
     cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser'),
-    users = require('./models/users');
+    users = require('./models/users'),
+    pass = require('pwd');
 
 var port = process.argv[2] || 4443,
     insecurePort = process.argv[3] || 8080;
@@ -77,12 +78,21 @@ function initPassport() {
                             message: 'Unknown user ' + username
                         });
                     }
-                    if (user.password != password) {
-                        return done(null, false, {
-                            message: 'Invalid password'
-                        });
-                    }
-                    return done(null, user);
+                    pass.hash('submitted password', user.salt, function(err, hash) {
+                        console.log("sub hash: " + hash);
+                        console.log("usr hash: " + user.password);
+                        if(err) { 
+                            return done(err); 
+                        }
+                        if (user.password == hash) {
+                            done(null, user);
+                        }
+                        else {
+                            return done(null, false, {
+                                message: 'Invalid password'
+                            });
+                        }
+                    });
                 })
             });
         }
