@@ -1,4 +1,9 @@
 /*
+TODO: split this shite up
+*/
+
+
+/*
  * Module dependencies
  */
 var express = require('express'),
@@ -15,6 +20,10 @@ var express = require('express'),
     cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser');
 
+var port = process.argv[2] || 4443,
+    insecurePort = process.argv[3] || 8080;
+
+/* temporary shitty user model */
 var users = [
     { id: 1, username: 'bob', password: 'secret', email: 'bob@example.com' }
 ];
@@ -38,12 +47,8 @@ function findByUsername(username, fn) {
     return fn(null, null);
 }
 
-// Config file - not in repo
+// Config file - don't store in repo
 var config = require('./config');
-
-var port = process.argv[2] || 4443,
-    insecurePort = process.argv[3] || 8080,
-    server, insecureServer, options;
 
 function configureRootCerts() {
     sslrootcas
@@ -51,12 +56,13 @@ function configureRootCerts() {
         .addFile(path.join(__dirname, config.sslcerts.cacertpath, config.sslcerts.cacert));
 }
 
-function setSslServerOptions() {
-    options = {
+function getSslServerOptions() {
+    var options = {
         key: fs.readFileSync(path.join(__dirname, config.sslcerts.servercertpath, config.sslcerts.serverkey)),
         cert: fs.readFileSync(path.join(__dirname, config.sslcerts.servercertpath, config.sslcerts.servercert)),
         passphrase: config.sslcerts.passphrase
     };
+    return options;
 }
 
 function stylusCompile(str, path) {
@@ -172,16 +178,16 @@ function createApp() {
 
 function configureSslServer() {
     configureRootCerts();
-    setSslServerOptions();
+    var options = getSslServerOptions();
     
-    server = https.createServer(options, createApp()).listen(port, function() {
+    var server = https.createServer(options, createApp()).listen(port, function() {
         port = server.address().port;
         console.log('Listening on https://' + server.address().address + ':' + port);
     });
 }
 
 function configureInsecureTrafficRedirect() {
-    insecureServer = http.createServer();
+    var insecureServer = http.createServer();
     insecureServer.on('request', function(req, res) {
         // TODO also redirect websocket upgrades
         res.setHeader(
