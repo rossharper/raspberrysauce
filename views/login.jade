@@ -2,7 +2,7 @@ extend layout
 block script
   script(type='text/javascript').
     function onButtonClicked() { 
-        
+        document.login.submit();
     }
 block content
     form(name="login", action="/login", method="post")
@@ -10,12 +10,12 @@ block content
         | Who is ya?
       
         div
-            input(type="text", name="user", class="fullwidthinput")
+            input(type="text", name="username", class="fullwidthinput")
         
         p
         | What be the secret words?
     
         div
-            input(type="password", name="pass" class="fullwidthinput")
+            input(type="password", name="password" class="fullwidthinput")
       
         a(href='#',class='button greenButton',onclick='onButtonClicked()') LOGIN
