@@ -1,0 +1,23 @@
+extend layout
+block script
+  script(type='text/javascript').
+    function onButtonClicked() { 
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "/on", false);
+        xhr.send();
+    }
+    function offButtonClicked() { 
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "/off", false);
+        xhr.send();
+    }
+
+block content
+  p
+    | Hello from the Raspberry Pi!
+
+  a(href='#',class='greenButton',onclick='onButtonClicked()') ON
+
+  br
+
+  a(href='#',class='greenButton',onclick='offButtonClicked()') OFF
