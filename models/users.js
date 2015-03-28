@@ -1,8 +1,6 @@
 /* temporary shitty user model */
 
-var users = [
-    { id: 1, username: 'ross', password: 'secretshash' }
-];
+var users = require('../config/userlist');
 
 function findById(id, fn) {
     var idx = id - 1;
