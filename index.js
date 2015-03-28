@@ -162,7 +162,7 @@ function createApp() {
         })(req, res, next);
     });
 
-    router.get('/logout', function(req, res) {
+    app.get('/logout', function(req, res) {
         req.logout();
         res.redirect('/');
     });
