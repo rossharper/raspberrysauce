@@ -2,7 +2,6 @@
 TODO: split this shite up
 */
 
-
 /*
  * Module dependencies
  */
@@ -24,31 +23,6 @@ var express = require('express'),
 var port = process.argv[2] || 4443,
     insecurePort = process.argv[3] || 8080;
 
-/* temporary shitty user model */
-/*
-var users = [
-    { id: 1, username: 'bob', password: 'secret', email: 'bob@example.com' }
-];
-
-function findById(id, fn) {
-    var idx = id - 1;
-    if (users[idx]) {
-        fn(null, users[idx]);
-    } else {
-        fn(new Error('User ' + id + ' does not exist'));
-    }
-}
-
-function findByUsername(username, fn) {
-    for (var i = 0, len = users.length; i < len; i++) {
-        var user = users[i];
-        if (user.username === username) {
-            return fn(null, user);
-        }
-    }
-    return fn(null, null);
-}
-*/
 
 // Config file - don't store in repo
 var config = require('./config');
