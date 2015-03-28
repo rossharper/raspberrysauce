@@ -1,13 +1,15 @@
 {
-	"name": "RaspberrySauce",
-	"version": "0.0.1",
-	"private": true,
-	"dependencies": {
-		"express": "*"
-		, "jade": "*"
-		, "stylus": "*"
-		, "nib": "*"
-		, "morgan": "*"
-		, "ssl-root-cas": "*"
-	}
+  "name": "RaspberrySauce",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "*",
+    "jade": "*",
+    "stylus": "*",
+    "nib": "*",
+    "morgan": "*",
+    "ssl-root-cas": "*",
+    "passport": "~0.2.1",
+    "passport-local": "~1.0.0"
+  }
 }
