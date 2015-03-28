@@ -18,12 +18,14 @@ var express = require('express'),
     passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy,
     cookieParser = require('cookie-parser'),
-    bodyParser = require('body-parser');
+    bodyParser = require('body-parser'),
+    users = require('./models/users');
 
 var port = process.argv[2] || 4443,
     insecurePort = process.argv[3] || 8080;
 
 /* temporary shitty user model */
+/*
 var users = [
     { id: 1, username: 'bob', password: 'secret', email: 'bob@example.com' }
 ];
@@ -46,6 +48,7 @@ function findByUsername(username, fn) {
     }
     return fn(null, null);
 }
+*/
 
 // Config file - don't store in repo
 var config = require('./config');
@@ -77,7 +80,7 @@ function initPassport() {
     });
 
     passport.deserializeUser(function(id, done) {
-        findById(id, function(err, user) {
+        users.findById(id, function(err, user) {
             done(err, user);
         });
     });
@@ -91,7 +94,7 @@ function initPassport() {
                 // username, or the password is not correct, set the user to `false` to
                 // indicate failure and set a flash message.  Otherwise, return the
                 // authenticated `user`.
-                findByUsername(username, function(err, user) {
+                users.findByUsername(username, function(err, user) {
                     if (err) {
                         return done(err);
                     }
@@ -157,7 +160,6 @@ function createApp() {
                 return next(err)
             }
             if (!user) {
-                req.session.messages = [info.message];
                 return res.redirect('/login')
             }
             req.logIn(user, function(err) {
