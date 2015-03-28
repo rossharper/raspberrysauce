@@ -25,19 +25,19 @@ var port = process.argv[2] || 4443,
 
 
 // Config file - don't store in repo
-var config = require('./config');
+var sslConfig = require('./config/sslconfig');
 
 function configureRootCerts() {
     sslrootcas
         .inject()
-        .addFile(path.join(__dirname, config.sslcerts.cacertpath, config.sslcerts.cacert));
+        .addFile(path.join(__dirname, sslConfig.cacertpath, sslConfig.cacert));
 }
 
 function getSslServerOptions() {
     var options = {
-        key: fs.readFileSync(path.join(__dirname, config.sslcerts.servercertpath, config.sslcerts.serverkey)),
-        cert: fs.readFileSync(path.join(__dirname, config.sslcerts.servercertpath, config.sslcerts.servercert)),
-        passphrase: config.sslcerts.passphrase
+        key: fs.readFileSync(path.join(__dirname, sslConfig.servercertpath, sslConfig.serverkey)),
+        cert: fs.readFileSync(path.join(__dirname, sslConfig.servercertpath, sslConfig.servercert)),
+        passphrase: sslConfig.passphrase
     };
     return options;
 }
