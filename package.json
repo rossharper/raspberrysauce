@@ -1,0 +1,13 @@
+{
+	"name": "RaspberrySauce",
+	"version": "0.0.1",
+	"private": true,
+	"dependencies": {
+		"express": "*"
+		, "jade": "*"
+		, "stylus": "*"
+		, "nib": "*"
+		, "morgan": "*"
+		, "ssl-root-cas": "*"
+	}
+}
