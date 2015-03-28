@@ -2,16 +2,17 @@ main-color = #7F2838
 background-color = #faf9f0
 
 body
-  font-family 'Verdana'
+  font-family 'Arial'
+  font-size 150%
   background-color background-color
   color #444
+  margin 0px
 
 header
   padding 10px
   color #fff
-  font-size 25px
-  text-align center
-
+  font-size 1em
+  text-align left
   /*
    * Note the use of the `main-color`
    * variable and the `darken` function
@@ -20,9 +21,16 @@ header
   border-bottom 1px solid darken(main-color, 30%)
   text-shadow 0px -1px 0px darken(main-color, 30%)
 
+header h1
+  font-size 1.25em
+  font-weight lighter
+  text-transform uppercase
+  margin 0px
+
 .container
-  width 100%
+  width auto
   overflow hidden
+  margin 10px
 
 .main-content
   float left
@@ -34,17 +42,18 @@ header
 .greenButton {
   background-color:#44c767;
   border:1px solid #18ab29;
-  display:inline-block;
+  display:block;
   cursor:pointer;
   color:#ffffff;
-  font-family:arial;
-  font-size:17px;
-  margin:10px;
+  font-size:2em;
+  margin-bottom: 10px;
+  margin-top: 10px;
   padding:16px 16px;
   text-align:center;
   text-decoration:none;
   text-shadow:0px 1px 0px #2f6627;
-  width:100%;
+  text-transform:uppercase;
+  width:auto;
 }
 .greenButton:active {
   background-color:#5cbf2a;
@@ -57,4 +66,4 @@ footer
   border-top 1px dotted #ccc
   padding-top 5px
   padding-left 10px
-  font-size 13px
+  font-size 0.75em
