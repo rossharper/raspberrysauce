@@ -43,8 +43,11 @@ function loadSessionSecret() {
         if (config != null && config.sessionSecret != null) {
             return config.sessionSecret;
         }
+        else {
+            throw "No session secret in config";
+        }
     }
-    finally {
+    catch(err) {
         console.error(chalk.red(chalk.bold("ERROR") + ": No session secret found in config: using default!"));
         return "default secret for raspberry sauce";        
     }
