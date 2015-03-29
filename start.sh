@@ -1,1 +1,2 @@
-forever start -l forever.log -o out.log -e err.log -w index.js
+rm ~/.forever/forever.log
+forever start -l forever.log -o logs/out.log -e logs/err.log -w index.js
