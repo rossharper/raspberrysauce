@@ -1,13 +1,9 @@
 var passport = require('passport');
 
 var auth = {
-    getAuthenticationHandler: function() {
+    getAuthenticationHandler: function(authenticationRedirects) {
         return passport.authenticate(
-            'local', 
-            { 
-                successRedirect: '/',
-                failureRedirect: '/login' 
-            });
+            'local', authenticationRedirects);
     }    
 }
 
