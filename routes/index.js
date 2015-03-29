@@ -46,4 +46,5 @@ function initRoutes() {
 }
 
 initRoutes();
+
 module.exports = router;
