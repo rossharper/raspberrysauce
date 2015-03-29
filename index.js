@@ -18,8 +18,13 @@ var express = require('express'),
     LocalStrategy = require('passport-local').Strategy,
     cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser'),
-    users = require('./models/users'),
     pass = require('pwd');
+
+/*
+ * Submodule dependencies
+ */
+var users = require('./models/users'),
+    routes = require('./routes/index');
 
 var port = process.argv[2] || 4443,
     insecurePort = process.argv[3] || 8080;
@@ -99,11 +104,12 @@ function initPassport() {
     ));
 }
 
-function ensureAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect('/login')
+function setupStaticRouting(app) {
+    app.use(express.static(__dirname + '/public'));
+}
+
+function setupDynamicRouting(app) {
+    app.use('/', routes);
 }
 
 function createApp() {
@@ -130,50 +136,8 @@ function createApp() {
     app.use(passport.initialize());
     app.use(passport.session());
     
-    app.use(express.static(__dirname + '/public'));
-
-    app.get('/login', function(req, res) {
-        res.render('login', {
-            title: 'Login'
-        })
-    });
-
-    app.post('/login', function(req, res, next) {
-        passport.authenticate('local', function(err, user, info) {
-            if (err) {
-                return next(err)
-            }
-            if (!user) {
-                return res.redirect('/login')
-            }
-            req.logIn(user, function(err) {
-                if (err) {
-                    return next(err);
-                }
-                return res.redirect('/');
-            });
-        })(req, res, next);
-    });
-
-    app.get('/logout', function(req, res) {
-        req.logout();
-        res.redirect('/login');
-    });
-
-    app.all('*', function(req, res, next) {
-        if (req.params === '/login') {
-            next();
-        }
-        else {
-            ensureAuthenticated(req, res, next);
-        }
-    });
-
-    app.get('/', function(req, res) {
-        res.render('index', {
-            title: 'Home'
-        })
-    });
+    setupStaticRouting(app);
+    setupDynamicRouting(app); 
 
     return app;
 }
