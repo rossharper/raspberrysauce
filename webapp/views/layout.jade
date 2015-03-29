@@ -3,12 +3,16 @@ html
   head
     title #{title} - Raspberry Sauce
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/font.css')
     meta(name="viewport", content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;")
     block script
         
   body
     header
-      h1 Raspberry Sauce
+      div(style='overflow: auto')
+        div(style='float: left')
+          h1 Raspberry Sauce
+        block loginstatus
     .container
       .main-content
         block content
