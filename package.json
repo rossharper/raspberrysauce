@@ -7,6 +7,9 @@
     "url": "git@github.com:rossharper/raspberrysauce.git"
   },
   "author": "Ross Harper <ross@rossharper.net>",
+  "scripts": {
+    "start": "index.js"
+  },
   "dependencies": {
     "express": "*",
     "jade": "*",
