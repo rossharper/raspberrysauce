@@ -3,7 +3,8 @@ var express = require('express'),
     stylus = require('stylus'),
     nib = require('nib'),
     cookieParser = require('cookie-parser'),
-    bodyParser = require('body-parser');
+    bodyParser = require('body-parser'),
+    chalk = require('chalk');
 
 var auth = require('./auth/Authentication'),
     routes = require('./routes/index');
@@ -36,6 +37,19 @@ function setupStylus(app) {
     }));
 }
 
+function loadSessionSecret() {
+    try {
+        var config = require('./config/config');
+        if (config != null && config.sessionSecret != null) {
+            return config.sessionSecret;
+        }
+    }
+    finally {
+        console.error(chalk.red(chalk.bold("ERROR") + ": No session secret found in config: using default!"));
+        return "default secret for raspberry sauce";        
+    }
+}
+
 function setupAuthenticationMiddleware(app) {
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({
@@ -43,7 +57,7 @@ function setupAuthenticationMiddleware(app) {
     }));
     app.use(cookieParser());
     app.use(require('express-session')({
-        secret: 'keyboard cat',
+        secret: loadSessionSecret(),
         resave: false,
         saveUninitialized: false
     }));
