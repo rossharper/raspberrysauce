@@ -4,18 +4,8 @@ var passport = require('passport'),
 
 var users = require('../models/users');
 
-function initPassport() {
-    passport.serializeUser(function(user, done) {
-        done(null, user.id);
-    });
-
-    passport.deserializeUser(function(id, done) {
-        users.findById(id, function(err, user) {
-            done(err, user);
-        });
-    });
-
-    passport.use('local', new LocalStrategy(
+function createLocalStrategy() {
+    return new LocalStrategy(
         function(username, password, done) {
             // asynchronous verification, for effect...
             process.nextTick(function() {
@@ -51,7 +41,15 @@ function initPassport() {
                 })
             });
         }
-    ));
+    )
+}
+
+function initPassport() {
+    passport.serializeUser(users.serializeUser);
+
+    passport.deserializeUser(users.deserializeUser);
+
+    passport.use('local', createLocalStrategy());
 }
 
 var auth = {
