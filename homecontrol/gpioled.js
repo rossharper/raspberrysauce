@@ -1,26 +1,30 @@
-var GPIO = require('onoff').Gpio;
+var GPIO = require('onoff').Gpio,
+    chalk = require('chalk');
 
-var chalk = require('chalk');
+var led = new GPIO(18, 'out');
+
+function release() {
+    led.unexport();
+}
+
+process.on('SIGINT', release);
 
 module.exports = {
     turnLedOn: function() {
         console.log("Turn LED " + chalk.green("ON"));
         led = new GPIO(18, 'out');
         led.writeSync(1);
-        led.unexport();
     }
     ,
     turnLedOff: function() {
         console.log("Turn LED " + chalk.green("OFF"));
         led = new GPIO(18, 'out');
         led.writeSync(0);
-        led.unexport();
     }
     ,
     isOn: function() {
         led = new GPIO(18, 'out');
         var value = led.readSync();
-        led.unexport();
         return (value == 1);
     }
 }
