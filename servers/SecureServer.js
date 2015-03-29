@@ -4,7 +4,7 @@ var https = require('https'),
     path = require('path');
 
 // Config file - don't store in repo
-var sslConfig = require('../config/sslconfig');
+var sslConfig = require('./config/sslconfig');
 
 function configureRootCerts() {
     sslrootcas
