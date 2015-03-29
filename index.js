@@ -26,12 +26,6 @@ var users = require('./models/users'),
 var securePort = process.argv[2] || 4443,
     insecurePort = process.argv[3] || 8080;
 
-function stylusCompile(str, path) {
-    return stylus(str)
-        .set('filename', path)
-        .use(nib())
-}
-
 function initPassport() {
     passport.serializeUser(function(user, done) {
         done(null, user.id);
@@ -90,15 +84,28 @@ function setupDynamicRouting(app) {
     app.use('/', routes);
 }
 
-function createApp() {
-    var app = express();
+function setupViewEngine(app) {
     app.set('views', __dirname + '/views');
     app.set('view engine', 'jade');
+}
+
+function setupLogging(app) {
     app.use(morgan('dev'));
+}
+
+
+function setupStylus(app) {
     app.use(stylus.middleware({
         src: __dirname + '/public',
-        compile: stylusCompile
+        compile: function(str, path) {
+            return stylus(str)
+                .set('filename', path)
+                .use(nib())
+        }
     }));
+}
+
+function setupAuthenticationMiddleware(app) {
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({
         extended: false
@@ -113,7 +120,15 @@ function createApp() {
     initPassport();
     app.use(passport.initialize());
     app.use(passport.session());
+}
+
+function createApp() {
+    var app = express();
     
+    setupViewEngine(app);
+    setupLogging(app);
+    setupStylus(app);
+    setupAuthenticationMiddleware(app);
     setupStaticRouting(app);
     setupDynamicRouting(app); 
 
