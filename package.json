@@ -23,6 +23,7 @@
     "cookie-parser": "~1.3.4",
     "body-parser": "~1.12.2",
     "pwd": "0.0.4",
-    "chalk": "~1.0.0"
+    "chalk": "~1.0.0",
+    "onoff": "~1.0.2"
   }
 }
