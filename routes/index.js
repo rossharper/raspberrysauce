@@ -10,6 +10,14 @@ function ensureAuthenticated(req, res, next) {
     res.redirect('/login')
 }
 
+function getAuthenticationHandler() {
+    return passport.authenticate('local', 
+                                { 
+                                    successRedirect: '/',
+                                    failureRedirect: '/login' 
+                                });
+}
+
 function initRoutes() {
     router.get('/login', function(req, res) {
         res.render('login', {
@@ -17,12 +25,7 @@ function initRoutes() {
         })
     });
 
-    router.post('/login', 
-        passport.authenticate('local', 
-                                { 
-                                    successRedirect: '/',
-                                    failureRedirect: '/login' 
-                                }));
+    router.post('/login', getAuthenticationHandler());
 
     router.get('/logout', function(req, res) {
         req.logout();
