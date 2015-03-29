@@ -1,4 +1,6 @@
-var GPIO = require('onoff').Gpio
+var GPIO = require('onoff').Gpio;
+
+var chalk = require('chalk');
 
 module.exports = {
     turnLedOn: function() {
