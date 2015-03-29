@@ -1,17 +1,13 @@
-function turnLedOn() {
-    console.log("Turn LED ON");
+var chalk = require('chalk');
+
+var led;
+
+try {
+    led = require('./gpioled');
+}
+catch(err) {
+    console.error(chalk.red(chalk.bold("ERROR") + ": gpio not available, using stubbed LED"));
+    led = require('./stubled');
 }
 
-function turnLedOff() {
-    console.log("Turn LED OFF");
-}
-
-function isOn() {
-    return false;
-}
-
-module.exports = {
-    turnLedOn: turnLedOn,
-    turnLedOff: turnLedOff,
-    isOn: isOn
-}
+module.exports = led;
