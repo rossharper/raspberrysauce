@@ -22,7 +22,17 @@ function findByUsername(username, fn) {
     return fn(null, null);
 }
 
+function serializeUser(user, done) {
+    done(null, user.id);
+}
+
+function deserializeUser(id, done) {
+    findById(id, done);
+}
+
 module.exports = {
     findById: findById,
-    findByUsername: findByUsername
+    findByUsername: findByUsername,
+    serializeUser: serializeUser,
+    deserializeUser: deserializeUser
 };
