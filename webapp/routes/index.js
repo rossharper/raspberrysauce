@@ -1,6 +1,7 @@
 var express = require('express')
 
-var auth = require('../auth/Authentication');
+var auth = require('../auth/Authentication'),
+    ledapi = require('../api/led');
 
 var router = express.Router();
 
@@ -43,6 +44,9 @@ function initRoutes() {
             title: 'Home'
         })
     });
+
+    router.post('/api/led/on', ledapi.on);
+    router.post('/api/led/off', ledapi.off);
 }
 
 initRoutes();

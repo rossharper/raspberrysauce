@@ -3,12 +3,12 @@ block script
   script(type='text/javascript').
     function onButtonClicked() { 
         var xhr = new XMLHttpRequest();
-        xhr.open("GET", "/on", false);
+        xhr.open("POST", "api/led/on", false);
         xhr.send();
     }
     function offButtonClicked() { 
         var xhr = new XMLHttpRequest();
-        xhr.open("GET", "/off", false);
+        xhr.open("POST", "api/led/off", false);
         xhr.send();
     }
 
