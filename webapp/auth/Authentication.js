@@ -1,7 +1,7 @@
 var passport = require('passport');
 
 var users = require('../models/users'),
-    localStrategy = require('./fileLocalStrategy');
+    localStrategy = require('./FileLocalStrategy');
 
 function initPassport() {
     passport.serializeUser(users.serializeUser);
