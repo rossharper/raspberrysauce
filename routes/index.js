@@ -11,14 +11,6 @@ function ensureAuthenticated(req, res, next) {
     res.redirect('/login')
 }
 
-// function getAuthenticationHandler() {
-//     return passport.authenticate('local', 
-//                                 { 
-//                                     successRedirect: '/',
-//                                     failureRedirect: '/login' 
-//                                 });
-// }
-
 function initRoutes() {
     router.get('/login', function(req, res) {
         res.render('login', {
@@ -26,7 +18,11 @@ function initRoutes() {
         })
     });
 
-    router.post('/login', auth.getAuthenticationHandler());
+    var authenticationRedirects = {
+        successRedirect: '/',
+        failureRedirect: '/login'
+    };
+    router.post('/login', auth.getAuthenticationHandler(authenticationRedirects));
 
     router.get('/logout', function(req, res) {
         req.logout();
