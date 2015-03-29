@@ -1,5 +1,6 @@
-var express = require('express'),
-    passport = require('passport');
+var express = require('express')
+
+var auth = require('../auth/Authentication');
 
 var router = express.Router();
 
@@ -10,13 +11,13 @@ function ensureAuthenticated(req, res, next) {
     res.redirect('/login')
 }
 
-function getAuthenticationHandler() {
-    return passport.authenticate('local', 
-                                { 
-                                    successRedirect: '/',
-                                    failureRedirect: '/login' 
-                                });
-}
+// function getAuthenticationHandler() {
+//     return passport.authenticate('local', 
+//                                 { 
+//                                     successRedirect: '/',
+//                                     failureRedirect: '/login' 
+//                                 });
+// }
 
 function initRoutes() {
     router.get('/login', function(req, res) {
@@ -25,7 +26,7 @@ function initRoutes() {
         })
     });
 
-    router.post('/login', getAuthenticationHandler());
+    router.post('/login', auth.getAuthenticationHandler());
 
     router.get('/logout', function(req, res) {
         req.logout();
