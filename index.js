@@ -10,7 +10,6 @@ var express = require('express'),
     stylus = require('stylus'),
     nib = require('nib'),
     https = require('https'),
-    http = require('http'),
     sslrootcas = require('ssl-root-cas'),
     fs = require('fs'),
     path = require('path'),
@@ -24,7 +23,8 @@ var express = require('express'),
  * Submodule dependencies
  */
 var users = require('./models/users'),
-    routes = require('./routes/index');
+    routes = require('./routes/index'),
+    inSecureRedirect = require('./servers/RedirectingInsecureServer');
 
 var port = process.argv[2] || 4443,
     insecurePort = process.argv[3] || 8080;
@@ -33,20 +33,7 @@ var port = process.argv[2] || 4443,
 // Config file - don't store in repo
 var sslConfig = require('./config/sslconfig');
 
-function configureRootCerts() {
-    sslrootcas
-        .inject()
-        .addFile(path.join(__dirname, sslConfig.cacertpath, sslConfig.cacert));
-}
 
-function getSslServerOptions() {
-    var options = {
-        key: fs.readFileSync(path.join(__dirname, sslConfig.servercertpath, sslConfig.serverkey)),
-        cert: fs.readFileSync(path.join(__dirname, sslConfig.servercertpath, sslConfig.servercert)),
-        passphrase: sslConfig.passphrase
-    };
-    return options;
-}
 
 function stylusCompile(str, path) {
     return stylus(str)
@@ -142,34 +129,33 @@ function createApp() {
     return app;
 }
 
+function configureRootCerts() {
+    sslrootcas
+        .inject()
+        .addFile(path.join(__dirname, sslConfig.cacertpath, sslConfig.cacert));
+}
+
+function getSslServerOptions() {
+    var options = {
+        key: fs.readFileSync(path.join(__dirname, sslConfig.servercertpath, sslConfig.serverkey)),
+        cert: fs.readFileSync(path.join(__dirname, sslConfig.servercertpath, sslConfig.servercert)),
+        passphrase: sslConfig.passphrase
+    };
+    return options;
+}
+
 function configureSslServer() {
     configureRootCerts();
-    var options = getSslServerOptions();
     
-    var server = https.createServer(options, createApp()).listen(port, function() {
+    var server = https.createServer(getSslServerOptions(), createApp()).listen(port, function() {
         port = server.address().port;
         console.log('Listening on https://' + server.address().address + ':' + port);
     });
 }
 
-function configureInsecureTrafficRedirect() {
-    var insecureServer = http.createServer();
-    insecureServer.on('request', function(req, res) {
-        // TODO also redirect websocket upgrades
-        res.setHeader(
-            'Location', 'https://' + req.headers.host.replace(/:\d+/, '') + req.url
-        );
-        res.statusCode = 302;
-        res.end();
-    });
-    insecureServer.listen(insecurePort, function() {
-        console.log("\nRedirecting all http traffic to https\n");
-    });
-}
-
 function start() {
     configureSslServer();
-    configureInsecureTrafficRedirect();
+    inSecureRedirect.start(insecurePort);
 }
 
 start();
