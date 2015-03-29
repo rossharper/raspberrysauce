@@ -17,9 +17,8 @@ module.exports = {
     }
     ,
     isOn: function() {
-        // led = new GPIO(18, 'out');
-        // var value = led.readSync();
-        // return (value == 1);
+        var value = led.readSync();
+        return (value == 1);
         return false;
     }
 }
