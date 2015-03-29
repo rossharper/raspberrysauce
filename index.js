@@ -9,10 +9,6 @@ var express = require('express'),
     morgan = require('morgan'),
     stylus = require('stylus'),
     nib = require('nib'),
-    https = require('https'),
-    sslrootcas = require('ssl-root-cas'),
-    fs = require('fs'),
-    path = require('path'),
     passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy,
     cookieParser = require('cookie-parser'),
@@ -24,16 +20,11 @@ var express = require('express'),
  */
 var users = require('./models/users'),
     routes = require('./routes/index'),
+    secureServer = require('./servers/SecureServer');
     inSecureRedirect = require('./servers/RedirectingInsecureServer');
 
-var port = process.argv[2] || 4443,
+var securePort = process.argv[2] || 4443,
     insecurePort = process.argv[3] || 8080;
-
-
-// Config file - don't store in repo
-var sslConfig = require('./config/sslconfig');
-
-
 
 function stylusCompile(str, path) {
     return stylus(str)
@@ -129,32 +120,8 @@ function createApp() {
     return app;
 }
 
-function configureRootCerts() {
-    sslrootcas
-        .inject()
-        .addFile(path.join(__dirname, sslConfig.cacertpath, sslConfig.cacert));
-}
-
-function getSslServerOptions() {
-    var options = {
-        key: fs.readFileSync(path.join(__dirname, sslConfig.servercertpath, sslConfig.serverkey)),
-        cert: fs.readFileSync(path.join(__dirname, sslConfig.servercertpath, sslConfig.servercert)),
-        passphrase: sslConfig.passphrase
-    };
-    return options;
-}
-
-function configureSslServer() {
-    configureRootCerts();
-    
-    var server = https.createServer(getSslServerOptions(), createApp()).listen(port, function() {
-        port = server.address().port;
-        console.log('Listening on https://' + server.address().address + ':' + port);
-    });
-}
-
 function start() {
-    configureSslServer();
+    secureServer.start(createApp(), securePort);
     inSecureRedirect.start(insecurePort);
 }
 
