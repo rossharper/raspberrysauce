@@ -3,12 +3,6 @@ var GPIO = require('onoff').Gpio,
 
 var led = new GPIO(18, 'out');
 
-function release() {
-    led.unexport();
-}
-
-process.on('SIGINT', release);
-
 module.exports = {
     turnLedOn: function() {
         console.log("Turn LED " + chalk.green("ON"));
@@ -23,8 +17,9 @@ module.exports = {
     }
     ,
     isOn: function() {
-        led = new GPIO(18, 'out');
-        var value = led.readSync();
-        return (value == 1);
+        // led = new GPIO(18, 'out');
+        // var value = led.readSync();
+        // return (value == 1);
+        return false;
     }
 }
