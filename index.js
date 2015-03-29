@@ -78,7 +78,7 @@ function initPassport() {
                             message: 'Unknown user ' + username
                         });
                     }
-                    pass.hash('submitted password', user.salt, function(err, hash) {
+                    pass.hash(password, user.salt, function(err, hash) {
                         console.log("sub hash: " + hash);
                         console.log("usr hash: " + user.password);
                         if(err) { 
