@@ -1,6 +1,6 @@
 var passport = require('passport');
 
-var users = require('../models/users'),
+var users = require('../models/FileUsers'),
     localStrategy = require('./FileLocalStrategy');
 
 function initPassport() {
