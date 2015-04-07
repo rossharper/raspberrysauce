@@ -1,7 +1,7 @@
 var LocalStrategy = require('passport-local').Strategy,
     pass = require('pwd');
 
-var users = require('../models/users');
+var users = require('../models/FileUsers');
 
 function verifyPassword(password, user, done) {
     pass.hash(password, user.salt, function(err, hash) {
