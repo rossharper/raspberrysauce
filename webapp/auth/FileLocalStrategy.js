@@ -5,8 +5,6 @@ var users = require('../models/FileUsers');
 
 function verifyPassword(password, user, done) {
     pass.hash(password, user.salt, function(err, hash) {
-        console.log("sub hash: " + hash);
-        console.log("usr hash: " + user.password);
         if (err) {
             return done(err);
         }
