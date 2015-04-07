@@ -1,7 +1,7 @@
 var passport = require('passport');
 
 var User = require('../models/user'),
-    localStrategy = require('./MongoLocalStrategy');
+    localStrategy = require('./LocalStrategy');
 
 function initPassport() {
     passport.serializeUser(function(user, done) {
