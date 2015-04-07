@@ -4,10 +4,16 @@ var express = require('express'),
     nib = require('nib'),
     cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser'),
-    chalk = require('chalk');
+    chalk = require('chalk'),
+    mongoose = require('mongoose');
 
 var auth = require('./auth/Authentication'),
-    routes = require('./routes/index');
+    routes = require('./routes/index'),
+    dbConfig = require('./db/db.js');
+
+function setupDb() {
+    mongoose.connect(dbConfig.url);
+}
 
 function setupStaticRouting(app) {
     app.use(express.static(__dirname + '/public'));
@@ -70,7 +76,8 @@ function setupAuthenticationMiddleware(app) {
 
 function createApp() {
     var app = express();
-    
+
+    setupDb();
     setupViewEngine(app);
     setupLogging(app);
     setupStylus(app);

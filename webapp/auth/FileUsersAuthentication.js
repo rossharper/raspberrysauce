@@ -1,18 +1,12 @@
 var passport = require('passport');
 
-var User = require('../models/user'),
-    localStrategy = require('./MongoLocalStrategy');
+var users = require('../models/FileUsers'),
+    localStrategy = require('./FileLocalStrategy');
 
 function initPassport() {
-    passport.serializeUser(function(user, done) {
-        done(null, user._id);
-    });
+    passport.serializeUser(users.serializeUser);
 
-    passport.deserializeUser(function(id, done) {
-        User.findById(id, function(err, user) {
-            done(err, user);
-        });
-    });
+    passport.deserializeUser(users.deserializeUser);
 
     passport.use('local', localStrategy);
 }
@@ -27,7 +21,7 @@ var auth = {
     getAuthenticationHandler: function(authenticationRedirects) {
         return passport.authenticate(
             'local', authenticationRedirects);
-    }
+    }    
 }
 
 module.exports = auth;
