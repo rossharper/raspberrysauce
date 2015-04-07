@@ -1,6 +1,6 @@
 var express = require('express')
 
-var auth = require('../auth/FileUsersAuthentication'),
+var auth = require('../auth/Authentication'),
     ledapi = require('../api/led');
 
 var router = express.Router();
