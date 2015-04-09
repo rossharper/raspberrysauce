@@ -25,6 +25,7 @@
     "pwd": "0.0.4",
     "chalk": "~1.0.0",
     "onoff": "~1.0.2",
-    "mongoose": "~4.0.1"
+    "mongoose": "~4.0.1",
+    "boilercontrol": "rossharper/boilercontrol-node"
   }
 }
