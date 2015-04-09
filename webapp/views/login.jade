@@ -1,23 +1,10 @@
 extend layout
-block script
-  script(type='text/javascript').
-    function onButtonClicked() { 
-        document.login.submit();
-    }
+block extrahead
+    link(rel='stylesheet', href='/stylesheets/login.css')
 block content
-    form(name="login", action="/login", method="post")
-        p
-        | Who is ya?
-      
-        div
-            input(type="text", name="username", class="fullwidthinput")
-        
-        p
-        | What be the secret words?
-    
-        div
-            input(type="password", name="password" class="fullwidthinput")
-      
-        a(href='#',class='button greenButton',onclick='onButtonClicked()') LOGIN
-
-        <input type="submit" id="hiddensubmitbtn"  />
+    form(name="login", action="/login", method="post", class="form-signin")
+        h2(class="form-signin-heading") Who is ya?
+        input(type="text", name="username", class="form-control", required, autofocus)
+        h2(class="form-signin-heading") What be the secret words?
+        input(type="password", name="password", class="form-control", required)
+        input(type="submit", class="btn btn-lg btn-primary btn-block", value="LOGIN")
