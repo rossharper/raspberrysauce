@@ -1,13 +1,24 @@
-var app = require('./webapp/app'),
-    secureServer = require('./servers/SecureServer'),
-    inSecureRedirect = require('./servers/RedirectingInsecureServer');
+var app = require('./webapp/app');
 
 var securePort = process.argv[2] || 4443,
     insecurePort = process.argv[3] || 8080;
 
-function start() {
-    secureServer.start(app.create(), securePort);
-    inSecureRedirect.start(insecurePort);
+var serveInsecure = false;
+function parseArgs() {
+	if(process.argv.indexOf("-i") != -1){
+    	serveInsecure = true;
+	}
 }
 
+function start() {
+    if(serveInsecure) {
+    	require('./servers/insecureServer').start(app.create(), insecurePort);
+    }
+    else {
+    	require('./servers/SecureServer').start(app.create(), securePort);
+    	require('./servers/RedirectingInsecureServer').start(insecurePort);	
+    }
+}
+
+parseArgs();
 start();
