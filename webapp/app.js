@@ -5,7 +5,8 @@ var express = require('express'),
     cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser'),
     chalk = require('chalk'),
-    mongoose = require('mongoose');
+    mongoose = require('mongoose'),
+    flash = require('connect-flash');
 
 var auth = require('./auth/Authentication'),
     routes = require('./routes/index'),
@@ -72,6 +73,8 @@ function setupAuthenticationMiddleware(app) {
     }));
     
     auth.initialize(app);
+
+    app.use(flash());
 }
 
 function createApp() {

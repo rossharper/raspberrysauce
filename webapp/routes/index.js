@@ -16,13 +16,15 @@ function ensureAuthenticated(req, res, next) {
 function initRoutes() {
     router.get('/login', function(req, res) {
         res.render('login', {
-            title: 'Login'
+            title: 'Login',
+            message: req.flash('message')
         })
     });
 
     var authenticationRedirects = {
         successRedirect: '/',
-        failureRedirect: '/login'
+        failureRedirect: '/login',
+        failureFlash: true
     };
     router.post('/login', auth.getAuthenticationHandler(authenticationRedirects));
 
