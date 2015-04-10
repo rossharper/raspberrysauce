@@ -2,7 +2,8 @@ var express = require('express')
 
 var auth = require('../auth/Authentication'),
     ledapi = require('../api/led'),
-    boilerapi = require('../api/boiler');
+    boilerapi = require('../api/boiler'),
+    temperatureapi = require('../api/temperature');
 
 var router = express.Router();
 
@@ -53,6 +54,8 @@ function initRoutes() {
 
     router.post('/api/boiler/on', boilerapi.on);
     router.post('/api/boiler/off', boilerapi.off);
+
+    router.get('/api/temperature/current', temperatureapi.getCurrent);
 }
 
 initRoutes();

@@ -11,10 +11,31 @@ block script
         xhr.open("POST", "api/boiler/off", false);
         xhr.send();
     }
+    function displayTemperature(temperature) {
+        document.getElementById("currentTemperature").innerHTML = temperature;
+    }
+    function loadTemperature() {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4) {
+                displayTemperature(xhr.responseText);
+            }
+        }
+        xhr.open('GET', 'api/temperature/current', true);
+        xhr.send(null);
+    }
+    window.onload = function(){ loadTemperature(); }
 
 block content
   p
     | Hello from the Raspberry Pi!
+
+  div.panel.panel-primary
+      div.panel-heading
+          | Current Temperature
+      div.panel-body
+          #currentTemperature
+              span.glyphicon.glyphicon-repeat.gly-spin(aria-hidden='true')
 
   button.btn.btn-lg.btn-success.btn-block(onclick='onButtonClicked()').
     ON
