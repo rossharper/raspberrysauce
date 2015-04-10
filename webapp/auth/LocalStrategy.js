@@ -2,7 +2,7 @@ var LocalStrategy = require('passport-local').Strategy,
     User = require('../models/user'),
     pass = require('pwd');
 
-function verifyPassword(password, user, done) {
+function verifyPassword(req, password, user, done) {
     pass.hash(password, user.salt, function(err, hash) {
         if (err) {
             return done(err);
@@ -10,26 +10,28 @@ function verifyPassword(password, user, done) {
         if (user.password == hash) {
             done(null, user);
         } else {
-            return done(null, false, {
-                message: 'Invalid password'
-            });
+            return done(null, false,
+                req.flash('message', 'Ye shall not pass!')
+            );
         }
     });
 }
 
-module.exports = new LocalStrategy(
-    function(username, password, done) {
+module.exports = new LocalStrategy({
+    passReqToCallback : true
+    },
+    function(req, username, password, done) {
         process.nextTick(function() {
             User.findOne({'username': username}, function (err, user) {
                 if (err) {
                     return done(err);
                 }
                 if (!user) {
-                    return done(null, false, {
-                        message: 'Unknown user ' + username
-                    });
+                    return done(null, false,
+                        req.flash('message', 'Ye shall not pass!')
+                    );
                 }
-                verifyPassword(password, user, done);
+                verifyPassword(req, password, user, done);
             });
         });
     }
