@@ -14,11 +14,15 @@ block script
     function displayTemperature(temperature) {
         document.getElementById("currentTemperature").innerHTML = temperature;
     }
+    function scheduleTemperatureReload() {
+        window.setTimeout(loadTemperature, 60000);
+    }
     function loadTemperature() {
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4) {
                 displayTemperature(xhr.responseText);
+                scheduleTemperatureReload();
             }
         }
         xhr.open('GET', 'api/temperature/current', true);
