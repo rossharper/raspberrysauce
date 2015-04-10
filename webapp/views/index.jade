@@ -16,8 +16,11 @@ block content
   p
     | Hello from the Raspberry Pi!
 
-  a(href='#',class='button greenButton',onclick='onButtonClicked()') ON
+  button.btn.btn-lg.btn-success.btn-block(onclick='onButtonClicked()').
+    ON
 
   br
+  br
 
-  a(href='#',class='button redButton',onclick='offButtonClicked()') OFF
+  button.btn.btn-lg.btn-danger.btn-block(onclick='offButtonClicked()').
+    OFF
