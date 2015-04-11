@@ -12,7 +12,7 @@ block script
         xhr.send();
     }
     function displayTemperature(temperature) {
-        document.getElementById("currentTemperature").innerHTML = temperature.temperatureValue;
+        document.getElementById("currentTemperature").innerHTML = temperature.temperatureValue + temperature.units;
     }
     function scheduleTemperatureReload() {
         window.setTimeout(loadTemperature, 60000);
@@ -34,7 +34,7 @@ block script
     window.onload = function(){ loadTemperature(); }
 
 block content
-    
+
   div.tile
       div.tile-body.tile-body-large
           #currentTemperature
