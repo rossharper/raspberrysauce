@@ -1,3 +1,5 @@
 logs
 *.log
 webapp/public/stylesheets/*.css
+.git
+
