@@ -2,8 +2,10 @@ var Temperature = require('../models/temperature');
 
 module.exports = {
     getCurrent: function(req, res) {
-        var randomTemp = (Math.random() * 30.0).toFixed(1);
-        var temp = new Temperature(randomTemp, new Date());
-        res.send(temp);
+        Temperature.find().sort({date: -1}).limit(1).exec(function(err, temperature) {
+            console.log(err);
+            console.log(temperature);
+            res.send(temperature[0]);
+        });
     }
 }

@@ -1,11 +1,7 @@
-var Temperature = function(temperatureValue, date) {
-    this.temperatureValue = temperatureValue;
-    this.date = date;
-    this.units = "°C"
-};
+var mongoose = require('mongoose');
 
-Temperature.prototype.getValue = function() {
-    return this.temperatureValue;
-}
-
-module.exports = Temperature;
+module.exports = mongoose.model('temperatures',{
+    device: String,
+    temperature: Number,
+    date: { type: Date, default: Date.now }
+});
