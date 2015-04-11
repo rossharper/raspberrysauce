@@ -2,10 +2,9 @@ extend layout
 block extrahead
     link(rel='stylesheet', href='/stylesheets/login.css')
 block content
-    #message
-      if message && message.length > 0
-        div.alert.alert-danger(role='alert') #{message}
     form(name="login", id="login" action="/login", method="post", class="form-signin")
+        if message && message.length > 0
+            div.alert.alert-danger(role='alert') #{message}
         h2(class="form-signin-heading") Who is ya?
         input(type="text", name="username", class="form-control", required, autofocus)
         h2(class="form-signin-heading") What be the secret words?
