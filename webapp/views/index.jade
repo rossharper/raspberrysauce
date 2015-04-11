@@ -20,8 +20,10 @@ block script
     function loadTemperature() {
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4) {
-                displayTemperature(xhr.responseText);
+            if (xhr.readyState === 4) {
+                if(xhr.status === 200) {
+                    displayTemperature(xhr.responseText);
+                }
                 scheduleTemperatureReload();
             }
         }

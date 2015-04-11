@@ -7,11 +7,18 @@ var auth = require('../auth/Authentication'),
 
 var router = express.Router();
 
-function ensureAuthenticated(req, res, next) {
+function ensureAuthenticatedPage(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
     }
     res.redirect('/login')
+}
+
+function ensureAuthenticatedApiCall(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.status(401).send("401 Not Authorized");
 }
 
 function initRoutes() {
@@ -37,9 +44,11 @@ function initRoutes() {
     router.all('*', function(req, res, next) {
         if (req.params === '/login') {
             next();
+        } else if (req.params[0].lastIndexOf("/api/") === 0) {
+            ensureAuthenticatedApiCall(req, res, next);
         }
         else {
-            ensureAuthenticated(req, res, next);
+            ensureAuthenticatedPage(req, res, next);
         }
     });
 
