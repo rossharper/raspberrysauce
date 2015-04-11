@@ -16,7 +16,7 @@ block script
         var ranges = [0,1,4,7,10,13,16,19,22,25];
         var i = 0;
         while(i < ranges.length) {
-            if(temperature.temperatureValue < ranges[i]) break;
+            if(temperature.temperature < ranges[i]) break;
             ++i;
         }
         var tempClass = ranges[Math.max(i-1, 0)];
