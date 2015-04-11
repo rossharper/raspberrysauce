@@ -12,7 +12,7 @@ block script
         xhr.send();
     }
     function displayTemperature(temperature) {
-        document.getElementById("currentTemperature").innerHTML = temperature;
+        document.getElementById("currentTemperature").innerHTML = temperature.temperatureValue;
     }
     function scheduleTemperatureReload() {
         window.setTimeout(loadTemperature, 60000);
@@ -22,7 +22,8 @@ block script
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4) {
                 if(xhr.status === 200) {
-                    displayTemperature(xhr.responseText);
+                    var jsonResponse = JSON.parse(xhr.responseText);
+                    displayTemperature(jsonResponse);
                 }
                 scheduleTemperatureReload();
             }
@@ -33,13 +34,9 @@ block script
     window.onload = function(){ loadTemperature(); }
 
 block content
-  p
-    | Hello from the Raspberry Pi!
-
-  div.panel.panel-primary
-      div.panel-heading
-          | Current Temperature
-      div.panel-body
+    
+  div.tile
+      div.tile-body.tile-body-large
           #currentTemperature
               span.glyphicon.glyphicon-repeat.gly-spin(aria-hidden='true')
 
