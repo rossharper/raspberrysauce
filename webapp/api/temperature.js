@@ -11,5 +11,10 @@ module.exports = {
                 res.send({});
             }
         });
+    },
+    getHistory: function(req, res) {
+        Temperature.find().sort({date: 1}).exec(function(err, temperatures) {
+            res.send(temperatures);
+        });
     }
 }

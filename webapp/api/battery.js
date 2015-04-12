@@ -11,5 +11,10 @@ module.exports = {
                 res.send({});
             }
         });
+    },
+    getHistory: function(req, res) {
+        Battery.find().sort({date: 1}).exec(function(err, voltages) {
+            res.send(voltages);
+        });
     }
 }

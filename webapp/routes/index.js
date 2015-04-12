@@ -66,7 +66,9 @@ function initRoutes() {
     router.post('/api/boiler/off', boilerapi.off);
 
     router.get('/api/temperature/currentTemperature', temperatureapi.getCurrentTemperature);
+    router.get('/api/temperature/history', temperatureapi.getHistory);
     router.get('/api/battery/currentVoltage', batteryapi.getCurrentVoltage);
+    router.get('/api/battery/history', batteryapi.getHistory);
 }
 
 initRoutes();
