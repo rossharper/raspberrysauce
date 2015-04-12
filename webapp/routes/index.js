@@ -4,7 +4,8 @@ var auth = require('../auth/Authentication'),
     ledapi = require('../api/led'),
     boilerapi = require('../api/boiler'),
     temperatureapi = require('../api/temperature'),
-    batteryapi = require('../api/battery');
+    batteryapi = require('../api/battery'),
+    scheduleapi = require('../api/schedule');
 
 var router = express.Router();
 
@@ -59,6 +60,12 @@ function initRoutes() {
         })
     });
 
+    router.get('/schedules', function(req, res) {
+        res.render('schedules', {
+            title: 'Schedules'
+        })
+    });
+
     router.post('/api/led/on', ledapi.on);
     router.post('/api/led/off', ledapi.off);
 
@@ -69,6 +76,7 @@ function initRoutes() {
     router.get('/api/temperature/history', temperatureapi.getHistory);
     router.get('/api/battery/currentVoltage', batteryapi.getCurrentVoltage);
     router.get('/api/battery/history', batteryapi.getHistory);
+    router.get('/api/schedule/all', scheduleapi.getSchedules);
 }
 
 initRoutes();

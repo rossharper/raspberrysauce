@@ -11,6 +11,10 @@ block nav
         a.navbar-brand(href='#') Raspberry Sauce
       #navbar.navbar-collapse.collapse
         ul.nav.navbar-nav
+          li(class=title=='Home'?'active':undefined)
+            a(href='/') Home
+          li(class=title=='Schedules'?'active':undefined)
+            a(href='/schedules') Schedules
         ul.nav.navbar-nav.navbar-right
           li
             a(href='/logout') Log Out
