@@ -1,37 +1,39 @@
 extend loggedin
 block script
     script(src='/js/schedules.js')
-    script(type='text/javascript').
-        window.onload = function() { loadSchedules() };
+
 block content
-    button.btn.btn-primary(type="button")
+    button.btn.btn-primary(type="button", id="addButton", onclick="onAddSchedule()")
         span.glyphicon.glyphicon-plus(aria-hidden="true")
         | &nbsp;Add Schedule
 
     br
     br
 
-    #addschedule.tile-full
-        div.tile-body
-            form.form-horizontal
-                div.form-group
-                    label.col-sm-2.control-label(for='startTime') Start Time
-                    div.col-sm-10
-                        input.form-control.input-lg(type="time", id="startTime", value="07:00")
-                div.form-group
-                    label.col-sm-2.control-label(for='endTime') End Time
-                    div.col-sm-10
-                        input.form-control.input-lg(type="time", id="endTime", value="22:30")
-                div.form-group
-                    label.col-sm-2.control-label(for='temp') Target Temperature (&deg;C)
-                    div.col-sm-10
-                        input.form-control.input-lg(type="number", id="temp", placeholder="19")
-                div.form-group
-                    div.col-sm-2
-                        | &nbsp;
-                    div.col-sm-10
-                        button.btn.btn-danger(type="button") Cancel
-                        | &nbsp;
-                        button.btn.btn-success(type="submit") Save Schedule
+    #addschedule.collapse
+        div.tile-full
+            div.tile-body
+                form.form-horizontal
+                    div.form-group
+                        label.col-sm-2.control-label(for='startTime') Start Time
+                        div.col-sm-10
+                            input.form-control.input-lg(type="time", id="startTime", value="07:00")
+                    div.form-group
+                        label.col-sm-2.control-label(for='endTime') End Time
+                        div.col-sm-10
+                            input.form-control.input-lg(type="time", id="endTime", value="22:30")
+                    div.form-group
+                        label.col-sm-2.control-label(for='temp') Target Temperature (&deg;C)
+                        div.col-sm-10
+                            input.form-control.input-lg(type="number", id="temp", placeholder="19", required)
+                    div.form-group
+                        div.col-sm-2
+                            | &nbsp;
+                        div.col-sm-10
+                            button.btn.btn-danger(type="button", onclick="onCancelAddSchedule()") Cancel
+                            | &nbsp;
+                            button.btn.btn-success(type="button", onclick="onSaveSchedule()") Save Schedule
 
+    #loadSpinner
+        span.glyphicon.glyphicon-repeat.gly-spin(aria-hidden='true')
     #schedules
