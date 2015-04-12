@@ -19,7 +19,7 @@ function generateTemperatureChart(temperatures) {
     generateChart(temperatures, '#tempchart', 'temperature');
 }
 function generateBatteryChart(voltages) {
-    generateChart(temperatures, '#battchart', 'batteryVoltage');
+    generateChart(voltages, '#battchart', 'batteryVoltage');
 }
 function scheduleBattChartReload() {
     window.setTimeout(loadBatteryChart, 300000);
