@@ -1,9 +1,14 @@
+function roundToOneDecimalPlace(number) {
+    return Math.round(number * 10) / 10;
+}
+
 function displayTemperature(temperature) {
-    document.getElementById("currentTemperature").innerHTML = temperature.temperature + "&deg;C";
+    var displayTemperature = roundToOneDecimalPlace(temperature.temperature);
+    document.getElementById("currentTemperature").innerHTML = displayTemperature + "&deg;C";
     var ranges = [0,1,4,7,10,13,16,19,22,25];
     var i = 0;
     while(i < ranges.length) {
-        if(temperature.temperature < ranges[i]) break;
+        if(displayTemperature < ranges[i]) break;
         ++i;
     }
     var tempClass = ranges[Math.max(i-1, 0)];
@@ -27,7 +32,7 @@ function loadTemperature() {
     xhr.send(null);
 }
 function displayBattery(battery) {
-    document.getElementById("currentBattery").innerHTML = battery.batteryVoltage + "V";
+    document.getElementById("currentBattery").innerHTML = roundToOneDecimalPlace(battery.batteryVoltage) + "V";
 }
 function scheduleBatteryReload() {
     window.setTimeout(loadBattery, 300000);
