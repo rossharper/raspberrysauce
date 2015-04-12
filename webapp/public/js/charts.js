@@ -22,7 +22,7 @@ function generateBatteryChart(voltages) {
     generateChart(voltages, '#battchart', 'batteryVoltage');
 }
 function scheduleBattChartReload() {
-    window.setTimeout(loadBatteryChart, 300000);
+    window.setTimeout(loadBattChart, 300000);
 }
 function loadBattChart() {
     var xhr = new XMLHttpRequest();
