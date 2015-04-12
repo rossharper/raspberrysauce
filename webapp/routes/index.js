@@ -74,9 +74,12 @@ function initRoutes() {
 
     router.get('/api/temperature/currentTemperature', temperatureapi.getCurrentTemperature);
     router.get('/api/temperature/history', temperatureapi.getHistory);
+
     router.get('/api/battery/currentVoltage', batteryapi.getCurrentVoltage);
     router.get('/api/battery/history', batteryapi.getHistory);
+
     router.get('/api/schedule/all', scheduleapi.getSchedules);
+    router.post('/api/schedule/add', scheduleapi.addSchedule);
 }
 
 initRoutes();
