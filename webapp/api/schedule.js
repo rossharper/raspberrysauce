@@ -1,4 +1,4 @@
-var Schedule = require('../models/temperature');
+var Schedule = require('../models/schedule');
 
 module.exports = {
     getSchedules: function(req, res) {
