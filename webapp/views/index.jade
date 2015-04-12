@@ -36,16 +36,45 @@ block script
                 scheduleTemperatureReload();
             }
         }
-        xhr.open('GET', 'api/temperature/current', true);
+        xhr.open('GET', 'api/temperature/currentTemperature', true);
         xhr.send(null);
     }
-    window.onload = function(){ loadTemperature(); }
+    function displayBattery(battery) {
+        document.getElementById("currentBattery").innerHTML = battery.batteryVoltage + "V";
+    }
+    function scheduleBatteryReload() {
+        window.setTimeout(loadBattery, 300000);
+    }
+    function loadBattery() {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    var jsonResponse = JSON.parse(xhr.responseText);
+                    displayBattery(jsonResponse);
+                }
+                scheduleBatteryReload();
+            }
+        }
+        xhr.open('GET', 'api/battery/currentVoltage', true);
+        xhr.send(null);
+    }
+    function loadValues() {
+        loadTemperature();
+        loadBattery();
+    }
+    window.onload = function(){ loadValues(); }
 
 block content
 
   #temperaturetile.tile
       div.tile-body.tile-body-large
           #currentTemperature
+              span.glyphicon.glyphicon-repeat.gly-spin(aria-hidden='true')
+
+  #batterytile.tile
+      div.tile-body.tile-body-large
+          #currentBattery
               span.glyphicon.glyphicon-repeat.gly-spin(aria-hidden='true')
 
   button.btn.btn-lg.btn-success.btn-block(onclick='onButtonClicked()').
