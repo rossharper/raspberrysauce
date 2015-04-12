@@ -5,7 +5,11 @@ module.exports = {
         Temperature.find().sort({date: -1}).limit(1).exec(function(err, temperature) {
             console.log(err);
             console.log(temperature);
-            res.send(temperature[0]);
+            if(temperature && temperature.length > 0) {
+                res.send(temperature[0]);
+            } else {
+                res.send({});
+            }
         });
     }
 }

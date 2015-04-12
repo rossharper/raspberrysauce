@@ -5,7 +5,11 @@ module.exports = {
         Battery.findOne().sort({date: -1}).limit(1).exec(function(err, battery) {
             console.log(err);
             console.log(battery);
-            res.send(battery[0]);
+            if(battery && battery.length > 0) {
+                res.send(battery[0]);
+            } else {
+                res.send({});
+            }
         });
     }
 }
