@@ -1,11 +1,6 @@
 extend loggedin
-block extrahead
-  link(rel='stylesheet', href='/c3/c3.min.css')
 block script
-  script(src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js')
-  script(src='c3/c3.js')
   script(src='/js/values.js')
-  script(src='/js/charts.js')
   script(type='text/javascript').
     function onButtonClicked() { 
         var xhr = new XMLHttpRequest();
@@ -20,8 +15,6 @@ block script
     function loadValues() {
         loadTemperature();
         loadBattery();
-        loadTempChart();
-        loadBattChart();
     }
     window.onload = function(){ loadValues(); }
 
@@ -36,14 +29,6 @@ block content
       div.tile-body.tile-body-large
           #currentBattery
               span.glyphicon.glyphicon-repeat.gly-spin(aria-hidden='true')
-
-  #tempcharttile.tile-full
-      div.chart-tile-body
-          #tempchart
-
-  #battcharttile.tile-full
-      div.chart-tile-body
-          #battchart
 
   button.btn.btn-lg.btn-success.btn-block(onclick='onButtonClicked()').
     ON

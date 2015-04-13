@@ -1,0 +1,6 @@
+extend graph
+block append script
+    script(src='/js/charts.js')
+    script(src='/js/battgraph.js')
+    script(type='text/javascript').
+        window.onload = function(){ loadBattChart(); }
