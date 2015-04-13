@@ -16,5 +16,28 @@ module.exports = {
         Temperature.find().where('date').gt(oneDayAgo).sort({date: 1}).select('date temperature').exec(function(err, temperatures) {
             res.send(temperatures);
         });
+    },
+    addTemperatureReading: function(req, res) {
+        var date = req.body.date;
+        var temperature = req.body.temperature;
+        var device = req.body.device;
+        var dev = req.body.dev;
+
+        console.log("date: " + date);
+
+        var temp = new Temperature();
+        temp.device = device;
+        temp.temperature = temperature;
+        temp.date = new Date(date);
+        if(dev) {
+            temp.dev = true;
+        }
+        temp.save(function(err) {
+            if(err) {
+                res.send('FAILED: ' + err);
+                return
+            }
+            res.send("OK");
+        });
     }
 }

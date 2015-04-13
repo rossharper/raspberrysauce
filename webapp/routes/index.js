@@ -78,6 +78,12 @@ function initRoutes() {
         })
     });
 
+    router.get('/devtools', function(req, res) {
+        res.render('devtools', {
+            title: 'DevTools'
+        })
+    })
+
     router.post('/api/led/on', ledapi.on);
     router.post('/api/led/off', ledapi.off);
 
@@ -86,6 +92,7 @@ function initRoutes() {
 
     router.get('/api/temperature/currentTemperature', temperatureapi.getCurrentTemperature);
     router.get('/api/temperature/history', temperatureapi.getHistory);
+    router.post('/api/temperature/add', temperatureapi.addTemperatureReading);
 
     router.get('/api/battery/currentVoltage', batteryapi.getCurrentVoltage);
     router.get('/api/battery/history', batteryapi.getHistory);
