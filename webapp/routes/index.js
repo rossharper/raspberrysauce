@@ -93,6 +93,7 @@ function initRoutes() {
     router.get('/api/temperature/currentTemperature', temperatureapi.getCurrentTemperature);
     router.get('/api/temperature/history', temperatureapi.getHistory);
     router.post('/api/temperature/add', temperatureapi.addTemperatureReading);
+    router.delete('/api/temperature/devTemps', temperatureapi.removeDevTemps);
 
     router.get('/api/battery/currentVoltage', batteryapi.getCurrentVoltage);
     router.get('/api/battery/history', batteryapi.getHistory);

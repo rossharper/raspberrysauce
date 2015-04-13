@@ -39,5 +39,14 @@ module.exports = {
             }
             res.send("OK");
         });
+    },
+    removeDevTemps: function(req, res) {
+        Temperature.find({dev:'dev'}).remove().exec(function(err) {
+            if(err) {
+                res.send('FAILED: ' + err);
+                return
+            }
+            res.send("OK");
+        });
     }
 }

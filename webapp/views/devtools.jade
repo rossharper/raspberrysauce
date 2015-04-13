@@ -75,12 +75,18 @@ block script
 
             outputTemps(temps);
         }
+        function removeDevTemps() {
+            var xhr = new XMLHttpRequest();
 
+            var http = new XMLHttpRequest();
+            http.open("DELETE", "/api/temperature/devTemps", true);
 
-
-
+            http.send();
+        }
 
 block content
     div.alert.alert-warning(role='alert') <strong>Hmm, Jo...</strong><br>... are you sure you should be playing about in here?
 
     button.btn.btn-success(onclick="addTodaysTemps()") Generate some temperatures for today
+
+    button.btn.btn-danger(onclick="removeDevTemps()") Remove TEST temperature data
