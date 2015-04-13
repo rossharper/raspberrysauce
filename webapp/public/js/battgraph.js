@@ -1,5 +1,5 @@
 function generateBatteryChart(voltages) {
-    generateChart(voltages, '#battchart', 'batteryVoltage');
+    generateChart(voltages, '#chart', 'batteryVoltage');
 }
 function scheduleBattChartReload() {
     window.setTimeout(loadBattChart, 300000);

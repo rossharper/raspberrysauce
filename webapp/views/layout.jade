@@ -1,7 +1,10 @@
 doctype
 html
   head
-    title #{title} - Raspberry Sauce
+    if title == 'Login'
+        title #{title}
+    else
+        title #{title} - Raspberry Sauce
     link(rel='stylesheet', href='/bootstrap/css/bootstrap.min.css')
     link(rel='stylesheet', href='/bootstrap/css/bootstrap-theme.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
