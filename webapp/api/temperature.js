@@ -11,7 +11,9 @@ module.exports = {
         });
     },
     getHistory: function(req, res) {
-        Temperature.find().sort({date: 1}).exec(function(err, temperatures) {
+        var oneDayAgo = new Date();
+        oneDayAgo.setDate(oneDayAgo.getDate() - 1);
+        Temperature.find().where('date').gt(oneDayAgo).sort({date: 1}).select('date temperature').exec(function(err, temperatures) {
             res.send(temperatures);
         });
     }
