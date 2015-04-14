@@ -1,4 +1,4 @@
-function generateChart(data, chart, value, xAxisValues) {
+function generateChart(data, chart, value, yRange) {
     var chart = c3.generate({
         bindto: chart,
         data: {
@@ -18,7 +18,8 @@ function generateChart(data, chart, value, xAxisValues) {
                     }
                 },
                 type: 'category'
-            }
+            },
+            y: yRange
         },
         grid: {
             x: {
