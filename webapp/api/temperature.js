@@ -13,7 +13,7 @@ module.exports = {
     getHistory: function(req, res) {
         var oneDayAgo = new Date();
         oneDayAgo.setDate(oneDayAgo.getDate() - 1);
-        Temperature.find().where('date').gt(oneDayAgo).sort({date: 1}).select('date temperature').exec(function(err, temperatures) {
+        Temperature.find().where('date').gt(oneDayAgo).sort({date: 1}).select('-_id date temperature').exec(function(err, temperatures) {
             res.send(temperatures);
         });
     },
