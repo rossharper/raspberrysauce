@@ -6,8 +6,8 @@ module.exports = {
         batteryFile.readFromFile(function(voltage) {
             temperatureFile.readFromFile(function(temperature) {
                 var view = {
-                    temperature : temperature,
-                    batteryVoltage : voltage
+                    temperature : temperature.temperature,
+                    batteryVoltage : voltage.batteryVoltage
                 };
                 res.send(view);
             })
