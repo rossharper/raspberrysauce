@@ -1,5 +1,7 @@
 var Temperature = require('../models/temperature');
 
+var fs = require('fs');
+
 function getLatestTemperatureFromDatabase(callback) {
     Temperature.find().sort({date: -1}).limit(1).exec(function(err, temperature) {
         if(temperature && temperature.length > 0) {
@@ -10,9 +12,17 @@ function getLatestTemperatureFromDatabase(callback) {
     });
 }
 
+function getTemperatureFromFile(callback) {
+    var fs = require('fs');
+
+    fs.readFile('/var/lib/homecontrol/sensordata/temperatureSensors/TA/value', 'utf8', function(err, contents) {
+        callback("{\"temperature\":"+contents+",\"device\":\"TA\"}");
+    });
+}
+
 module.exports = {
     getCurrentTemperature: function(req, res) {
-        getLatestTemperatureFromDatabase(function(temp) { res.send(temp); } );
+        getTemperatureFromFile(function(temp) { res.send(temp); } );
     },
     getHistory: function(req, res) {
         var oneDayAgo = new Date();
