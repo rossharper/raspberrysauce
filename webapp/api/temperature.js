@@ -1,14 +1,18 @@
 var Temperature = require('../models/temperature');
 
+function getLatestTemperatureFromDatabase(callback) {
+    Temperature.find().sort({date: -1}).limit(1).exec(function(err, temperature) {
+        if(temperature && temperature.length > 0) {
+            callback(temperature[0]);
+        } else {
+            callback({});
+        }
+    });
+}
+
 module.exports = {
     getCurrentTemperature: function(req, res) {
-        Temperature.find().sort({date: -1}).limit(1).exec(function(err, temperature) {
-            if(temperature && temperature.length > 0) {
-                res.send(temperature[0]);
-            } else {
-                res.send({});
-            }
-        });
+        getLatestTemperatureFromDatabase(function(temp) { res.send(temp); } );
     },
     getHistory: function(req, res) {
         var oneDayAgo = new Date();
