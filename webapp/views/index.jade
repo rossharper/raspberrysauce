@@ -1,20 +1,20 @@
 extend loggedin
 block script
   script(src='/js/values.js')
+  script(src='/js/home.js')
   script(type='text/javascript').
-    function onButtonClicked() { 
+    function onButtonClicked() {
         var xhr = new XMLHttpRequest();
         xhr.open("POST", "api/boiler/on", false);
         xhr.send();
     }
-    function offButtonClicked() { 
+    function offButtonClicked() {
         var xhr = new XMLHttpRequest();
         xhr.open("POST", "api/boiler/off", false);
         xhr.send();
     }
     function loadValues() {
-        loadTemperature();
-        loadBattery();
+        loadView();
     }
     window.onload = function(){ loadValues(); }
 
