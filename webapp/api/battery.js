@@ -10,9 +10,17 @@ function getLatestVoltageFromDatabase(callback) {
     });
 }
 
+function getVoltageFromFile(callback) {
+    var fs = require('fs');
+
+    fs.readFile('/var/lib/homecontrol/sensordata/temperatureSensors/TA/batt', 'utf8', function(err, contents) {
+        callback("{\"batteryVoltage\":"+contents+",\"device\":\"TA\"}");
+    });
+}
+
 module.exports = {
     getCurrentVoltage: function(req, res) {
-        getLatestVoltageFromDatabase(function(voltage) { res.send(voltage) });
+        getVoltageFromFile(function(voltage) { res.send(voltage) });
     },
     getHistory: function(req, res) {
         Battery.find().sort({date: 1}).exec(function(err, voltages) {
