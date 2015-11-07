@@ -1,6 +1,5 @@
 var Temperature = require('../models/temperature');
-
-var fs = require('fs');
+var TemperatureFile = require('../models/temperatureFile');
 
 function getLatestTemperatureFromDatabase(callback) {
     Temperature.find().sort({date: -1}).limit(1).exec(function(err, temperature) {
@@ -13,11 +12,7 @@ function getLatestTemperatureFromDatabase(callback) {
 }
 
 function getTemperatureFromFile(callback) {
-    var fs = require('fs');
-
-    fs.readFile('/var/lib/homecontrol/sensordata/temperatureSensors/TA/value', 'utf8', function(err, contents) {
-        callback("{\"temperature\":"+contents+",\"device\":\"TA\"}");
-    });
+    TemperatureFile.readFromFile(callback);
 }
 
 module.exports = {
