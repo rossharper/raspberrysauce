@@ -1,4 +1,5 @@
 var Battery = require('../models/battery');
+var BatteryFile = require('../models/batteryFile');
 
 function getLatestVoltageFromDatabase(callback) {
     Battery.find().sort({date: -1}).limit(1).exec(function(err, battery) {
@@ -11,11 +12,7 @@ function getLatestVoltageFromDatabase(callback) {
 }
 
 function getVoltageFromFile(callback) {
-    var fs = require('fs');
-
-    fs.readFile('/var/lib/homecontrol/sensordata/temperatureSensors/TA/batt', 'utf8', function(err, contents) {
-        callback("{\"batteryVoltage\":"+contents+",\"device\":\"TA\"}");
-    });
+    BatteryFile.readFromFile(callback);
 }
 
 module.exports = {
