@@ -7,7 +7,12 @@ module.exports = {
             temperatureFile.readFromFile(function(temperature) {
                 var view = {
                     temperature : temperature.temperature,
-                    batteryVoltage : voltage.batteryVoltage
+                    batteryVoltage : voltage.batteryVoltage,
+                    programme : {
+                        heatingEnabled : true,
+                        inComfortPeriod : true,
+                        inOverride : false
+                    }
                 };
                 res.send(view);
             })
