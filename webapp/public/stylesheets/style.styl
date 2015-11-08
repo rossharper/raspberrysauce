@@ -20,15 +20,20 @@ body
 #modetile
   color #fff
 
+$autoModeColor = #98ED86
+$comfortModeColor = #ff9b25
+$setbackModeColor = #87DFFF
+$offModeColor = #c1153f
+
 #modetile[title="comfortMode"]
-  background-color #ff9b25
+  background-color $comfortModeColor
 
 #modetile[title="setbackMode"]
-  background-color #87DFFF
+  background-color $setbackModeColor
 
 #modetile[title="offMode"]
   color #fff
-  background-color #f00
+  background-color $offModeColor
 
 #temperaturetile
   color #000
@@ -44,7 +49,6 @@ body
 #temperaturetile[title="0"]{background-color: #9cd9ff; color: #fff;}
 
 modeButton()
-  color #616161
   padding-top 10px
   padding-bottom 10px
   padding-left 2px
@@ -55,6 +59,18 @@ modeButton()
 #setbackModeButton
 #offModeButton
   modeButton()
+
+#autoModeIcon
+    color $autoModeColor
+
+#comfortModeIcon
+    color $comfortModeColor
+
+#setbackModeIcon
+    color $setbackModeColor
+
+#offModeIcon
+    color $offModeColor
 
 .tile-full
   margin-bottom  20px
