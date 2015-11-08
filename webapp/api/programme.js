@@ -8,7 +8,7 @@ module.exports = {
     setHeatingModeOff : function(req, res) {
         ProgrammeFileLoader.loadProgramme(PROGRAMME_DATA_PATH, function(programme) {
             programme.setHeatingEnabled(false);
-            ProgrammeFileWriter.writeProgrammeFile(PROGRAMME_DATA_PATH, programme, function(err) {
+            ProgrammeFileWriter.writeProgramme(PROGRAMME_DATA_PATH, programme, function(err) {
                 if(err) {
                     res.send("Write failed: " + err);
                     return;

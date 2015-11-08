@@ -100,7 +100,7 @@ function initRoutes() {
     router.get('/api/battery/currentVoltage', batteryapi.getCurrentVoltage);
     router.get('/api/battery/history', batteryapi.getHistory);
 
-    router.post('/api/programme/setMode/heatingOff', programmeapi.setHeatingModeOff);
+    router.get('/api/programme/setMode/heatingOff', programmeapi.setHeatingModeOff);
 
     router.get('/api/schedule/all', scheduleapi.getSchedules);
     router.post('/api/schedule/add', scheduleapi.addSchedule);
