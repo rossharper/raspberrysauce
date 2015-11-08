@@ -6,6 +6,7 @@ var auth = require('../auth/Authentication'),
     temperatureapi = require('../api/temperature'),
     batteryapi = require('../api/battery'),
     scheduleapi = require('../api/schedule'),
+    programmeapi = require('../api/programme'),
     homeviewapi = require('../api/views/home');
 
 var router = express.Router();
@@ -98,6 +99,8 @@ function initRoutes() {
 
     router.get('/api/battery/currentVoltage', batteryapi.getCurrentVoltage);
     router.get('/api/battery/history', batteryapi.getHistory);
+
+    router.get('/api/programme/setMode/heatingOff', programmeapi.setHeatingModeOff);
 
     router.get('/api/schedule/all', scheduleapi.getSchedules);
     router.post('/api/schedule/add', scheduleapi.addSchedule);
