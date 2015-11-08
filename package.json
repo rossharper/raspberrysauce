@@ -1,5 +1,6 @@
 {
   "name": "RaspberrySauce",
+  "description": "Home control website",
   "version": "0.0.1",
   "private": true,
   "repository": {
@@ -27,5 +28,6 @@
     "pwd": "0.0.4",
     "ssl-root-cas": "*",
     "stylus": "*"
-  }
+  },
+  "license": "Apache-2.0"
 }
