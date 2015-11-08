@@ -12,7 +12,25 @@ function displayTemperature(temperature) {
 }
 
 function displayBattery(batteryVoltage) {
-    document.getElementById("currentBattery").innerHTML = roundToOneDecimalPlace(batteryVoltage) + "V";
+    $("#batteryLevelEmpty").addClass('hidden');
+    $("#batteryLevelQuarter").addClass('hidden');
+    $("#batteryLevelHalf").addClass('hidden');
+    $("#batteryLevelThreeQuarters").addClass('hidden');
+    $("#batteryLevelFull").addClass('hidden');
+    if(batteryVoltage < 2.00) {
+        $("#batteryLevelEmpty").removeClass('hidden');
+    } else if (batteryVoltage < 2.33) {
+        $("#batteryLevelQuarter").removeClass('hidden');
+    } else if (batteryVoltage < 2.66) {
+        $("#batteryLevelHalf").removeClass('hidden');
+    } else if (batteryVoltage < 2.99) {
+        $("#batteryLevelThreeQuarters").removeClass('hidden');
+    } else { // batteryVoltage >= 3
+        $("#batteryLevelFull").removeClass('hidden');
+    }
+
+    var displayVoltage = roundToOneDecimalPlace(batteryVoltage)
+    document.getElementById("currentBattery").innerHTML = displayVoltage + "V";
 }
 
 function displayElement(elementId, display) {
