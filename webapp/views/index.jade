@@ -35,15 +35,19 @@ block content
   br
 
   #modeSelector.btn-group.btn-group-lg.btn-group-justified(data-toggle="buttons", aria-label="...")
-    label.btn.btn-default(id="autoModeButton")
-        span.fa.fa-calendar &nbsp; Auto
+    label.btn.btn-success(id="autoModeButton")
+        div.fa.fa-calendar.fa-2x
+        div Auto
         input(type="radio", name="options")
-    label.btn.btn-default(id="comfortModeButton")
-        span.fa.fa-sun-o &nbsp; Comfort
+    label.btn.btn-warning(id="comfortModeButton")
+        div.fa.fa-sun-o.fa-2x
+        div Comfort
         input(type="radio", name="options")
-    label.btn.btn-default(id="setbackModeButton")
-        span.fa.fa-moon-o &nbsp; Setback
+    label.btn.btn-info(id="setbackModeButton")
+        div.fa.fa-moon-o.fa-2x
+        div Economy
         input(type="radio", name="options")
-    label.btn.btn-default(id="offModeButton")
-        span.fa.fa-power-off &nbsp; Off
+    label.btn.btn-danger(id="offModeButton")
+        div.fa.fa-power-off.fa-2x
+        div Off
         input(type="radio", name="options")
