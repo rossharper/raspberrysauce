@@ -30,3 +30,24 @@ block content
       div.tile-body.tile-body-large
           #currentBattery
               span.fa.fa-circle-o-notch.gly-spin(aria-hidden='true')
+
+  br
+  br
+
+  #modeSelector.btn-group.btn-group-lg.btn-group-justified(data-toggle="buttons", aria-label="...")
+    label.btn.btn-default
+        span
+        | Auto
+        input(type="radio", name="options")
+    label.btn.btn-default
+        span
+        | Comfort
+        input(type="radio", name="options")
+    label.btn.btn-default
+        span
+        | Setback
+        input(type="radio", name="options")
+    label.btn.btn-default
+        span
+        | Off
+        input(type="radio", name="options")
