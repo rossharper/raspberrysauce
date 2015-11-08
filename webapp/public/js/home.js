@@ -26,6 +26,9 @@ function displayElement(elementId, display) {
 }
 
 function displayProgrammeMode(programme) {
+
+    $('#autoModeButton').button('toggle');
+
     displayElement("currentModeSpin", false);
     displayElement("comfortMode", programme.heatingEnabled && programme.comfortLevelEnabled);
     displayElement("setbackMode", programme.heatingEnabled && !programme.comfortLevelEnabled);
