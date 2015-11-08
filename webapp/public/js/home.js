@@ -26,16 +26,33 @@ function displayElement(elementId, display) {
 }
 
 function displayProgrammeMode(programme) {
-
-    $('#autoModeButton').button('toggle');
-
     displayElement("currentModeSpin", false);
     displayElement("comfortMode", programme.heatingEnabled && programme.comfortLevelEnabled);
     displayElement("setbackMode", programme.heatingEnabled && !programme.comfortLevelEnabled);
     displayElement("offMode", !programme.heatingEnabled);
 }
 
+function toggleModeSelector(programme) {
+    if(programme.heatingEnabled) {
+        if(programme.inOverride) {
+            if(programme.comfortLevelEnabled) {
+                $("#comfortModeButton").button('toggle');
+            }
+            else {
+                $("#setbackModeButton").button('toggle');
+            }
+        }
+        else {
+            $("#autoModeButton").button('toggle');
+        }
+    }
+    else {
+        $("#offModeButton").button('toggle');
+    }
+}
+
 function displayView(viewData) {
+    toggleModeSelector(viewData.programme);
     displayProgrammeMode(viewData.programme)
     displayTemperature(viewData.temperature);
     displayBattery(viewData.batteryVoltage);
