@@ -48,5 +48,16 @@ block content
 
     #batterytile.tile
         div.tile-body.tile-body-large
-            #currentBattery
+            span#batteryLevelEmpty.hidden
+                span.fa.fa-battery-empty
+            span#batteryLevelQuarter.hidden
+                span.fa.fa-battery-quarter
+            span#batteryLevelHalf.hidden
+                span.fa.fa-battery-half
+            span#batteryLevelThreeQuarters.hidden
+                span.fa.fa-battery-three-quarters
+            span#batteryLevelFull.hidden
+                span.fa.fa-battery-full
+            &nbsp;
+            span#currentBattery
                 span.fa.fa-circle-o-notch.gly-spin(aria-hidden='true')
