@@ -10,44 +10,43 @@ block script
 
 block content
 
-  #modetile.tile
-    div.tile-body.tile-body-large
-        #currentModeSpin
-            span.fa.fa-circle-o-notch.gly-spin(aria-hidden='true')
-        #comfortMode.hidden
-            span.fa.fa-sun-o(aria-hidden='true')
-        #setbackMode.hidden
-            span.fa.fa-moon-o(aria-hidden='true')
-        #offMode.hidden
-            span.fa.fa-power-off(aria-hidden='true')
+    #modeSelector.btn-group.btn-group-lg.btn-group-justified(data-toggle="buttons", aria-label="...")
+        label.btn.btn-default(id="autoModeButton")
+            div.fa.fa-clock-o.fa-2x
+            div Auto
+            input(type="radio", name="options")
+        label.btn.btn-default(id="comfortModeButton")
+            div.fa.fa-sun-o.fa-2x
+            div Comfort
+            input(type="radio", name="options")
+        label.btn.btn-default(id="setbackModeButton")
+            div.fa.fa-moon-o.fa-2x
+            div Economy
+            input(type="radio", name="options")
+        label.btn.btn-default(id="offModeButton")
+            div.fa.fa-power-off.fa-2x
+            div Off
+            input(type="radio", name="options")
 
-  #temperaturetile.tile
-      div.tile-body.tile-body-large
-          #currentTemperature
-              span.fa.fa-circle-o-notch.gly-spin(aria-hidden='true')
+    br
 
-  #batterytile.tile
-      div.tile-body.tile-body-large
-          #currentBattery
-              span.fa.fa-circle-o-notch.gly-spin(aria-hidden='true')
+    #modetile.tile
+        div.tile-body.tile-body-large
+            #currentModeSpin
+                span.fa.fa-circle-o-notch.gly-spin(aria-hidden='true')
+            #comfortMode.hidden
+                span.fa.fa-sun-o(aria-hidden='true')
+            #setbackMode.hidden
+                span.fa.fa-moon-o(aria-hidden='true')
+            #offMode.hidden
+                span.fa.fa-power-off(aria-hidden='true')
 
-  br
-  br
+    #temperaturetile.tile
+        div.tile-body.tile-body-large
+            #currentTemperature
+                span.fa.fa-circle-o-notch.gly-spin(aria-hidden='true')
 
-  #modeSelector.btn-group.btn-group-lg.btn-group-justified(data-toggle="buttons", aria-label="...")
-    label.btn.btn-default(id="autoModeButton")
-        div.fa.fa-clock-o.fa-2x
-        div Auto
-        input(type="radio", name="options")
-    label.btn.btn-default(id="comfortModeButton")
-        div.fa.fa-sun-o.fa-2x
-        div Comfort
-        input(type="radio", name="options")
-    label.btn.btn-default(id="setbackModeButton")
-        div.fa.fa-moon-o.fa-2x
-        div Economy
-        input(type="radio", name="options")
-    label.btn.btn-default(id="offModeButton")
-        div.fa.fa-power-off.fa-2x
-        div Off
-        input(type="radio", name="options")
+    #batterytile.tile
+        div.tile-body.tile-body-large
+            #currentBattery
+                span.fa.fa-circle-o-notch.gly-spin(aria-hidden='true')
