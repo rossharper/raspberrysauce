@@ -10,7 +10,7 @@ module.exports = {
                 // TODO: only loading the default programme.
                 // need to specify the actual programme file location
 
-                ProgrammeFileLoader.loadProgramme(null, function(programme) {
+                ProgrammeFileLoader.loadProgramme("/var/lib/homecontrol/programdata", function(programme) {
                     var now = new Date();
                     var view = {
                         temperature : temperature.temperature,

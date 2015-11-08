@@ -3,22 +3,23 @@ block script
   script(src='/js/values.js')
   script(src='/js/home.js')
   script(type='text/javascript').
-    function onButtonClicked() {
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "api/boiler/on", false);
-        xhr.send();
-    }
-    function offButtonClicked() {
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "api/boiler/off", false);
-        xhr.send();
-    }
     function loadValues() {
         loadView();
     }
     window.onload = function(){ loadValues(); }
 
 block content
+
+  #modetile.tile
+    div.tile-body.tile-body-large
+        #currentModeSpin
+            span.fa.fa-circle-o-notch.gly-spin(aria-hidden='true')
+        #comfortMode.hidden
+            span.fa.fa-sun-o(aria-hidden='true')
+        #setbackMode.hidden
+            span.fa.fa-moon-o(aria-hidden='true')
+        #offMode.hidden
+            span.fa.fa-power-off(aria-hidden='true')
 
   #temperaturetile.tile
       div.tile-body.tile-body-large
@@ -29,19 +30,3 @@ block content
       div.tile-body.tile-body-large
           #currentBattery
               span.fa.fa-circle-o-notch.gly-spin(aria-hidden='true')
-
-  #modetile.tile
-      div.tile-body.tile-body-large
-          #currentMode
-              span.fa.fa-sun-o(aria-hidden='true')
-              span.fa.fa-moon-o(aria-hidden='true')
-              span.fa.fa-power-off(aria-hidden='true')
-
-  button.btn.btn-lg.btn-success.btn-block(onclick='onButtonClicked()').
-    ON
-
-  br
-  br
-
-  button.btn.btn-lg.btn-danger.btn-block(onclick='offButtonClicked()').
-    OFF

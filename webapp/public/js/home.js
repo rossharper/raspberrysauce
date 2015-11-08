@@ -15,7 +15,25 @@ function displayBattery(batteryVoltage) {
     document.getElementById("currentBattery").innerHTML = roundToOneDecimalPlace(batteryVoltage) + "V";
 }
 
+function displayElement(elementId, display) {
+    if(display) {
+        $("#" + elementId).removeClass('hidden');
+        document.getElementById("modetile").title = elementId;
+    }
+    else {
+        $("#" + elementId).addClass('hidden');
+    }
+}
+
+function displayProgrammeMode(programme) {
+    displayElement("currentModeSpin", false);
+    displayElement("comfortMode", programme.heatingEnabled && programme.comfortLevelEnabled);
+    displayElement("setbackMode", programme.heatingEnabled && !programme.comfortLevelEnabled);
+    displayElement("offMode", !programme.heatingEnabled);
+}
+
 function displayView(viewData) {
+    displayProgrammeMode(viewData.programme)
     displayTemperature(viewData.temperature);
     displayBattery(viewData.batteryVoltage);
 }
