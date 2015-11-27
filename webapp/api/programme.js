@@ -29,5 +29,15 @@ module.exports = {
             programme.setHeatingEnabled(false);
             writeProgramme(programme, res);
         });
+    },
+
+    setComfortMode : function(req, res) {
+
+        // TODO:should it be ms on API or ISO8601?
+        var untilInMs = parseInt(req.params.until);
+
+        ProgrammeFileLoader.loadPrograme(PROGRAMME_DATA_PATH, function(programme) {
+            // TODO: set override on programme
+        });
     }
 }
