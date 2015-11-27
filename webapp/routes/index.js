@@ -100,9 +100,10 @@ function initRoutes() {
     router.get('/api/battery/currentVoltage', batteryapi.getCurrentVoltage);
     router.get('/api/battery/history', batteryapi.getHistory);
 
-    // TODO: should be POST
+    // TODO: should be POST/PUT really - make it RESTful!
     router.get('/api/programme/setMode/auto', programmeapi.setHeatingModeAuto);
     router.get('/api/programme/setMode/heatingOff', programmeapi.setHeatingModeOff);
+    router.get('/api/programme/setMode/comfort/:until', programmeapi.setComfortMode);
 
     router.get('/api/schedule/all', scheduleapi.getSchedules);
     router.post('/api/schedule/add', scheduleapi.addSchedule);
