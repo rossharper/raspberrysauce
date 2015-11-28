@@ -21,6 +21,13 @@ function comfortUntilDate(untilDate, res) {
     });
 }
 
+function setbackUntilDate(untilDate, res) {
+    ProgrammeFileLoader.loadProgramme(PROGRAMME_DATA_PATH, function(programme) {
+        programme.setSetbackOverride(untilDate);
+        writeProgramme(programme, "OK. SETBACK mode set until: " + untilDate.toISOString(), res)
+    });
+}
+
 function setModeUntilDate(req, res, modeFunc) {
     var untilParam = req.params.until;
 
@@ -63,6 +70,6 @@ module.exports = {
     },
 
     setSetbackMode : function(req, res) {
-
+        setModeUntilDate(req, res, setbackUntilDate);
     }
 }
