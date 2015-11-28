@@ -6,7 +6,10 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     chalk = require('chalk'),
     mongoose = require('mongoose'),
-    flash = require('connect-flash');
+    flash = require('connect-flash'),
+    expressSession = require('express-session');
+
+var MongoSessionStore = require('connect-mongo')(expressSession);
 
 var auth = require('./auth/Authentication'),
     routes = require('./routes/index'),
@@ -56,7 +59,7 @@ function loadSessionSecret() {
     }
     catch(err) {
         console.error(chalk.red(chalk.bold("ERROR") + ": No session secret found in config: using default!"));
-        return "default secret for raspberry sauce";        
+        return "default secret for raspberry sauce";
     }
 }
 
@@ -66,12 +69,13 @@ function setupAuthenticationMiddleware(app) {
         extended: false
     }));
     app.use(cookieParser());
-    app.use(require('express-session')({
+    app.use(expressSession({
         secret: loadSessionSecret(),
         resave: false,
-        saveUninitialized: false
+        saveUninitialized: false,
+        store: new MongoSessionStore({ mongooseConnection: mongoose.connection })
     }));
-    
+
     auth.initialize(app);
 
     app.use(flash());
@@ -86,7 +90,7 @@ function createApp() {
     setupStylus(app);
     setupAuthenticationMiddleware(app);
     setupStaticRouting(app);
-    setupDynamicRouting(app); 
+    setupDynamicRouting(app);
 
     return app;
 }
