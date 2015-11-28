@@ -28,6 +28,19 @@ function setbackUntilDate(untilDate, res) {
     });
 }
 
+function addDayToDate(date) {
+    date.setDate(date.getDate() + 1);
+    return date;
+}
+
+function setDateTimeToLocalMidnight(date) {
+    date.setHours(0);
+    date.setMinutes(0);
+    date.setSeconds(0);
+    date.setUTCMilliseconds(0);
+    return date;
+}
+
 function setModeUntilDate(req, res, modeFunc) {
     var untilParam = req.params.until;
 
@@ -44,7 +57,9 @@ function setModeUntilDate(req, res, modeFunc) {
         modeFunc(untilDate, res);
     }
     else {
-        res.sendStatus(400);
+        var untilDate = addDayToDate(new Date());
+        untilDate = setDateTimeToLocalMidnight(untilDate);
+        modeFunc(untilDate, res);
     }
 }
 
