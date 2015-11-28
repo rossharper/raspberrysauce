@@ -104,6 +104,7 @@ function initRoutes() {
     router.get('/api/programme/setMode/auto', programmeapi.setHeatingModeAuto);
     router.get('/api/programme/setMode/heatingOff', programmeapi.setHeatingModeOff);
     router.get('/api/programme/setMode/comfort/:until', programmeapi.setComfortMode);
+    router.get('/api/programme/setMode/setback/:until', programmeapi.setSetbackMode);
 
     router.get('/api/schedule/all', scheduleapi.getSchedules);
     router.post('/api/schedule/add', scheduleapi.addSchedule);
