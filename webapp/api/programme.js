@@ -67,7 +67,7 @@ module.exports = {
 
     setHeatingModeAuto : function(req, res) {
         ProgrammeFileLoader.loadProgramme(PROGRAMME_DATA_PATH, function(programme) {
-            programme.setHeatingEnabled(true);
+            programme.setHeatingOn();
             programme.clearOverride();
             writeProgramme(programme, "OK. Mode set to AUTO.", res);
         })
@@ -75,7 +75,7 @@ module.exports = {
 
     setHeatingModeOff : function(req, res) {
         ProgrammeFileLoader.loadProgramme(PROGRAMME_DATA_PATH, function(programme) {
-            programme.setHeatingEnabled(false);
+            programme.setHeatingOff();
             writeProgramme(programme, "OK. Mode set to OFF.", res);
         });
     },
