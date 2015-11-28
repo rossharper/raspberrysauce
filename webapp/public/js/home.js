@@ -75,9 +75,47 @@ function displayView(viewData) {
     displayTemperature(viewData.temperature);
     displayBattery(viewData.batteryVoltage);
 }
+function setModeViaApi(apiPath) {
+    clearTimeout(reloadTimeout);
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            if(xhr.status === 200) {
+                // do nothing with response for now
+            }
+            loadView();
+        }
+    }
+    xhr.open('GET', apiPath, true);
+    xhr.send(null);
+}
+function onAutoModeButtonPressed() {
+    setModeViaApi('api/programme/setMode/auto');
+}
+function onComfortModeButtonPressed() {
+    setModeViaApi('api/programme/setMode/comfort');
+}
+function onSetbackModeButtonPressed() {
+    setModeViaApi('api/programme/setMode/setback');
+}
+function onOffModeButtonPressed() {
+    setModeViaApi('api/programme/setMode/heatingOff');
+}
+function bindButtons() {
+    $('#autoModeButton').on('click', onAutoModeButtonPressed);
+    $('#comfortModeButton').on('click', onComfortModeButtonPressed);
+    $('#setbackModeButton').on('click', onSetbackModeButtonPressed);
+    $('#offModeButton').on('click', onOffModeButtonPressed);
+}
+
+var reloadTimeout;
 
 function scheduleReload() {
-    window.setTimeout(loadView, 60000);
+    reloadTimeout = window.setTimeout(loadView, 60000);
+}
+function initHomeView() {
+    loadView();
+    bindButtons();
 }
 function loadView() {
     var xhr = new XMLHttpRequest();

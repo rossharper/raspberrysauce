@@ -3,10 +3,10 @@ block script
   script(src='/js/values.js')
   script(src='/js/home.js')
   script(type='text/javascript').
-    function loadValues() {
-        loadView();
+    function init() {
+        initHomeView();
     }
-    window.onload = function(){ loadValues(); }
+    window.onload = function(){ init(); }
 
 block content
 
