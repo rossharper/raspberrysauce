@@ -14,6 +14,14 @@ function writeProgramme(programme, res) {
     });
 }
 
+function overrideUntilTimeInMillis(untilMillis, res) {
+    ProgrammeFileLoader.loadProgramme(PROGRAMME_DATA_PATH, function(programme) {
+        var resultingDate = new Date();
+        resultingDate.setTime(untilMillis);
+        res.send("OK. Comfort mode set until: " + resultingDate.toISOString());
+    });
+}
+
 module.exports = {
 
     setHeatingModeAuto : function(req, res) {
@@ -33,11 +41,22 @@ module.exports = {
 
     setComfortMode : function(req, res) {
 
-        // TODO:should it be ms on API or ISO8601?
-        var untilInMs = parseInt(req.params.until);
+        var untilParam = req.params.until;
 
-        ProgrammeFileLoader.loadPrograme(PROGRAMME_DATA_PATH, function(programme) {
-            // TODO: set override on programme
-        });
+        var dateExpr = /^(\d{4})-?(\d{2})-?(\d{2})T(\d{2}):?(\d{2}):?(\d{2})Z$/;
+
+        if(/^\d{13,14}$/.test(untilParam)) { // time in milliseconds UTC
+            var untilInMs = parseInt(req.params.until);
+            overrideUntilTimeInMillis(untilInMs, res);
+        }
+        else if(dateExpr.test(untilParam)) // fully qualified ISO8601 UTC
+        {
+            var matchedDate = untilParam.match(dateExpr);
+            var untilDate = new Date(Date.UTC(matchedDate[1], matchedDate[2], matchedDate[3], matchedDate[4], matchedDate[5], matchedDate[6]));
+            overrideUntilTimeInMillis(untilDate.getTime(), res);
+        }
+        else {
+            res.sendStatus(400);
+        }
     }
 }
