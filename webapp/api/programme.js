@@ -1,6 +1,8 @@
 var ProgrammeFileLoader = require('heatingprogramme').ProgrammeFileLoader;
 var ProgrammeFileWriter = require('heatingprogramme').ProgrammeFileWriter;
 
+var programmeProvider = require('../models/programmeProvider');
+
 // TODO: inject!
 var PROGRAMME_DATA_PATH = "/var/lib/homecontrol/programdata";
 
@@ -15,14 +17,14 @@ function writeProgramme(programme, successMessage, res) {
 }
 
 function comfortUntilDate(untilDate, res) {
-    ProgrammeFileLoader.loadProgramme(PROGRAMME_DATA_PATH, function(programme) {
+    programmeProvider.getProgramme(function(programme) {
         programme.setComfortOverride(untilDate);
         writeProgramme(programme, "OK. COMFORT mode set until: " + untilDate.toISOString(), res)
     });
 }
 
 function setbackUntilDate(untilDate, res) {
-    ProgrammeFileLoader.loadProgramme(PROGRAMME_DATA_PATH, function(programme) {
+    programmeProvider.getProgramme(function(programme) {
         programme.setSetbackOverride(untilDate);
         writeProgramme(programme, "OK. SETBACK mode set until: " + untilDate.toISOString(), res)
     });
@@ -66,7 +68,7 @@ function setModeUntilDate(req, res, modeFunc) {
 module.exports = {
 
     setHeatingModeAuto : function(req, res) {
-        ProgrammeFileLoader.loadProgramme(PROGRAMME_DATA_PATH, function(programme) {
+        programmeProvider.getProgramme(function(programme) {
             programme.setHeatingOn();
             programme.clearOverride();
             writeProgramme(programme, "OK. Mode set to AUTO.", res);
@@ -74,7 +76,7 @@ module.exports = {
     },
 
     setHeatingModeOff : function(req, res) {
-        ProgrammeFileLoader.loadProgramme(PROGRAMME_DATA_PATH, function(programme) {
+        programmeProvider.getProgramme(function(programme) {
             programme.setHeatingOff();
             writeProgramme(programme, "OK. Mode set to OFF.", res);
         });

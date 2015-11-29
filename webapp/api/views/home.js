@@ -1,16 +1,12 @@
 var batteryFile = require('../../models/batteryFile'),
     temperatureFile = require('../../models/temperatureFile'),
-    ProgrammeFileLoader = require('heatingprogramme').ProgrammeFileLoader;
+    programmeProvider = require('../../models/programmeProvider');
 
 module.exports = {
     getView: function(req, res) {
         batteryFile.readFromFile(function(voltage) {
             temperatureFile.readFromFile(function(temperature) {
-
-                // TODO: only loading the default programme.
-                // need to specify the actual programme file location
-
-                ProgrammeFileLoader.loadProgramme("/var/lib/homecontrol/programdata", function(programme) {
+                programmeProvider.getProgramme(function(programme) {
                     var now = new Date();
                     var view = {
                         temperature : temperature.temperature,
