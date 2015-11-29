@@ -1,8 +1,6 @@
 var express = require('express')
 
 var auth = require('../auth/Authentication'),
-    ledapi = require('../api/led'),
-    boilerapi = require('../api/boiler'),
     temperatureapi = require('../api/temperature'),
     batteryapi = require('../api/battery'),
     scheduleapi = require('../api/schedule'),
@@ -85,12 +83,6 @@ function initRoutes() {
             title: 'DevTools'
         })
     })
-
-    router.post('/api/led/on', ledapi.on);
-    router.post('/api/led/off', ledapi.off);
-
-    router.post('/api/boiler/on', boilerapi.on);
-    router.post('/api/boiler/off', boilerapi.off);
 
     router.get('/api/temperature/currentTemperature', temperatureapi.getCurrentTemperature);
     router.get('/api/temperature/history', temperatureapi.getHistory);
