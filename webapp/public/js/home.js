@@ -11,6 +11,15 @@ function displayTemperature(temperature) {
     document.getElementById("temperaturetile").title = tempClass;
 }
 
+function displayTodaysProgramme(programme) {
+    var comfortPeriodsPanel = document.getElementById("comfortPeriods");
+    var innerHtml = "";
+    programme.todaysComfortPeriods.forEach(function(comfortPeriod) {
+        innerHtml += comfortPeriod.startTime + " &#45; " + comfortPeriod.endTime + "<br />";
+    });
+    comfortPeriodsPanel.innerHTML = innerHtml;
+}
+
 function displayBattery(batteryVoltage) {
     $("#batteryLevelEmpty").addClass('hidden');
     $("#batteryLevelQuarter").addClass('hidden');
@@ -71,8 +80,9 @@ function toggleModeSelector(programme) {
 
 function displayView(viewData) {
     toggleModeSelector(viewData.programme);
-    displayProgrammeMode(viewData.programme)
+    displayProgrammeMode(viewData.programme);
     displayTemperature(viewData.temperature);
+    displayTodaysProgramme(viewData.programme);
     displayBattery(viewData.batteryVoltage);
 }
 function setModeViaApi(apiPath) {
