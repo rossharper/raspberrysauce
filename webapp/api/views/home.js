@@ -5,7 +5,6 @@ var batteryFile = require('../../models/batteryFile'),
 
 function getTodaysSortedComfortPeriods(programme, date) {
     var comfortPeriods = programme.getComfortPeriodsForDate(date);
-    console.log(comfortPeriods);
     comfortPeriods.sort(function(a, b) {
         var keyA = DateUtil.getDateFromTimeStr(date, a.startTime),
             keyB = DateUtil.getDateFromTimeStr(date, b.startTime);
