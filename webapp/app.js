@@ -15,6 +15,8 @@ var auth = require('./auth/Authentication'),
     routes = require('./routes/index'),
     dbConfig = require('./db/db.js');
 
+var SESSION_COOKIE_MAX_AGE = 7 * 24 * 60 * 60 * 1000;
+
 function setupDb() {
     mongoose.connect(dbConfig.url);
 }
@@ -70,8 +72,10 @@ function setupAuthenticationMiddleware(app) {
     }));
     app.use(cookieParser());
     app.use(expressSession({
+        cookie: {secure: true, maxAge: SESSION_COOKIE_MAX_AGE},
         secret: loadSessionSecret(),
         resave: false,
+        rolling: true,
         saveUninitialized: false,
         store: new MongoSessionStore({ mongooseConnection: mongoose.connection })
     }));
