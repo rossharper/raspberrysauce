@@ -129,5 +129,6 @@ function loadView() {
         }
     }
     xhr.open('GET', 'api/views/home', true);
+    xhr.setRequestHeader("If-Modified-Since", "Mon, 27 Mar 1972 00:00:00 GMT");
     xhr.send(null);
 }
