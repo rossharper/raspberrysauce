@@ -30,39 +30,42 @@ block content
 
     br
 
-    #modetile.tile
-        div.tile-body.tile-body-large
-            #currentModeSpin
-                span.fa.fa-circle-o-notch.gly-spin(aria-hidden='true')
-            #comfortMode.hidden
-                span.fa.fa-sun-o(aria-hidden='true')
-            #setbackMode.hidden
-                span.fa.fa-moon-o(aria-hidden='true')
-            #offMode.hidden
-                span.fa.fa-power-off(aria-hidden='true')
+    #tiles
 
-    #temperaturetile.tile
-        div.tile-body.tile-body-large
-            #currentTemperature
-                span.fa.fa-circle-o-notch.gly-spin(aria-hidden='true')
+        #modetemp.tile.outer-tile
+            #modetile.tile
+                div.tile-body.tile-body-large
+                    #currentModeSpin
+                        span.fa.fa-circle-o-notch.gly-spin(aria-hidden='true')
+                    #comfortMode.hidden
+                        span.fa.fa-sun-o(aria-hidden='true')
+                    #setbackMode.hidden
+                        span.fa.fa-moon-o(aria-hidden='true')
+                    #offMode.hidden
+                        span.fa.fa-power-off(aria-hidden='true')
 
-    #todaytile.tile
-        div.tile-body
-            div.tile-body-title Today&#39;s Programme&#58;
-            #comfortPeriods
+            #temperaturetile.tile
+                div.tile-body.tile-body-large
+                    #currentTemperature
+                        span.fa.fa-circle-o-notch.gly-spin(aria-hidden='true')
 
-    #batterytile.tile
-        div.tile-body.tile-body-large
-            span#batteryLevelEmpty.hidden
-                span.fa.fa-battery-empty
-            span#batteryLevelQuarter.hidden
-                span.fa.fa-battery-quarter
-            span#batteryLevelHalf.hidden
-                span.fa.fa-battery-half
-            span#batteryLevelThreeQuarters.hidden
-                span.fa.fa-battery-three-quarters
-            span#batteryLevelFull.hidden
-                span.fa.fa-battery-full
-             &nbsp;
-            span#currentBattery
-                span.fa.fa-circle-o-notch.gly-spin(aria-hidden='true')
+        #todaytile.tile.outer-tile
+            div.tile-body
+                div.tile-body-title Today&#39;s Programme&#58;
+                #comfortPeriods
+
+        #batterytile.tile.outer-tile
+            div.tile-body.tile-body-large
+                span#batteryLevelEmpty.hidden
+                    span.fa.fa-battery-empty
+                span#batteryLevelQuarter.hidden
+                    span.fa.fa-battery-quarter
+                span#batteryLevelHalf.hidden
+                    span.fa.fa-battery-half
+                span#batteryLevelThreeQuarters.hidden
+                    span.fa.fa-battery-three-quarters
+                span#batteryLevelFull.hidden
+                    span.fa.fa-battery-full
+                 &nbsp;
+                span#currentBattery
+                    span.fa.fa-circle-o-notch.gly-spin(aria-hidden='true')

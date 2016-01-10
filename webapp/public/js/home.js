@@ -28,14 +28,19 @@ function displayBattery(batteryVoltage) {
     $("#batteryLevelFull").addClass('hidden');
     if(batteryVoltage < 2.00) {
         $("#batteryLevelEmpty").removeClass('hidden');
+        document.getElementById("batterytile").title = "Empty";
     } else if (batteryVoltage < 2.33) {
         $("#batteryLevelQuarter").removeClass('hidden');
+        document.getElementById("batterytile").title = "Quarter";
     } else if (batteryVoltage < 2.66) {
         $("#batteryLevelHalf").removeClass('hidden');
+        document.getElementById("batterytile").title = "Half";
     } else if (batteryVoltage < 2.99) {
         $("#batteryLevelThreeQuarters").removeClass('hidden');
+        document.getElementById("batterytile").title = "ThreeQuarter";
     } else { // batteryVoltage >= 3
         $("#batteryLevelFull").removeClass('hidden');
+        document.getElementById("batterytile").title = "Full";
     }
 
     var displayVoltage = roundToOneDecimalPlace(batteryVoltage)

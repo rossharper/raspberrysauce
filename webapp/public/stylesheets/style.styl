@@ -3,19 +3,21 @@ body
   padding-top 70px
 
 .tile
-  margin-bottom  20px
   background-color  #fff
-  border  1px solid transparent
-  -webkit-box-shadow  0 1px 1px rgba(0, 0, 0, .05)
-  box-shadow  0 1px 1px rgba(0, 0, 0, .05)
   display inline-block
+  vertical-align top
+
+.outer-tile
+    margin 10px
+    -webkit-box-shadow  0 1px 1px rgba(0, 0, 0, .05)
+    box-shadow  0 1px 1px rgba(0, 0, 0, .05)
 
 .tile-body
   font-size 1.5em
   padding  10px
 
 .tile-body-title
-  font-size 1.6em
+  font-size 1.5em
 
 .tile-body-large
   font-size 4em
@@ -24,10 +26,15 @@ body
 #modetile
   color #fff
 
-$autoModeColor = #98ED86
-$comfortModeColor = #ff9b25
-$setbackModeColor = #87DFFF
-$offModeColor = #c1153f
+$raspberrysauce = #c1153f
+$rsgreen = #98ED86
+$rsorange = #ff9b25
+$rsblue = #87DFFF
+
+$autoModeColor = $rsgreen
+$comfortModeColor = $rsorange
+$setbackModeColor = $rsblue
+$offModeColor = $raspberrysauce
 
 #modetile[title="comfortMode"]
   background-color $comfortModeColor
@@ -51,6 +58,14 @@ $offModeColor = #c1153f
 #temperaturetile[title="4"]{background-color:#69c3ff; color: #fff;}
 #temperaturetile[title="1"]{background-color:#69c3ff; color: #fff;}
 #temperaturetile[title="0"]{background-color: #9cd9ff; color: #fff;}
+
+#batterytile
+  color #fff
+ #batterytile[title="Full"]{background-color: $rsgreen;}
+ #batterytile[title="ThreeQuarter"]{background-color: $rsgreen;}
+ #batterytile[title="Half"]{background-color: #ffd465;}
+ #batterytile[title="Quarter"]{background-color: $rsorange;}
+ #batterytile[title="Empty"]{background-color: $raspberrysauce;}
 
 modeButton()
   padding-top 10px
