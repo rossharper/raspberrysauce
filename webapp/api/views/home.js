@@ -15,36 +15,28 @@ function getTodaysSortedComfortPeriods(programme, date) {
     return comfortPeriods;
 }
 
+function addPeriod(periods, isComfort, startTime, endTime) {
+    periods.push({
+        "isComfort":isComfort,
+        "startTime":startTime,
+        "endTime":endTime
+    });
+}
+
 function getTodaysPeriods(programme, date) {
     var comfortPeriods = getTodaysSortedComfortPeriods(programme, date);
     var finalPeriods = [];
     comfortPeriods.forEach(function(period) {
         if(finalPeriods.length == 0 && DateUtil.getDateFromTimeStr(date, period.startTime) > DateUtil.getDateFromTimeStr(date, "00:00")) {
-            finalPeriods.push({
-                "isComfort":false,
-                "startTime":"00:00",
-                "endTime":period.startTime
-            });
+            addPeriod(finalPeriods, false, "00:00", period.startTime);
         }
         else if(finalPeriods.length > 0 && DateUtil.getDateFromTimeStr(date, finalPeriods[finalPeriods.length-1].endTime) < DateUtil.getDateFromTimeStr(date, period.startTime)) {
-            finalPeriods.push({
-                "isComfort":false,
-                "startTime":finalPeriods[finalPeriods.length-1].endTime,
-                "endTime":period.startTime
-            });
+            addPeriod(finalPeriods, false, finalPeriods[finalPeriods.length-1].endTime, period.startTime);
         }
-        finalPeriods.push({
-            "isComfort":true,
-            "startTime":period.startTime,
-            "endTime":period.endTime
-        });
+        addPeriod(finalPeriods, true, period.startTime, period.endTime);
     });
     if(DateUtil.getDateFromTimeStr(date, finalPeriods[finalPeriods.length-1].endTime) < DateUtil.getDateFromTimeStr(date, "23:59")) {
-        finalPeriods.push({
-            "isComfort":false,
-            "startTime":finalPeriods[finalPeriods.length-1].endTime,
-            "endTime":"23:59"
-        });
+        addPeriod(finalPeriods, false, finalPeriods[finalPeriods.length-1].endTime, "23:59");
     }
     return finalPeriods;
 }
