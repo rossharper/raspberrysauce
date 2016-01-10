@@ -18,6 +18,9 @@ function displayTodaysProgramme(programme) {
         if(comfortPeriod.isComfort) {
             innerHtml += "<span class='fa fa-sun-o'></span>&nbsp;";
         }
+        else {
+            innerHtml += "<span class='fa fa-moon-o'></span>&nbsp;";
+        }
         innerHtml += comfortPeriod.startTime + " &ndash; " + comfortPeriod.endTime + "<br />";
     });
     comfortPeriodsPanel.innerHTML = innerHtml;
