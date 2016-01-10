@@ -17,10 +17,36 @@ function getTodaysSortedComfortPeriods(programme, date) {
 
 function getTodaysPeriods(programme, date) {
     var comfortPeriods = getTodaysSortedComfortPeriods(programme, date);
+    var finalPeriods = [];
     comfortPeriods.forEach(function(period) {
-        period.isComfort = true;
+        if(finalPeriods.length == 0 && DateUtil.getDateFromTimeStr(date, period.startTime) > DateUtil.getDateFromTimeStr(date, "00:00")) {
+            finalPeriods.push({
+                "isComfort":false,
+                "startTime":"00:00",
+                "endTime":period.startTime
+            });
+        }
+        else if(finalPeriods.length > 0 && DateUtil.getDateFromTimeStr(date, finalPeriods[finalPeriods.length-1].endTime) < DateUtil.getDateFromTimeStr(date, period.startTime)) {
+            finalPeriods.push({
+                "isComfort":false,
+                "startTime":finalPeriods[finalPeriods.length-1].endTime,
+                "endTime":period.startTime
+            });
+        }
+        finalPeriods.push({
+            "isComfort":true,
+            "startTime":period.startTime,
+            "endTime":period.endTime
+        });
     });
-    return comfortPeriods;
+    if(DateUtil.getDateFromTimeStr(date, finalPeriods[finalPeriods.length-1].endTime) < DateUtil.getDateFromTimeStr(date, "23:59")) {
+        finalPeriods.push({
+            "isComfort":false,
+            "startTime":finalPeriods[finalPeriods.length-1].endTime,
+            "endTime":"23:59"
+        });
+    }
+    return finalPeriods;
 }
 
 module.exports = {
