@@ -15,7 +15,8 @@ function displayTodaysProgramme(programme) {
     var comfortPeriodsPanel = document.getElementById("comfortPeriods");
     var innerHtml = "";
     programme.todaysComfortPeriods.forEach(function(comfortPeriod) {
-        innerHtml += "<span class='fa fa-sun-o'></span>&nbsp;" + comfortPeriod.startTime + " &ndash; " + comfortPeriod.endTime + "<br />";
+        innerHtml += "<span class='fa fa-sun-o'></span>&nbsp;";
+        innerHtml += comfortPeriod.startTime + " &ndash; " + comfortPeriod.endTime + "<br />";
     });
     comfortPeriodsPanel.innerHTML = innerHtml;
 }
