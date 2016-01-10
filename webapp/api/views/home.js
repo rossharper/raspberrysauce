@@ -15,6 +15,14 @@ function getTodaysSortedComfortPeriods(programme, date) {
     return comfortPeriods;
 }
 
+function getTodaysPeriods(programme, date) {
+    var comfortPeriods = getTodaysSortedComfortPeriods(programme, date);
+    comfortPeriods.forEach(function(period) {
+        period.isComfort = true;
+    });
+    return comfortPeriods;
+}
+
 module.exports = {
     getView: function(req, res) {
         batteryFile.readFromFile(function(voltage) {
@@ -28,7 +36,7 @@ module.exports = {
                             heatingEnabled : programme.isHeatingEnabled(),
                             comfortLevelEnabled : programme.isInComfortMode(now),
                             inOverride : programme.isInOverridePeriod(now),
-                            todaysPeriods : getTodaysSortedComfortPeriods(programme, now)
+                            todaysPeriods : getTodaysPeriods(programme, now)
                         }
                     };
                     res.send(view);
