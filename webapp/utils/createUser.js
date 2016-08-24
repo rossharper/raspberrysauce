@@ -1,25 +1,18 @@
 'use strict';
 
-const User = require('./../models/user');
+const User = require('./user');
+const userRepository = require('./userRepository');
 const pass = require('pwd');
-
-function addUser(username, salt, password, email) {
-    const newUser = new User();
-
-    newUser.username = username;
-    newUser.salt = salt;
-    newUser.password = password;
-    newUser.email = email;
-
-    // TODO: save user
-}
 
 function createUser(username, password, email) {
     pass.hash(password, (err, salt, passhash) => {
         if (err) {
             console.log(err);
         } else {
-            addUser(username, salt, passhash, email);
+            userRepository.addUser(new User(username, salt, passhash, email), (err) => {
+              // TODO: better error handling
+              throw err;
+            });
         }
     });
 }
