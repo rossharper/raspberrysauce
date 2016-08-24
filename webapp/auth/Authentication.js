@@ -1,15 +1,16 @@
-var passport = require('passport');
+'use strict';
 
-var User = require('../models/user'),
-    localStrategy = require('./LocalStrategy');
+const passport = require('passport');
+const userRepository = require('./userRepository');
+const localStrategy = require('./LocalStrategy');
 
 function initPassport() {
-    passport.serializeUser(function(user, done) {
-        done(null, user._id);
+    passport.serializeUser((user, done) => {
+        done(null, user.username);
     });
 
-    passport.deserializeUser(function(id, done) {
-        User.findById(id, function(err, user) {
+    passport.deserializeUser((username, done) => {
+        userRepository.findUser(username, (err, user) => {
             done(err, user);
         });
     });
@@ -17,17 +18,16 @@ function initPassport() {
     passport.use('local', localStrategy);
 }
 
-var auth = {
-    initialize: function(app) {
+const auth = {
+    initialize: function (app) {
         initPassport();
         app.use(passport.initialize());
         app.use(passport.session());
-    }
-    ,
-    getAuthenticationHandler: function(authenticationRedirects) {
+    },
+    getAuthenticationHandler: function (authenticationRedirects) {
         return passport.authenticate(
             'local', authenticationRedirects);
     }
-}
+};
 
 module.exports = auth;
