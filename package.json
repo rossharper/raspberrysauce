@@ -9,7 +9,7 @@
   },
   "author": "Ross Harper <ross@rossharper.net>",
   "scripts": {
-    "start": "index.js",
+    "start": "node index.js",
     "lint": "eslint ."
   },
   "dependencies": {
