@@ -1,7 +1,7 @@
 'use strict';
 
-const User = require('./user');
-const userRepository = require('./userRepository');
+const User = require('../auth/user');
+const userRepository = require('../auth/userRepository');
 const pass = require('pwd');
 
 function createUser(username, password, email) {
@@ -10,8 +10,7 @@ function createUser(username, password, email) {
             console.log(err);
         } else {
             userRepository.addUser(new User(username, salt, passhash, email), (err) => {
-              // TODO: better error handling
-              throw err;
+              if (err) throw err;
             });
         }
     });
