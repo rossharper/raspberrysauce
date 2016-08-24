@@ -1,7 +1,9 @@
-var https = require('https'),
-    sslrootcas = require('ssl-root-cas'),
-    fs = require('fs'),
-    path = require('path');
+'use strict';
+
+const https = require('https');
+const sslrootcas = require('ssl-root-cas');
+const fs = require('fs');
+const path = require('path');
 
 /*
  Config file - don't store in repo
@@ -18,7 +20,7 @@ var https = require('https'),
  };
 
 */
-var sslConfig = require('./config/sslconfig');
+const sslConfig = require('./config/sslconfig');
 
 function configureRootCerts() {
     sslrootcas
@@ -27,7 +29,7 @@ function configureRootCerts() {
 }
 
 function getSslServerOptions() {
-    var options = {
+    const options = {
         key: fs.readFileSync(path.join(sslConfig.servercertpath, sslConfig.serverkey)),
         cert: fs.readFileSync(path.join(sslConfig.servercertpath, sslConfig.servercert)),
         passphrase: sslConfig.passphrase
@@ -38,14 +40,14 @@ function getSslServerOptions() {
 function configureSslServer(app, port) {
     configureRootCerts();
 
-    var server = https.createServer(getSslServerOptions(), app).listen(port, function() {
+    const server = https.createServer(getSslServerOptions(), app).listen(port, () => {
         port = server.address().port;
         console.log('Listening on https://' + server.address().address + ':' + port);
     });
 }
 
 module.exports = {
-    start: function(app, port) {
+    start: function (app, port) {
         configureSslServer(app, port);
     }
 };

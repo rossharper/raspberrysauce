@@ -1,7 +1,9 @@
-var http = require('http');
+'use strict';
+
+const http = require('http');
 
 module.exports = {
-    start: function(app, port) {
+    start: function (app, port) {
         http.createServer(app).listen(port);
     }
 };
