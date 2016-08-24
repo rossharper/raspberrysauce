@@ -1,25 +1,19 @@
-var express = require('express'),
-    morgan = require('morgan'),
-    stylus = require('stylus'),
-    nib = require('nib'),
-    cookieParser = require('cookie-parser'),
-    bodyParser = require('body-parser'),
-    chalk = require('chalk'),
-    mongoose = require('mongoose'),
-    flash = require('connect-flash'),
-    expressSession = require('express-session');
+'use strict';
 
-var MongoSessionStore = require('connect-mongo')(expressSession);
+const express = require('express');
+const morgan = require('morgan');
+const stylus = require('stylus');
+const nib = require('nib');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const chalk = require('chalk');
+const flash = require('connect-flash');
+const expressSession = require('express-session');
 
-var auth = require('./auth/Authentication'),
-    routes = require('./routes/index'),
-    dbConfig = require('./db/db.js');
+const auth = require('./auth/Authentication');
+const routes = require('./routes/index');
 
-var SESSION_COOKIE_MAX_AGE = 7 * 24 * 60 * 60 * 1000;
-
-function setupDb() {
-    mongoose.connect(dbConfig.url);
-}
+const SESSION_COOKIE_MAX_AGE = 7 * 24 * 60 * 60 * 1000;
 
 function setupStaticRouting(app) {
     app.use(express.static(__dirname + '/public'));
@@ -41,27 +35,25 @@ function setupLogging(app) {
 function setupStylus(app) {
     app.use(stylus.middleware({
         src: __dirname + '/public',
-        compile: function(str, path) {
+        compile: function (str, path) {
             return stylus(str)
                 .set('filename', path)
-                .use(nib())
+                .use(nib());
         }
     }));
 }
 
 function loadSessionSecret() {
     try {
-        var config = require('./config/config');
-        if (config != null && config.sessionSecret != null) {
+        const config = require('./config/config');
+        if (config !== null && config.sessionSecret !== null) {
             return config.sessionSecret;
+        } else {
+            throw 'No session secret in config';
         }
-        else {
-            throw "No session secret in config";
-        }
-    }
-    catch(err) {
-        console.error(chalk.red(chalk.bold("ERROR") + ": No session secret found in config: using default!"));
-        return "default secret for raspberry sauce";
+    } catch (err) {
+        console.error(chalk.red(chalk.bold('ERROR') + ': No session secret found in config: using default!'));
+        return 'default secret for raspberry sauce';
     }
 }
 
@@ -76,8 +68,8 @@ function setupAuthenticationMiddleware(app) {
         secret: loadSessionSecret(),
         resave: false,
         rolling: true,
-        saveUninitialized: false,
-        store: new MongoSessionStore({ mongooseConnection: mongoose.connection })
+        saveUninitialized: false/*,
+        store: new MongoSessionStore({ mongooseConnection: mongoose.connection })*/
     }));
 
     auth.initialize(app);
@@ -86,9 +78,8 @@ function setupAuthenticationMiddleware(app) {
 }
 
 function createApp() {
-    var app = express();
+    const app = express();
 
-    setupDb();
     setupViewEngine(app);
     setupLogging(app);
     setupStylus(app);
