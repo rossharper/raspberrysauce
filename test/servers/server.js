@@ -168,6 +168,7 @@ describe('server', () => {
         cert: 'tlscert',
         key: 'tlskey',
         passphrase: 'tlspassphrase',
+        ca: 'ca',
         crl: 'tlscrl'
       };
 
@@ -177,6 +178,7 @@ describe('server', () => {
             cert: 'tlscert',
             key: 'tlskey',
             passphrase: 'tlspassphrase',
+            ca: 'ca',
             crl: 'tlscrl'
           }
         }
@@ -207,7 +209,7 @@ describe('server', () => {
             cert: 'tlscert',
             key: 'tlskey',
             passphrase: 'tlspassphrase',
-            crl: 'tlscrl'
+            ca: 'ca'
           }
         }
       });
