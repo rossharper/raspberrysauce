@@ -9,8 +9,8 @@ function initPassport() {
         done(null, user.username);
     });
 
-    passport.deserializeUser((username, done) => {
-        userRepository.findUser(username, (err, user) => {
+    passport.deserializeUser((id, done) => {
+        userRepository.findUser(id, (err, user) => {
             done(err, user);
         });
     });
@@ -25,8 +25,7 @@ const auth = {
         app.use(passport.session());
     },
     getAuthenticationHandler: function (authenticationRedirects) {
-        return passport.authenticate(
-            'local', authenticationRedirects);
+        return passport.authenticate('local', authenticationRedirects);
     }
 };
 

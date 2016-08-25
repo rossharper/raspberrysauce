@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 const chalk = require('chalk');
 const flash = require('connect-flash');
 const expressSession = require('express-session');
+const FileStore = require('session-file-store')(expressSession);
 
 const auth = require('./auth/Authentication');
 const routes = require('./routes/index');
@@ -63,14 +64,21 @@ function setupAuthenticationMiddleware(app) {
         extended: false
     }));
     app.use(cookieParser());
-    app.use(expressSession({
-        cookie: {secure: true, maxAge: SESSION_COOKIE_MAX_AGE},
+    const session = expressSession({
+        cookie: {secure: false, maxAge: SESSION_COOKIE_MAX_AGE},
         secret: loadSessionSecret(),
         resave: false,
         rolling: true,
-        saveUninitialized: false/*,
-        store: new MongoSessionStore({ mongooseConnection: mongoose.connection })*/
-    }));
+        saveUninitialized: false,
+        store: new FileStore()
+    });
+
+    if (app.get('env') === 'production') {
+      // app.set('trust proxy', 1) // trust first proxy
+      session.cookie.secure = true; // serve secure cookies
+    }
+
+    app.use(session);
 
     auth.initialize(app);
 

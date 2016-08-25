@@ -29,6 +29,7 @@
     "passport": "~0.2.1",
     "passport-local": "~1.0.0",
     "pwd": "0.0.4",
+    "session-file-store": "^0.2.1",
     "ssl-root-cas": "*",
     "stylus": "*"
   },
