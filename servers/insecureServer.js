@@ -8,6 +8,9 @@ const DEFAULT_PORT = 8080;
 module.exports = {
   start: function (app, opts) {
     const port = _.get(opts, "port", DEFAULT_PORT);
-    http.createServer(app).listen(port);
+    const server = http.createServer(app).listen(port, () => {
+      const listeningPort = server.address().port;
+      console.log('Listening on http://' + server.address().address + ':' + listeningPort);
+    });
   }
 };
