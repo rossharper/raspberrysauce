@@ -20,6 +20,7 @@
     "dateutil": "rossharper/dateutil",
     "express": "*",
     "express-session": "~1.10.4",
+    "filehound": "^1.12.2",
     "heatingprogramme": "rossharper/heatingprogramme",
     "jade": "*",
     "jsonfile": "^2.3.1",
