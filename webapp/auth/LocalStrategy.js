@@ -20,7 +20,7 @@ function verifyPassword(req, password, user, done) {
 }
 
 module.exports = new LocalStrategy({
-    passReqToCallback: true
+      passReqToCallback: true
     },
     (req, username, password, done) => {
         process.nextTick(() => {
