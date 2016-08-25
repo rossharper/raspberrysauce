@@ -7,8 +7,10 @@ const server = require('../../servers/server');
 const path = require('path');
 const fs = require('fs');
 
-const CERT_FIXTURE_PATH = path.join(__dirname, 'fixtures', 'servercert.pem');
-const KEY_FIXTURE_PATH = path.join(__dirname, 'fixtures', 'serverkey.pem');
+const FIXTURE_PATH = path.join(__dirname, 'fixtures');
+const CERT_FIXTURE_PATH = path.join(FIXTURE_PATH, 'servercert.pem');
+const KEY_FIXTURE_PATH = path.join(FIXTURE_PATH, 'serverkey.pem');
+const CA_PATH = path.join(FIXTURE_PATH, 'cas');
 
 const sandbox = sinon.sandbox.create();
 
@@ -141,6 +143,26 @@ describe('server', () => {
     });
 
     // TODO: test loading root cas
+    it('creates an HTTPS server with specified ca certs', (done) => {
+      stubFsForDefaultCerts();
+
+      const expectedOptions = {
+        ca: [
+          fs.readFileSync(path.join(CA_PATH, 'ca1.pem')),
+          fs.readFileSync(path.join(CA_PATH, 'ca2.pem'))
+        ]
+      };
+
+      server.start(app, {
+        securedServer: {
+          caPath: CA_PATH
+        }
+      });
+
+      sinon.assert.calledWith(https.createServer, sandbox.match(expectedOptions), sandbox.match(app));
+      done();
+    });
+
     // TODO: allow passthru tls options
     // TODO: path cert options override tls options
     // TODO: tests around also starting a redirecting unsecured server
