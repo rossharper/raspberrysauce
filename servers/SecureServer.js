@@ -22,13 +22,35 @@ function loadCaCerts(caPath) {
     });
 }
 
+function chooseFile(primaryChoicePath, secondChoiceData, thirdChoicePath) {
+  if (primaryChoicePath) {
+    return fs.readFileSync(primaryChoicePath);
+  } else if (secondChoiceData) {
+    return secondChoiceData;
+  } else {
+    return fs.readFileSync(thirdChoicePath);
+  }
+}
+
+function choosePass(firstChoice, secondChoice, thirdChoice) {
+  if (firstChoice) {
+    return firstChoice;
+  } else if (secondChoice) {
+    return secondChoice;
+  } else {
+    return thirdChoice;
+  }
+}
+
 function createTlsOptions(opts) {
-  const options = {
-    key: fs.readFileSync(opts.serverKeyPath || DEFAULT_KEY_PATH),
-    cert: fs.readFileSync(opts.serverCertPath || DEFAULT_CERT_PATH),
-    passphrase: opts.passphrase || DEFAULT_PASSPHRASE
-  };
-  if (opts.caPath) options.ca = loadCaCerts(opts.caPath);
+  const options = _.get(opts, 'tlsOptions', {});
+  options.key = chooseFile(opts.serverKeyPath, options.key, DEFAULT_KEY_PATH);
+  options.cert = chooseFile(opts.serverCertPath, options.cert, DEFAULT_CERT_PATH);
+  options.passphrase = choosePass(opts.passphrase, options.passphrase, DEFAULT_PASSPHRASE);
+  if (opts.caPath) {
+    options.ca = loadCaCerts(opts.caPath);
+  }
+
   return options;
 }
 
