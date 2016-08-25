@@ -3,13 +3,6 @@
 const router = require('express').Router();
 const auth = require('../auth/Authentication');
 
-function ensureAuthenticatedPage(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect('/login');
-}
-
 function ensureAuthenticatedApiCall(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
@@ -37,12 +30,10 @@ router.get('/logout', (req, res) => {
 });
 
 router.all('*', (req, res, next) => {
-    if (req.params === '/login') {
-        next();
-    } else if (req.params[0].lastIndexOf('/api/') === 0) {
+    if (req.params[0].lastIndexOf('/api/') === 0) {
         ensureAuthenticatedApiCall(req, res, next);
     } else {
-        ensureAuthenticatedPage(req, res, next);
+        next();
     }
 });
 
