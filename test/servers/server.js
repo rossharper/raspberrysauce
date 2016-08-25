@@ -46,7 +46,7 @@ describe('server', () => {
 
       sinon.assert.notCalled(http.createServer);
       done();
-    })
+    });
 
     it('creates an HTTP server on port 8080 with supplied application by default', (done) => {
       server.start(app, {
@@ -107,7 +107,7 @@ describe('server', () => {
 
       sinon.assert.notCalled(https.createServer);
       done();
-    })
+    });
 
     it('creates an HTTPS server on the specified port', (done) => {
       stubFsForDefaultCerts();
@@ -156,6 +156,29 @@ describe('server', () => {
       server.start(app, {
         securedServer: {
           caPath: CA_PATH
+        }
+      });
+
+      sinon.assert.calledWith(https.createServer, sandbox.match(expectedOptions), sandbox.match(app));
+      done();
+    });
+
+    it('should allow tlsServer options to be passed through', (done) => {
+      const expectedOptions = {
+        cert: 'tlscert',
+        key: 'tlskey',
+        passphrase: 'tlspassphrase',
+        crl: 'tlscrl'
+      };
+
+      server.start(app, {
+        securedServer: {
+          tlsOptions: {
+            cert: 'tlscert',
+            key: 'tlskey',
+            passphrase: 'tlspassphrase',
+            crl: 'tlscrl'
+          }
         }
       });
 
