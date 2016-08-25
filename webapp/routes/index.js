@@ -10,12 +10,6 @@ var router = express.Router();
 
 function initRoutes() {
 
-    router.get('/', function(req, res) {
-        res.render('index', {
-            title: 'Home'
-        })
-    });
-
     router.get('/schedules', function(req, res) {
         res.render('schedules', {
             title: 'Schedules'
