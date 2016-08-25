@@ -65,7 +65,7 @@ function setupAuthenticationMiddleware(app) {
     }));
     app.use(cookieParser());
     const session = expressSession({
-        cookie: {secure: false, maxAge: SESSION_COOKIE_MAX_AGE},
+        cookie: {secure: true, maxAge: SESSION_COOKIE_MAX_AGE},
         secret: loadSessionSecret(),
         resave: false,
         rolling: true,
@@ -73,9 +73,8 @@ function setupAuthenticationMiddleware(app) {
         store: new FileStore()
     });
 
-    if (app.get('env') === 'production') {
-      // app.set('trust proxy', 1) // trust first proxy
-      session.cookie.secure = true; // serve secure cookies
+    if (app.get('env') === 'test') {
+      session.cookie.secure = false; // dont serve secure cookies, allows login over http
     }
 
     app.use(session);
