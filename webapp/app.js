@@ -10,9 +10,10 @@ const chalk = require('chalk');
 const flash = require('connect-flash');
 const expressSession = require('express-session');
 const FileStore = require('session-file-store')(expressSession);
+const FileHound = require('filehound');
+const path = require('path');
 
 const auth = require('./auth/Authentication');
-const routes = require('./routes/index');
 
 const SESSION_COOKIE_MAX_AGE = 7 * 24 * 60 * 60 * 1000;
 
@@ -21,7 +22,14 @@ function setupStaticRouting(app) {
 }
 
 function setupDynamicRouting(app) {
-    app.use('/', routes);
+  const routes = FileHound.create()
+    .paths(path.join(__dirname, 'routes'))
+    .ext('js')
+    .findSync();
+
+  routes.forEach((item) => {
+    app.use('/', require(item));
+  });
 }
 
 function setupViewEngine(app) {
