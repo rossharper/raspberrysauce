@@ -3,7 +3,6 @@
 const app = require('./webapp/app');
 const sslConfig = require('./servers/config/sslconfig');
 const path = require('path');
-const sslrootcas = require('ssl-root-cas');
 const secureServer = require('./servers/SecureServer');
 const redirectingInsecureServer = require('./servers/RedirectingInsecureServer');
 const insecureServer = require('./servers/insecureServer');
@@ -35,21 +34,15 @@ function parseArgs() {
 
 */
 
-function configureRootCerts() {
-  sslrootcas
-    .inject()
-    .addFile(path.join(sslConfig.cacertpath, sslConfig.cacert));
-}
-
 function start() {
   if (serveInsecure) {
     insecureServer.start(app.create(), {
       port: insecurePort
     });
   } else {
-    configureRootCerts();
     secureServer.start(app.create(), {
       port: securePort,
+      caPath: sslConfig.cacertpath,
       serverKeyPath: path.join(sslConfig.servercertpath, sslConfig.serverkey),
       serverCertPath: path.join(sslConfig.servercertpath, sslConfig.servercert),
       passphrase: sslConfig.passphrase
