@@ -10,12 +10,6 @@ var router = express.Router();
 
 function initRoutes() {
 
-    router.get('/tempgraph', function(req, res) {
-        res.render('tempgraph', {
-            title: 'Temperature Graph'
-        })
-    });
-
     router.get('/battgraph', function(req, res) {
         res.render('battgraph', {
             title: 'Battery Graph'
