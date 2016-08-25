@@ -35,8 +35,26 @@ describe('server', () => {
 
   describe('unsecured server', () => {
 
+    it('does not start by default', (done) => {
+      server.start(app, {
+        securedServer: {
+          enabled: false
+        }
+      });
+
+      sinon.assert.notCalled(http.createServer);
+      done();
+    })
+
     it('creates an HTTP server on port 8080 with supplied application by default', (done) => {
-      server.start(app);
+      server.start(app, {
+        unsecuredServer: {
+          enabled: true
+        },
+        securedServer: {
+          enabled: false
+        }
+      });
 
       sinon.assert.calledWith(http.createServer, sandbox.match(app));
       sinon.assert.calledWith(mockServer.listen, sinon.match(8080));
@@ -46,7 +64,13 @@ describe('server', () => {
     it('creates an HTTP server on specified port', (done) => {
       const port = 6969;
       server.start(app, {
-        port: port
+        unsecuredServer: {
+          enabled: true,
+          port: port
+        },
+        securedServer: {
+          enabled: false
+        }
       });
 
       sinon.assert.calledWith(http.createServer, sandbox.match(app));
@@ -65,23 +89,29 @@ describe('server', () => {
       };
       stubFsForDefaultCerts();
 
-      server.start(app, {
-        securedServer: {
-          enabled: true
-        }
-      });
+      server.start(app);
 
       sinon.assert.calledWith(https.createServer, sandbox.match(expectedOptions), sandbox.match(app));
       sinon.assert.calledWith(mockServer.listen, sinon.match(4443));
       done();
     });
 
+    it('does not start an HTTPS server when disabled', (done) => {
+      server.start(app, {
+        securedServer: {
+          enabled: false
+        }
+      });
+
+      sinon.assert.notCalled(https.createServer);
+      done();
+    })
+
     it('creates an HTTPS server on the specified port', (done) => {
       stubFsForDefaultCerts();
 
       server.start(app, {
         securedServer: {
-          enabled: true,
           port: 6969
         }
       });
@@ -100,7 +130,6 @@ describe('server', () => {
 
       server.start(app, {
         securedServer: {
-          enabled: true,
           serverCertPath: CERT_FIXTURE_PATH,
           serverKeyPath: KEY_FIXTURE_PATH,
           passphrase: 'passphrase'
@@ -111,7 +140,7 @@ describe('server', () => {
       done();
     });
 
-    // TODO: tests around using the certs
+    // TODO: test loading root cas
     // TODO: allow passthru tls options
     // TODO: path cert options override tls options
     // TODO: tests around also starting a redirecting unsecured server
