@@ -186,8 +186,36 @@ describe('server', () => {
       done();
     });
 
-    // TODO: allow passthru tls options
-    // TODO: path cert options override tls options
+    it('should override tlsServer options with simple cert options', (done) => {
+      const expectedOptions = {
+        ca: [
+          fs.readFileSync(path.join(CA_PATH, 'ca1.pem')),
+          fs.readFileSync(path.join(CA_PATH, 'ca2.pem'))
+        ],
+        cert: fs.readFileSync(CERT_FIXTURE_PATH),
+        key: fs.readFileSync(KEY_FIXTURE_PATH),
+        passphrase: 'passphrase'
+      };
+
+      server.start(app, {
+        securedServer: {
+          serverCertPath: CERT_FIXTURE_PATH,
+          serverKeyPath: KEY_FIXTURE_PATH,
+          passphrase: 'passphrase',
+          caPath: CA_PATH,
+          tlsOptions: {
+            cert: 'tlscert',
+            key: 'tlskey',
+            passphrase: 'tlspassphrase',
+            crl: 'tlscrl'
+          }
+        }
+      });
+
+      sinon.assert.calledWith(https.createServer, sandbox.match(expectedOptions), sandbox.match(app));
+      done();
+    });
+
     // TODO: tests around also starting a redirecting unsecured server
     // TODO: rename underlying module unsecured server?
   });
