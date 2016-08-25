@@ -10,11 +10,6 @@ var router = express.Router();
 
 function initRoutes() {
 
-    router.get('/battgraph', function(req, res) {
-        res.render('battgraph', {
-            title: 'Battery Graph'
-        })
-    });
 
     router.get('/devtools', function(req, res) {
         res.render('devtools', {
