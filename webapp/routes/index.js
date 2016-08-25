@@ -10,13 +10,6 @@ var router = express.Router();
 
 function initRoutes() {
 
-
-    router.get('/devtools', function(req, res) {
-        res.render('devtools', {
-            title: 'DevTools'
-        })
-    })
-
     router.get('/api/temperature/currentTemperature', temperatureapi.getCurrentTemperature);
     router.get('/api/temperature/history', temperatureapi.getHistory);
     router.post('/api/temperature/add', temperatureapi.addTemperatureReading);
