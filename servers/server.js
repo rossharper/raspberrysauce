@@ -12,20 +12,28 @@ function startSecuredServer(app, opts) {
   securedServer.start(app, opts);
 }
 
-function getSecureServerConfig(opts) {
-  return _.get(opts, 'securedServer', {
+function getUnsecuredServerConfig(opts) {
+  return _.get(opts, 'unsecuredServer', {
     enabled: false
   });
 }
 
+function getSecureServerConfig(opts) {
+  const secureOptions = _.get(opts, 'securedServer', {});
+  if (_.isNil(secureOptions.enabled)) secureOptions.enabled = true;
+  return secureOptions;
+}
+
 function start(app, opts) {
+  const unsecuredServerConfig = getUnsecuredServerConfig(opts);
   const secureServerConfig = getSecureServerConfig(opts);
 
   if (secureServerConfig.enabled) {
     startSecuredServer(app, secureServerConfig);
   }
-
-  startUnsecuredServer(app, opts);
+  if (unsecuredServerConfig.enabled) {
+    startUnsecuredServer(app, unsecuredServerConfig);
+  }
 }
 
 module.exports = {
