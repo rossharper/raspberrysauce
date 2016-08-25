@@ -1,7 +1,6 @@
 var express = require('express')
 
-var 
-    batteryapi = require('../api/battery'),
+var
     scheduleapi = require('../api/schedule'),
     programmeapi = require('../api/programme'),
     homeviewapi = require('../api/views/home');
@@ -9,9 +8,6 @@ var
 var router = express.Router();
 
 function initRoutes() {
-
-    router.get('/api/battery/currentVoltage', batteryapi.getCurrentVoltage);
-    router.get('/api/battery/history', batteryapi.getHistory);
 
     // TODO: should be POST/PUT really - make it RESTful!
     router.get('/api/programme/setMode/auto', programmeapi.setHeatingModeAuto);
