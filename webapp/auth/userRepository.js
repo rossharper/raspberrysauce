@@ -13,6 +13,7 @@ module.exports = {
 
   findUser: function (username, cb) {
     jsonfile.readFile(PATH + username, (err, user) => {
+      if (err && err.code === 'ENOENT') cb(null, null);
       cb(err, user);
     });
   }
