@@ -2,28 +2,36 @@
 
 const http = require('http');
 
-function configureInsecureTrafficRedirect(inSecurePort) {
-    const insecureServer = http.createServer();
-    insecureServer.on('request', (req, res) => {
-        try {
-            res.setHeader(
-                'Location', 'https://' + req.headers.host.replace(/:\d+/, '') + req.url
-            );
-            res.statusCode = 302;
-            res.end();
-        } catch (err) {
-            console.log('ERROR: ' + err + '\nwhile serving request ' + req);
-            res.statusCode = 500;
-            res.end();
-        }
-    });
-    insecureServer.listen(inSecurePort, () => {
-        console.log('\nRedirecting all http traffic to https\n');
-    });
+function configureUnsecuredTrafficRedirect(opts) {
+  opts.unSecuredServerPort = opts.unSecuredServerPort || 8080;
+  const unsecuredServer = http.createServer();
+  unsecuredServer.on('request', (req, res) => {
+    try {
+      const portlessHost = (req.headers.host.indexOf(':') > -1) ? req.headers.host.substring(0, req.headers.host.indexOf(':')) : req.headers.host;
+      const redirectPort = (opts.securedServerPort === 443) ? '' : `:${opts.securedServerPort}`;
+      res.setHeader(
+        'Location', `https://${portlessHost}${redirectPort}${req.url}`
+      );
+      res.statusCode = 302;
+      res.end();
+    } catch (err) {
+      console.log('ERROR: ' + err + '\nwhile serving request ' + req);
+      res.statusCode = 500;
+      res.end();
+    }
+  });
+  unsecuredServer.listen(opts.unSecuredServerPort, () => {
+    console.log(`\nRedirecting all HTTP traffic on port ${opts.unSecuredServerPort} to HTTPS on port ${opts.securedServerPort}\n`);
+  });
+  return {
+    close: function () {
+      unsecuredServer.close();
+    }
+  };
 }
 
 module.exports = {
-    start: function (inSecurePort) {
-        configureInsecureTrafficRedirect(inSecurePort);
-    }
+  start: function (opts) {
+    return configureUnsecuredTrafficRedirect(opts);
+  }
 };

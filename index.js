@@ -3,9 +3,7 @@
 const app = require('./webapp/app');
 const sslConfig = require('./servers/config/sslconfig');
 const path = require('path');
-const secureServer = require('./servers/SecureServer');
-const redirectingInsecureServer = require('./servers/RedirectingInsecureServer');
-const insecureServer = require('./servers/insecureServer');
+const server = require('./servers/server');
 
 const securePort = process.argv[2] || 4443;
 const insecurePort = process.argv[3] || 8080;
@@ -36,19 +34,30 @@ function parseArgs() {
 
 function start() {
   if (serveInsecure) {
-    insecureServer.start(app.create(), {
-      port: insecurePort
+    server.start(app.create(), {
+      unsecuredServer: {
+        enabled: true,
+        port: insecurePort
+      },
+      securedServer: {
+        enabled: false
+      }
     });
   } else {
-    secureServer.start(app.create(), {
-      port: securePort,
-      caPath: sslConfig.cacertpath,
-      serverKeyPath: path.join(sslConfig.servercertpath, sslConfig.serverkey),
-      serverCertPath: path.join(sslConfig.servercertpath, sslConfig.servercert),
-      passphrase: sslConfig.passphrase
-    });
-    redirectingInsecureServer.start({
-      port: insecurePort
+    server.start(app.create(), {
+      unsecuredServer: {
+        enabled: true,
+        port: insecurePort,
+        redirectsToSecuredServer: true
+      },
+      securedServer: {
+        enabled: true,
+        port: securePort,
+        caPath: sslConfig.cacertpath,
+        serverKeyPath: path.join(sslConfig.servercertpath, sslConfig.serverkey),
+        serverCertPath: path.join(sslConfig.servercertpath, sslConfig.servercert),
+        passphrase: sslConfig.passphrase
+      }
     });
   }
 }

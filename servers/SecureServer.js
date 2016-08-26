@@ -54,19 +54,26 @@ function createTlsOptions(opts) {
   return options;
 }
 
-function configureSslServer(app, opts) {
+function configureSslServer(app, opts, cb) {
   const port = _.get(opts, 'port', DEFAULT_PORT);
 
   const tlsOpts = createTlsOptions(opts);
 
-  const server = https.createServer(tlsOpts, app).listen(port, () => {
+  const server = https.createServer(tlsOpts, app);
+  server.listen(port, () => {
     const listeningPort = server.address().port;
     console.log('Listening on https://' + server.address().address + ':' + listeningPort);
+    cb(listeningPort);
   });
+  return {
+    close: function () {
+      server.close();
+    }
+  };
 }
 
 module.exports = {
-  start: function (app, opts) {
-    configureSslServer(app, opts);
+  start: function (app, opts, cb) {
+    return configureSslServer(app, opts, cb);
   }
 };

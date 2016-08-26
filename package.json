@@ -40,7 +40,8 @@
     "eslint-config-iplayer-es6": "^2.4.0",
     "eslint-plugin-mocha": "^2.2.0",
     "mocha": "^3.0.2",
-    "sinon": "^1.17.5"
+    "sinon": "^1.17.5",
+    "supertest": "^2.0.0"
   },
   "eslintConfig": {
     "extends": "iplayer-es6"
