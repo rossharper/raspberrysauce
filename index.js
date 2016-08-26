@@ -3,7 +3,7 @@
 const app = require('./webapp/app');
 const sslConfig = require('./servers/config/sslconfig');
 const path = require('path');
-const server = require('./servers/server');
+const server = require('simplehttps');
 
 const securePort = process.argv[2] || 4443;
 const insecurePort = process.argv[3] || 8080;
