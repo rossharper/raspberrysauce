@@ -46,12 +46,9 @@ function start() {
   } else {
     server.start(app.create(), {
       unsecuredServer: {
-        enabled: true,
-        port: insecurePort,
-        redirectsToSecuredServer: true
+        port: insecurePort
       },
       securedServer: {
-        enabled: true,
         port: securePort,
         caPath: sslConfig.cacertpath,
         serverKeyPath: path.join(sslConfig.servercertpath, sslConfig.serverkey),
