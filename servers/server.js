@@ -6,9 +6,10 @@ const securedServer = require('./SecureServer');
 const redirectingServer = require('./RedirectingInsecureServer');
 
 function getUnsecuredServerConfig(opts) {
-  return _.get(opts, 'unsecuredServer', {
-    enabled: false
-  });
+  const unsecureOptions = _.get(opts, 'unsecuredServer', {});
+  if (_.isNil(unsecureOptions.enabled)) unsecureOptions.enabled = true;
+  if (_.isNil(unsecureOptions.redirectsToSecuredServer)) unsecureOptions.redirectsToSecuredServer = true;
+  return unsecureOptions;
 }
 
 function getSecureServerConfig(opts) {

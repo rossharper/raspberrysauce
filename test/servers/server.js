@@ -59,21 +59,11 @@ describe('server', () => {
       sandbox.restore();
     });
 
-    it('does not start by default', (done) => {
-      server.start(app, {
-        securedServer: {
-          enabled: false
-        }
-      });
-
-      sinon.assert.notCalled(http.createServer);
-      done();
-    });
-
     it('creates an HTTP server on port 8080 with supplied application by default', (done) => {
       server.start(app, {
         unsecuredServer: {
-          enabled: true
+          enabled: true,
+          redirectsToSecuredServer: false
         },
         securedServer: {
           enabled: false
@@ -90,6 +80,7 @@ describe('server', () => {
       server.start(app, {
         unsecuredServer: {
           enabled: true,
+          redirectsToSecuredServer: false,
           port: port
         },
         securedServer: {
@@ -264,15 +255,10 @@ describe('server', () => {
       sandbox.restore();
     });
 
-    it('should redirect HTTP traffic to the HTTPS server on default ports', (done) => {
+    it('should redirect HTTP traffic to the HTTPS server on default ports by default', (done) => {
       stubFsForDefaultCerts();
 
-      serverInstance = server.start(app, {
-        unsecuredServer: {
-          redirectsToSecuredServer: true,
-          enabled: true
-        }
-      });
+      serverInstance = server.start(app);
 
       sinon.assert.calledWith(https.createServer, sandbox.match(app));
       sinon.assert.calledWith(mockHttpsServer.listen, sinon.match(4443));
@@ -357,7 +343,8 @@ describe('server', () => {
       server.start(app, {
         unsecuredServer: {
           enabled: true,
-          port: 7080
+          port: 7080,
+          redirectsToSecuredServer: false
         },
         securedServer: {
           port: 7443
@@ -387,7 +374,8 @@ describe('server', () => {
     it('can close the unsecuredServer', (done) => {
       server.start(app, {
         unsecuredServer: {
-          enabled: true
+          enabled: true,
+          redirectsToSecuredServer: false
         },
         securedServer: {
           enabled: false
@@ -416,7 +404,8 @@ describe('server', () => {
 
       server.start(app, {
         unsecuredServer: {
-          enabled: true
+          enabled: true,
+          redirectsToSecuredServer: false
         }
       }).close();
 
@@ -428,12 +417,7 @@ describe('server', () => {
     it('can close both secure and redirecting servers', (done) => {
       stubFsForDefaultCerts();
 
-      server.start(app, {
-        unsecuredServer: {
-          enabled: true,
-          redirectsToSecuredServer: true
-        }
-      }).close();
+      server.start(app).close();
 
       sinon.assert.calledWith(mockHttpServer.close);
       sinon.assert.calledWith(mockHttpsServer.close);
