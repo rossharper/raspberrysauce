@@ -1,10 +1,5 @@
-var User = require('./../models/user'),
-    mongoose = require('mongoose');
+'use strict';
 
-var dbConfig = require('./../db/db.js');
+const User = require('./../models/user');
 
-mongoose.connect(dbConfig.url);
-
-User.find({}).remove(function(err) {
-    console.log('users removed');
-});
+// TODO: remove users
