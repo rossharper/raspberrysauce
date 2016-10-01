@@ -32,7 +32,7 @@ function displayBattery(batteryVoltage) {
     $("#batteryLevelHalf").addClass('hidden');
     $("#batteryLevelThreeQuarters").addClass('hidden');
     $("#batteryLevelFull").addClass('hidden');
-    if(batteryVoltage < 2.00) {
+    if(batteryVoltage < 1.90) {
         $("#batteryLevelEmpty").removeClass('hidden');
         document.getElementById("batterytile").title = "Empty";
     } else if (batteryVoltage < 2.33) {
