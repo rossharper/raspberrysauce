@@ -1,20 +1,6 @@
 'use strict';
 
-const User = require('../auth/user');
-const userRepository = require('../auth/userRepository');
-const pass = require('pwd');
-
-function createUser(username, password, email) {
-  pass.hash(password, (err, salt, passhash) => {
-    if (err) {
-      console.log(err);
-    } else {
-      userRepository.addUser(new User(username, salt, passhash, email), (err) => {
-        if (err) throw err;
-      });
-    }
-  });
-}
+const createUser = require('../auth/createUser').createUser;
 
 function parseArgs() {
   const args = {};
@@ -39,7 +25,9 @@ function main() {
   if (!args.username || !args.password || !args.email) {
     console.log('Usage: node createUser.js -u <username> -p <password> -e <email>');
   } else {
-    createUser(args.username, args.password, args.email);
+    createUser(args.username, args.password, args.email, (err) => {
+      if (err) throw err;
+    });
   }
 }
 main();
