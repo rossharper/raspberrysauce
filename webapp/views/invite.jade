@@ -1,11 +1,11 @@
 extend loggedin
 block extrahead
-    link(rel='stylesheet', href='/stylesheets/login.css')
+    link(rel='stylesheet', href='/stylesheets/form.css')
 block content
 
   h1 Invite New User
 
-  form(name="invite", id="invite" action="/invite", method="post", class="form-signin")
-    h2(class="form-signin-heading") Send invite to email address:
+  form(name="invite", id="invite" action="/invite", method="post", class="form")
+    h2(class="form-heading") Send invite to email address:
     input(type="email", name="email", class="form-control", required, autofocus)
     input(type="submit", class="btn btn-lg btn-primary btn-block", value="SEND INVITE")
