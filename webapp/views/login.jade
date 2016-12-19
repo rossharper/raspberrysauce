@@ -1,12 +1,12 @@
 extend layout
 block extrahead
-    link(rel='stylesheet', href='/stylesheets/login.css')
+    link(rel='stylesheet', href='/stylesheets/form.css')
 block content
-    form(name="login", id="login" action="/login", method="post", class="form-signin")
+    form(name="login", id="login" action="/login", method="post", class="form")
         if message && message.length > 0
             div.alert.alert-danger(role='alert') #{message}
-        h2(class="form-signin-heading") Who is ya?
+        h2(class="form-heading") Who is ya?
         input(type="text", name="username", class="form-control", required, autofocus)
-        h2(class="form-signin-heading") What be the secret words?
+        h2(class="form-heading") What be the secret words?
         input(type="password", name="password", class="form-control", required)
         input(type="submit", class="btn btn-lg btn-primary btn-block", value="LOGIN")
