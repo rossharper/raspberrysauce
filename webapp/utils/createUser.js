@@ -1,38 +1,33 @@
 'use strict';
 
-const User = require('../auth/user');
-const userRepository = require('../auth/userRepository');
-const pass = require('pwd');
+const createUser = require('../auth/createUser').createUser;
 
-function createUser(username, password, email) {
-    pass.hash(password, (err, salt, passhash) => {
-        if (err) {
-            console.log(err);
-        } else {
-            userRepository.addUser(new User(username, salt, passhash, email), (err) => {
-              if (err) throw err;
-            });
-        }
-    });
+function parseArgs() {
+  const args = {};
+  if (process.argv.indexOf('-u') !== -1) {
+    args.username = process.argv[process.argv.indexOf('-u') + 1];
+  }
+
+  if (process.argv.indexOf('-p') !== -1) {
+    args.password = process.argv[process.argv.indexOf('-p') + 1];
+  }
+
+  if (process.argv.indexOf('-e') !== -1) {
+    args.email = process.argv[process.argv.indexOf('-e') + 1];
+  }
+
+  return args;
 }
 
-let username;
-if (process.argv.indexOf('-u') !== -1) {
-    username = process.argv[process.argv.indexOf('-u') + 1];
-}
+function main() {
+  const args = parseArgs();
 
-let password;
-if (process.argv.indexOf('-p') !== -1) {
-    password = process.argv[process.argv.indexOf('-p') + 1];
-}
-
-let email;
-if (process.argv.indexOf('-e') !== -1) {
-    email = process.argv[process.argv.indexOf('-e') + 1];
-}
-
-if (!username || !password || !email) {
+  if (!args.username || !args.password || !args.email) {
     console.log('Usage: node createUser.js -u <username> -p <password> -e <email>');
-} else {
-    createUser(username, password, email);
+  } else {
+    createUser(args.username, args.password, args.email, (err) => {
+      if (err) throw err;
+    });
+  }
 }
+main();
