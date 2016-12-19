@@ -29,6 +29,7 @@
     "morgan": "*",
     "nib": "*",
     "passport": "~0.2.1",
+    "passport-http-bearer": "^1.0.1",
     "passport-local": "~1.0.0",
     "pwd": "0.0.4",
     "realm": "^0.15.0",
