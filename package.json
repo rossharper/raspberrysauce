@@ -31,9 +31,11 @@
     "passport": "~0.2.1",
     "passport-local": "~1.0.0",
     "pwd": "0.0.4",
+    "realm": "^0.15.0",
     "session-file-store": "^0.2.1",
     "simplehttps": "git+https://github.com/rossharper/node-simplehttps.git",
-    "stylus": "*"
+    "stylus": "*",
+    "uuid": "^3.0.1"
   },
   "license": "Apache-2.0",
   "devDependencies": {

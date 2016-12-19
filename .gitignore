@@ -30,3 +30,6 @@ webapp/public/stylesheets/.DS_Store
 webapp/public/c3/.DS_Store
 .DS_Store
 /sessions
+/default.realm.lock
+/default.realm.management
+/default.realm
