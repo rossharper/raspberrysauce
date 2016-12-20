@@ -6,14 +6,21 @@ Uses:
 - Express.js web framework
 - Jade view templates
 - Stylus css
-- Mongoose (Mongo DB)
+- ~~Mongoose (Mongo DB)~~
 - Passport authentication
 
-# Issues
+# Issues / TODO
 
 Currently hardcoded to read sensor data and programme data from local filesystem at `/var/lib/homecontrol/sensordata/temperatureSensors/TA/` and `/var/lib/homecontrol/programdata`
 
 The API isn't really an API. It is authenticated using the same session-based authentication the web-front end uses. It also isn't properly RESTful at the moment.
+
+TODO:
+- User invite / signup
+- Password reset
+- Token based authentication (for API initially) (move to JSON Web Tokens)
+- Stateless (session-less) operation (use tokens for website?)
+- Schedule editing
 
 # Usage
 
