@@ -38,7 +38,7 @@ function setupViewEngine(app) {
 }
 
 function setupLogging(app) {
-  app.use(morgan('dev'));
+  app.use(morgan('combined'));
 }
 
 function setupStylus(app) {
