@@ -1,7 +1,9 @@
 'use strict';
 
-const Realm = require('realm');
 const uuid = require('uuid');
+const jsonfile = require('jsonfile');
+
+const PATH = '/var/lib/homecontrol/webapp/tokens/';
 
 const TokenSchema = {
   name: 'Token',
@@ -13,11 +15,9 @@ const TokenSchema = {
   }
 };
 
-const realm = new Realm({schema: [TokenSchema]});
-
 module.exports = {
 
-  createToken: function (username) {
+  createToken: function (username, cb) {
 
     const expiry = new Date();
     expiry.setDate(expiry.getDate() + 28);
@@ -28,41 +28,19 @@ module.exports = {
       expiry: expiry
     };
 
-    realm.write(() => {
-      realm.create('Token', {username: token.username, token: token.token, expiry: token.expiry});
+    jsonfile.writeFile(PATH + token.token, token, (err) => {
+      cb(err, token);
     });
-
-    return token;
   },
 
-  findToken: function(tokenValue, done) {
-    const tokens = realm.objects('Token');
-    const tokenQuery = `token = "${tokenValue}"`;
-    const theTokens = tokens.filtered(tokenQuery);
-    if(theTokens.length > 0) {
-      const theToken = theTokens[0];
-      done(null, {
-        username: theToken.username,
-        token: theToken.token,
-        expiry: theToken.expiry
-      });
-    }
-    else {
-      done(null, false);
-    }
+  findToken: function(tokenValue, cb) {
+    jsonfile.readFile(PATH + tokenValue, (err, token) => {
+      if (err && err.code === 'ENOENT') cb(null, null);
+      cb(err, token);
+    });
   },
 
-  deleteToken: function(tokenValue, done) {
-    const tokens = realm.objects('Token');
-    const theTokens = tokens.filtered('token = `${tokenValue}`');
-
-    if(theTokens.length > 0) {
-      const theToken = theTokens[0];
-      realm.write(() => {
-        realm.delete(theToken);
-      });
-    }
-    done();
+  deleteToken: function(tokenValue, cb) {
+    fs.unlink(PATH + tokenValue, cb)
   }
-
 };
