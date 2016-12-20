@@ -25,8 +25,15 @@ router.post('/requestAppToken', (req, res) => {
         res.end();
       }
       else {
-        const token = tokenRepository.createToken(body.username);
-        res.send(token.token);
+        tokenRepository.createToken(body.username, (err, token) => {
+          if(err) {
+            console.log(err);
+            res.status(500);
+            res.end();
+            return;
+          }
+          res.send(token.token);
+        });
       }
     });
   });
