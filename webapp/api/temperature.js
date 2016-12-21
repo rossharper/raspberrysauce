@@ -6,6 +6,13 @@ function getTemperatureFromFile(callback) {
 
 module.exports = {
     getCurrentTemperature: function(req, res) {
-        getTemperatureFromFile(function(temp) { res.send(temp); } );
+        getTemperatureFromFile((err, temp) => {
+          if(err) {
+            res.status(500);
+            res.end();
+            return;
+          }
+          res.send(temp);
+        } );
     }
 }
