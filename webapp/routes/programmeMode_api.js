@@ -12,7 +12,7 @@ router.get('/api/programme/setMode/comfort/:until?', requiresApiAuthorization(),
 router.get('/api/programme/setMode/setback/:until?', requiresApiAuthorization(), programmeapi.setSetbackMode);
 
 router.post('/api/programme/setMode/auto', auth.getBearerHandler(), programmeapi.setHeatingModeAuto);
-router.post('/api/programme/setMode/heatingOff', auth.getBearerHandler(), programmeapi.setHeatingModeAuto);
+router.post('/api/programme/setMode/heatingOff', auth.getBearerHandler(), programmeapi.setHeatingModeOff);
 router.post('/api/programme/setMode/comfort', auth.getBearerHandler(), programmeapi.setComfortMode);
 router.post('/api/programme/setMode/setback', auth.getBearerHandler(), programmeapi.setSetbackMode);
 
