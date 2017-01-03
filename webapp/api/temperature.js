@@ -1,3 +1,5 @@
+'use strict';
+
 const TemperatureFile = require('../models/temperatureFile');
 
 const DEFAULT_TEMP_SAMPLE_INTERVAL = 120;
@@ -21,8 +23,8 @@ module.exports = {
         res.end();
         return;
       }
-      res.set('Cache-Control', `private, max-age=${tempMaxAge(temp)}`)
+      res.set('Cache-Control', `private, max-age=${tempMaxAge(temp)}`);
       res.send(temp);
     });
   }
-}
+};

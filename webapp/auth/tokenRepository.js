@@ -2,18 +2,9 @@
 
 const uuid = require('uuid');
 const jsonfile = require('jsonfile');
+const fs = require('fs');
 
 const PATH = '/var/lib/homecontrol/webapp/tokens/';
-
-const TokenSchema = {
-  name: 'Token',
-  primaryKey: 'token',
-  properties: {
-    username:  'string',
-    token: 'string',
-    expiry: {type: 'date'},
-  }
-};
 
 module.exports = {
 
@@ -33,14 +24,16 @@ module.exports = {
     });
   },
 
-  findToken: function(tokenValue, cb) {
+  findToken: function (tokenValue, cb) {
     jsonfile.readFile(PATH + tokenValue, (err, token) => {
-      if (err && err.code === 'ENOENT') cb(null, null);
+      if (err && err.code === 'ENOENT') {
+        return cb(null, null);
+      }
       cb(err, token);
     });
   },
 
-  deleteToken: function(tokenValue, cb) {
-    fs.unlink(PATH + tokenValue, cb)
+  deleteToken: function (tokenValue, cb) {
+    fs.unlink(PATH + tokenValue, cb);
   }
 };
