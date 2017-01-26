@@ -4,7 +4,7 @@ const passport = require('passport');
 const userRepository = require('./userRepository');
 const localStrategy = require('./LocalStrategy');
 const bearerStrategy = require('./BearerStrategy');
-const accessTokenStrategy = require('./accessTokenStrategy');
+const accessTokenStrategy = require('./AccessTokenStrategy');
 
 function initPassport() {
   passport.serializeUser((user, done) => {
