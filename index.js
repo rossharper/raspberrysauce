@@ -46,7 +46,8 @@ function start() {
   } else {
     server.start(app.create(), {
       unsecuredServer: {
-        port: insecurePort
+        port: insecurePort,
+        redirectPort: 443
       },
       securedServer: {
         port: securePort,
