@@ -1,13 +1,14 @@
-var ProgrammeFileLoader = require('heatingprogramme').ProgrammeFileLoader;
-var ProgrammeFileWriter = require('heatingprogramme').ProgrammeFileWriter;
-var programmeModelBuilder = require('../models/programmeModelBuilder')
-var programmeProvider = require('../models/programmeProvider');
+'use strict';
+
+const ProgrammeFileWriter = require('heatingprogramme').ProgrammeFileWriter;
+const programmeModelBuilder = require('../models/programmeModelBuilder');
+const programmeProvider = require('../models/programmeProvider');
 
 // TODO: inject!
-var PROGRAMME_DATA_PATH = "/var/lib/homecontrol/programdata";
+const PROGRAMME_DATA_PATH = '/var/lib/homecontrol/programdata';
 
 function writeProgramme(programme, res) {
-  ProgrammeFileWriter.writeProgramme(PROGRAMME_DATA_PATH, programme, function (err) {
+  ProgrammeFileWriter.writeProgramme(PROGRAMME_DATA_PATH, programme, (err) => {
     if (err) {
       res.status(500);
       res.end();
@@ -18,16 +19,16 @@ function writeProgramme(programme, res) {
 }
 
 function comfortUntilDate(untilDate, res) {
-  programmeProvider.getProgramme(function (programme) {
+  programmeProvider.getProgramme((programme) => {
     programme.setComfortOverride(untilDate);
-    writeProgramme(programme, res)
+    writeProgramme(programme, res);
   });
 }
 
 function setbackUntilDate(untilDate, res) {
-  programmeProvider.getProgramme(function (programme) {
+  programmeProvider.getProgramme((programme) => {
     programme.setSetbackOverride(untilDate);
-    writeProgramme(programme, res)
+    writeProgramme(programme, res);
   });
 }
 
@@ -45,20 +46,19 @@ function setDateTimeToLocalMidnight(date) {
 }
 
 function setModeUntilDate(req, res, modeFunc) {
-  var untilParam = req.params.until;
+  const untilParam = req.params.until;
 
-  var dateExpr = /^(\d{4})-?(\d{2})-?(\d{2})T(\d{2}):?(\d{2}):?(\d{2})Z$/;
+  const dateExpr = /^(\d{4})-?(\d{2})-?(\d{2})T(\d{2}):?(\d{2}):?(\d{2})Z$/;
 
   if (/^\d{13,14}$/.test(untilParam)) { // time in milliseconds UTC
-    var untilInMs = parseInt(req.params.until);
+    const untilInMs = parseInt(req.params.until);
     modeFunc(new Date(untilInMs), res);
-  } else if (dateExpr.test(untilParam)) // fully qualified ISO8601 UTC
-  {
-    var matchedDate = untilParam.match(dateExpr);
-    var untilDate = new Date(Date.UTC(matchedDate[1], matchedDate[2], matchedDate[3], matchedDate[4], matchedDate[5], matchedDate[6]));
+  } else if (dateExpr.test(untilParam)) { // fully qualified ISO8601 UTC{
+    const matchedDate = untilParam.match(dateExpr);
+    const untilDate = new Date(Date.UTC(matchedDate[1], matchedDate[2], matchedDate[3], matchedDate[4], matchedDate[5], matchedDate[6]));
     modeFunc(untilDate, res);
   } else {
-    var untilDate = addDayToDate(new Date());
+    let untilDate = addDayToDate(new Date());
     untilDate = setDateTimeToLocalMidnight(untilDate);
     modeFunc(untilDate, res);
   }
@@ -67,15 +67,15 @@ function setModeUntilDate(req, res, modeFunc) {
 module.exports = {
 
   setHeatingModeAuto: function (req, res) {
-    programmeProvider.getProgramme(function (programme) {
+    programmeProvider.getProgramme((programme) => {
       programme.setHeatingOn();
       programme.clearOverride();
       writeProgramme(programme, res);
-    })
+    });
   },
 
   setHeatingModeOff: function (req, res) {
-    programmeProvider.getProgramme(function (programme) {
+    programmeProvider.getProgramme((programme) => {
       programme.setHeatingOff();
       writeProgramme(programme, res);
     });
@@ -87,5 +87,23 @@ module.exports = {
 
   setSetbackMode: function (req, res) {
     setModeUntilDate(req, res, setbackUntilDate);
+  },
+
+  getComfortSetPoint: function (req, res) {
+    programmeProvider.getProgramme((programme) => {
+      const response = {
+        comfortSetPoint: programme.getComfortSetPoint()
+      };
+      res.send(response);
+    });
+  },
+
+  setComfortSetPoint: function (req, res) {
+    programmeProvider.getProgramme((programme) => {
+      // TODO: validate the body!
+      programme.setComfortSetPoint(req.body);
+      // TODO: write the programme (if valid)
+      res.status(501).send('Not implemented yet');
+    });
   }
-}
+};
