@@ -31,7 +31,7 @@
     "passport": "0.2.2",
     "passport-http-bearer": "1.0.1",
     "passport-local": "1.0.0",
-    "pwd": "0.0.4",
+    "pwd": "1.1.0",
     "session-file-store": "0.2.1",
     "simplehttps": "git+https://github.com/rossharper/node-simplehttps.git",
     "stylus": "0.53.0",
