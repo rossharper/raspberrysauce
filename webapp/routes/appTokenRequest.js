@@ -2,6 +2,7 @@
 
 const router = require('express').Router();
 const auth = require('../auth/Authentication');
+const bodyParser = require('body-parser');
 const verifyUser = require('../auth/verifyUser');
 const Joi = require('joi');
 const tokenRepository = require('../auth/tokenRepository');
@@ -11,7 +12,7 @@ var schema = Joi.object().keys({
   password: Joi.string().min(1).max(255).required()
 });
 
-router.post('/requestAppToken', (req, res) => {
+router.post('/requestAppToken', bodyParser.urlencoded({ extended: false }), (req, res) => {
   Joi.validate(req.body, schema, (err, body) => {
     if(err) {
       res.status(400);

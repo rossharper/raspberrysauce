@@ -5,7 +5,6 @@ const morgan = require('morgan');
 const stylus = require('stylus');
 const nib = require('nib');
 const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
 const chalk = require('chalk');
 const flash = require('connect-flash');
 const expressSession = require('express-session');
@@ -67,10 +66,6 @@ function loadSessionSecret() {
 }
 
 function setupAuthenticationMiddleware(app) {
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({
-    extended: false
-  }));
   app.use(cookieParser());
   const session = expressSession({
     cookie: {

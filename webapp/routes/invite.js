@@ -4,6 +4,7 @@ const router = require('express').Router();
 const requiresAuthorizedUser = require('../auth/requiresAuthorizedUser');
 const inviteUser = require('../auth/inviteUser').inviteUser;
 const Joi = require('joi');
+const bodyParser = require('body-parser');
 
 var schema = Joi.object().keys({
   email: Joi.string().email().required()
@@ -17,7 +18,7 @@ router.get('/invite', requiresAuthorizedUser(), (req, res) => {
   });
 });
 
-router.post('/invite', requiresAuthorizedUser(), (req, res) => {
+router.post('/invite', requiresAuthorizedUser(), bodyParser.text(), (req, res) => {
   Joi.validate(req.body, schema, (err, email) => {
     if (err) {
       req.flash('error', 'Please enter a valid email address');

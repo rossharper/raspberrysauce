@@ -3,11 +3,14 @@
 const ProgrammeFileWriter = require('heatingprogramme').ProgrammeFileWriter;
 const programmeModelBuilder = require('../models/programmeModelBuilder');
 const programmeProvider = require('../models/programmeProvider');
+const Joi = require('joi');
 
 // TODO: inject!
 const PROGRAMME_DATA_PATH = '/var/lib/homecontrol/programdata';
 
-function writeProgramme(programme, res) {
+const comfortSetPointSchema = Joi.number().precision(2).required();
+
+function writeProgrammeAndReturnModes(programme, res) {
   ProgrammeFileWriter.writeProgramme(PROGRAMME_DATA_PATH, programme, (err) => {
     if (err) {
       res.status(500);
@@ -21,14 +24,14 @@ function writeProgramme(programme, res) {
 function comfortUntilDate(untilDate, res) {
   programmeProvider.getProgramme((programme) => {
     programme.setComfortOverride(untilDate);
-    writeProgramme(programme, res);
+    writeProgrammeAndReturnModes(programme, res);
   });
 }
 
 function setbackUntilDate(untilDate, res) {
   programmeProvider.getProgramme((programme) => {
     programme.setSetbackOverride(untilDate);
-    writeProgramme(programme, res);
+    writeProgrammeAndReturnModes(programme, res);
   });
 }
 
@@ -70,14 +73,14 @@ module.exports = {
     programmeProvider.getProgramme((programme) => {
       programme.setHeatingOn();
       programme.clearOverride();
-      writeProgramme(programme, res);
+      writeProgrammeAndReturnModes(programme, res);
     });
   },
 
   setHeatingModeOff: function (req, res) {
     programmeProvider.getProgramme((programme) => {
       programme.setHeatingOff();
-      writeProgramme(programme, res);
+      writeProgrammeAndReturnModes(programme, res);
     });
   },
 
@@ -100,10 +103,24 @@ module.exports = {
 
   setComfortSetPoint: function (req, res) {
     programmeProvider.getProgramme((programme) => {
-      // TODO: validate the body!
-      programme.setComfortSetPoint(req.body);
-      // TODO: write the programme (if valid)
-      res.status(501).send('Not implemented yet');
+      Joi.validate(req.body, comfortSetPointSchema, (err, setpoint) => {
+        if (err) {
+          res.status(400).send(`Setpoint must be a number with maximum precision of 2 decimal places. ${req.body}`);
+        } else {
+          programme.setComfortSetPoint(setpoint);
+          ProgrammeFileWriter.writeProgramme(PROGRAMME_DATA_PATH, programme, (err) => {
+            if (err) {
+              res.status(500);
+              res.end();
+              return;
+            }
+            const response = {
+              comfortSetPoint: programme.getComfortSetPoint()
+            };
+            res.send(response);
+          });
+        }
+      });
     });
   }
 };
