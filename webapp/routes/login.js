@@ -2,6 +2,7 @@
 
 const router = require('express').Router();
 const auth = require('../auth/Authentication');
+const bodyParser = require('body-parser');
 
 router.get('/login', (req, res) => {
     res.render('login', {
@@ -15,7 +16,7 @@ const authenticationRedirects = {
     failureRedirect: '/login',
     failureFlash: true
 };
-router.post('/login', auth.getAuthenticationHandler(authenticationRedirects));
+router.post('/login', bodyParser.urlencoded({ extended: false }), auth.getAuthenticationHandler(authenticationRedirects));
 
 router.get('/logout', (req, res) => {
     req.logout();

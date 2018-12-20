@@ -7,6 +7,9 @@ module.exports = new LocalStrategy({
       passReqToCallback: true
     },
     (req, username, password, done) => {
+
+        console.log(req.body);
+
         process.nextTick(() => {
           verifyUser(username, password, (err, user) => {
             if (err) {
