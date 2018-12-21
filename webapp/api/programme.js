@@ -105,7 +105,7 @@ module.exports = {
     programmeProvider.getProgramme((programme) => {
       Joi.validate(req.body, comfortSetPointSchema, (err, setpoint) => {
         if (err) {
-          res.status(400).send(`Setpoint must be a number with maximum precision of 2 decimal places. ${req.body}`);
+          res.status(400).send(`Set Point must be a number with maximum precision of 2 decimal places. ${req.body}`);
         } else {
           programme.setComfortSetPoint(setpoint);
           ProgrammeFileWriter.writeProgramme(PROGRAMME_DATA_PATH, programme, (err) => {

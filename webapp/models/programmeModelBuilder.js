@@ -46,7 +46,8 @@ module.exports = {
       heatingEnabled: programme.isHeatingEnabled(),
       comfortLevelEnabled: programme.isInComfortMode(now),
       inOverride: programme.isInOverridePeriod(now),
-      todaysPeriods: getTodaysPeriods(programme, now)
-    }
+      todaysPeriods: getTodaysPeriods(programme, now),
+      comfortSetPoint: programme.getComfortSetPoint()
+    };
   }
-}
+};
