@@ -1,8 +1,10 @@
 'use strict';
 
+const async = require('async');
 const ProgrammeFileWriter = require('heatingprogramme').ProgrammeFileWriter;
 const programmeModelBuilder = require('../models/programmeModelBuilder');
 const programmeProvider = require('../models/programmeProvider');
+const callingForHeatFile = require('../models/callingForHeatFile');
 const Joi = require('joi');
 
 // TODO: inject!
@@ -11,13 +13,24 @@ const PROGRAMME_DATA_PATH = '/var/lib/homecontrol/programdata';
 const comfortSetPointSchema = Joi.number().precision(2).required();
 
 function writeProgrammeAndReturnModes(programme, res) {
-  ProgrammeFileWriter.writeProgramme(PROGRAMME_DATA_PATH, programme, (err) => {
+  async.parallel({
+    programme: function (callback) {
+      ProgrammeFileWriter.writeProgramme(PROGRAMME_DATA_PATH, programme, (err) => {
+        callback(err, programmeModelBuilder.buildFromProgramme(programme));
+      });
+    },
+    callingForHeat: function (callback) {
+      callingForHeatFile.readFromFile((err, callingForHeat) => {
+        callback(err, callingForHeat);
+      });
+    }
+  }, (err, results) => {
     if (err) {
       res.status(500);
       res.end();
       return;
     }
-    res.send(programmeModelBuilder.buildFromProgramme(programme));
+    res.send(results);
   });
 }
 
