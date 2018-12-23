@@ -20,11 +20,11 @@ function writeProgrammeAndReturnModes(programme, res) {
       });
     },
     callingForHeat: function (callback) {
-      process.nextTick(() => {
+      setTimeout(() => {
         callingForHeatFile.readFromFile((err, callingForHeat) => {
           callback(err, callingForHeat);
         });
-      });
+      }, 500);
     }
   }, (err, results) => {
     if (err) {
