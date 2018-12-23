@@ -13,7 +13,7 @@ const PROGRAMME_DATA_PATH = '/var/lib/homecontrol/programdata';
 const comfortSetPointSchema = Joi.number().precision(2).required();
 
 function writeProgrammeAndReturnModes(programme, res) {
-  async.parallel({
+  async.series({
     programme: function (callback) {
       ProgrammeFileWriter.writeProgramme(PROGRAMME_DATA_PATH, programme, (err) => {
         callback(err, programmeModelBuilder.buildFromProgramme(programme));
