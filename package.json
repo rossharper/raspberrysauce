@@ -21,7 +21,7 @@
     "dateutil": "github:rossharper/dateutil",
     "express": "^4.16.4",
     "express-session": "1.10.4",
-    "filehound": "1.12.2",
+    "filehound": "^1.16.5",
     "heatingprogramme": "github:rossharper/heatingprogramme",
     "jade": "1.11.0",
     "joi": "^11.4.0",
