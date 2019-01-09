@@ -1,9 +1,11 @@
-var ProgrammeFileLoader = require('heatingprogramme').ProgrammeFileLoader;
+'use strict';
+
+const ProgrammeFileLoader = require('heatingprogramme').ProgrammeFileLoader;
 
 module.exports = {
-        getProgramme : function(callback) {
-            ProgrammeFileLoader.loadProgramme("/var/lib/homecontrol/programdata", function(programme) {
-                callback(programme);
-            });
-        }
+  getProgramme: (callback) => {
+    ProgrammeFileLoader.loadProgramme('/var/lib/homecontrol/programdata', (programme) => {
+      callback(programme);
+    });
+  }
 };

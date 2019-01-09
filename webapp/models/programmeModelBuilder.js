@@ -16,9 +16,9 @@ function getTodaysSortedComfortPeriods(programme, date) {
 
 function addPeriod(periods, isComfort, startTime, endTime) {
   periods.push({
-    'isComfort': isComfort,
-    'startTime': startTime,
-    'endTime': endTime
+    isComfort: isComfort,
+    startTime: startTime,
+    endTime: endTime
   });
 }
 

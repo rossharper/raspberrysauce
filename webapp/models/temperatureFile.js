@@ -1,11 +1,13 @@
-var fs = require('fs');
+'use strict';
+
+const fs = require('fs');
 
 const temperatureSensorFilePath = '/var/lib/homecontrol/sensordata/temperatureSensors/TA/value';
 
 function readFromFile(callback) {
   fs.stat(temperatureSensorFilePath, (err, stats) => {
     if (err) {
-      callback(err, null)
+      callback(err, null);
       return;
     }
     fs.readFile(temperatureSensorFilePath, 'utf8', (err, contents) => {
@@ -13,11 +15,11 @@ function readFromFile(callback) {
         callback(err, null);
         return;
       }
-      var temperature = {
+      const temperature = {
         temperature: parseFloat(contents),
-        device: "TA",
+        device: 'TA',
         timestamp: stats.mtime
-      }
+      };
       callback(null, temperature);
     });
   });
@@ -25,4 +27,4 @@ function readFromFile(callback) {
 
 module.exports = {
   readFromFile: readFromFile
-}
+};

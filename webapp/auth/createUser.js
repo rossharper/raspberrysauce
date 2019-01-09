@@ -1,4 +1,4 @@
-'use stict';
+'use strict';
 
 const User = require('./user');
 const userRepository = require('./userRepository');

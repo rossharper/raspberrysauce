@@ -6,7 +6,7 @@ const inviteUser = require('../auth/inviteUser').inviteUser;
 const Joi = require('joi');
 const bodyParser = require('body-parser');
 
-var schema = Joi.object().keys({
+const schema = Joi.object().keys({
   email: Joi.string().email().required()
 });
 

@@ -1,5 +1,5 @@
 {
-  "name": "RaspberrySauce",
+  "name": "raspberrysauce",
   "description": "Home control website",
   "version": "0.0.1",
   "private": true,
@@ -45,6 +45,6 @@
     "eslint-plugin-mocha": "^5.2.1"
   },
   "eslintConfig": {
-    "extends": "iplayer-es6"
+    "extends": "iplayer"
   }
 }
