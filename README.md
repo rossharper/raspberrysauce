@@ -4,7 +4,7 @@ This is a web front-end/API for my IoT home heating system. Currently it is most
 
 Uses:
 - Express.js web framework
-- Jade view templates
+- ~~Jade~~ Pug view templates
 - Stylus css
 - ~~Mongoose (Mongo DB)~~
 - Passport authentication
