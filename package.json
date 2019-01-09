@@ -34,7 +34,7 @@
     "passport-local": "1.0.0",
     "pwd": "1.1.0",
     "session-file-store": "0.2.1",
-    "simplehttps": "git+https://github.com/rossharper/node-simplehttps.git",
+    "simplehttps": "rossharper/node-simplehttps#security-updates",
     "stylus": "0.53.0",
     "uuid": "3.0.1"
   },
