@@ -33,7 +33,7 @@ function setupDynamicRouting(app) {
 
 function setupViewEngine(app) {
   app.set('views', __dirname + '/views');
-  app.set('view engine', 'jade');
+  app.set('view engine', 'pug');
 }
 
 function setupLogging(app) {
