@@ -22,7 +22,7 @@
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "filehound": "^1.16.5",
-    "heatingprogramme": "github:rossharper/heatingprogramme",
+    "heatingprogramme": "github:rossharper/heatingprogramme#updatechokidar",
     "pug": "^2.0.3",
     "joi": "^11.4.0",
     "jsonfile": "2.4.0",
