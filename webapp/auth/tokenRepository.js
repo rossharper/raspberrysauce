@@ -6,6 +6,15 @@ const fs = require('fs');
 
 const PATH = '/var/lib/homecontrol/webapp/tokens/';
 
+function ensureDataDirectoryExists(path, callback) {
+  fs.mkdir(path, { recursive: true }, (err) => {
+    if (err) {
+      if (err.code === 'EEXIST') callback(null); // ignore the error if the folder already exists
+      else callback(err); // something else went wrong
+    } else callback(null); // successfully created folder
+  });
+}
+
 module.exports = {
 
   createToken: function (username, cb) {
@@ -19,8 +28,14 @@ module.exports = {
       expiry: expiry
     };
 
-    jsonfile.writeFile(PATH + token.token, token, (err) => {
-      cb(err, token);
+    ensureDataDirectoryExists(PATH, (err) => {
+      if (err) {
+        cb(err);
+      } else {
+        jsonfile.writeFile(PATH + token.token, token, (err) => {
+          cb(err, token);
+        });
+      }
     });
   },
 
