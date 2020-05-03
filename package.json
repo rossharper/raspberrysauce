@@ -21,7 +21,7 @@
     "dateutil": "github:rossharper/dateutil",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
-    "filehound": "^1.16.5",
+    "filehound": "^1.17.4",
     "heatingprogramme": "github:rossharper/heatingprogramme",
     "pug": "^2.0.4",
     "joi": "^11.4.0",
@@ -35,7 +35,7 @@
     "pwd": "1.1.0",
     "session-file-store": "0.2.1",
     "simplehttps": "rossharper/node-simplehttps",
-    "stylus": "^0.54.5",
+    "stylus": "^0.54.7",
     "uuid": "3.0.1"
   },
   "license": "Apache-2.0",
