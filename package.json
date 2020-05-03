@@ -13,7 +13,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "async": "^2.6.1",
+    "async": "^2.6.2",
     "body-parser": "^1.18.3",
     "chalk": "1.0.0",
     "connect-flash": "0.1.1",
@@ -23,10 +23,10 @@
     "express-session": "^1.15.6",
     "filehound": "^1.16.5",
     "heatingprogramme": "github:rossharper/heatingprogramme",
-    "pug": "^2.0.3",
+    "pug": "^2.0.4",
     "joi": "^11.4.0",
     "jsonfile": "2.4.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.15",
     "morgan": "^1.9.1",
     "nib": "^1.1.2",
     "passport": "0.2.2",
@@ -40,11 +40,8 @@
   },
   "license": "Apache-2.0",
   "devDependencies": {
-    "eslint": "^4.19.1",
-    "eslint-config-iplayer": "^6.2.1",
-    "eslint-plugin-mocha": "^5.2.1"
+    "eslint": "^6.8.0",
+    "eslint-plugin-mocha": "^6.3.0"
   },
-  "eslintConfig": {
-    "extends": "iplayer"
-  }
+  "eslintConfig": {}
 }
