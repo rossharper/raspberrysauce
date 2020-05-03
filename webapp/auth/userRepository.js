@@ -25,9 +25,6 @@ module.exports = {
         });
       }
     });
-    jsonfile.writeFile(PATH + user.username, user, (err) => {
-      cb(err);
-    });
   },
 
   findUser: function (username, cb) {
