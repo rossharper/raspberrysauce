@@ -5,8 +5,8 @@ const sslConfig = require('./servers/config/sslconfig');
 const path = require('path');
 const server = require('simplehttps');
 
-const securePort = process.argv[2] || 4443;
-const insecurePort = process.argv[3] || 8080;
+const securePort = 4443;
+const insecurePort = 8080;
 
 let serveInsecure = false;
 
