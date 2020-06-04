@@ -37,7 +37,8 @@ function start() {
     server.start(app.create(), {
       unsecuredServer: {
         enabled: true,
-        port: insecurePort
+        port: insecurePort,
+        redirectsToSecuredServer: false
       },
       securedServer: {
         enabled: false

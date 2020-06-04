@@ -8,7 +8,7 @@ module.exports = new LocalStrategy({
 },
 (req, username, password, done) => {
   process.nextTick(() => {
-    verifyUser(username, password, (err, user) => {
+    verifyUser(username.trim(), password.trim(), (err, user) => {
       if (err) {
         return done(err);
       }

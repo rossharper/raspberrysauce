@@ -2,6 +2,7 @@
 
 const jsonfile = require('jsonfile');
 const fs = require('fs');
+const sanitize = require("sanitize-filename");
 
 const PATH = '/var/lib/homecontrol/webapp/users/';
 
@@ -28,7 +29,7 @@ module.exports = {
   },
 
   findUser: function (username, cb) {
-    jsonfile.readFile(PATH + username, (err, user) => {
+    jsonfile.readFile(PATH + sanitize(username), (err, user) => {
       if (err && err.code === 'ENOENT') cb(null, null);
       cb(err, user);
     });
