@@ -1,10 +1,13 @@
 'use strict';
 
 const User = require('./user');
-const userRepository = require('./userRepository');
 const pass = require('pwd');
 
-module.exports = {
+function UserCreator(userRepository) {
+  this.repo = userRepository;
+}
+
+UserCreator.prototype = {
   createUser: function (username, password, email, cb) {
     pass.hash(password, (err, salt, passhash) => {
       if (err) {
@@ -12,7 +15,7 @@ module.exports = {
         return;
       }
       const user = new User(username, salt, passhash, email);
-      userRepository.addUser(user, (err) => {
+      this.repo.addUser(user, (err) => {
         if (err) {
           cb(err);
           return;
@@ -22,3 +25,5 @@ module.exports = {
     });
   }
 };
+
+module.exports = UserCreator;

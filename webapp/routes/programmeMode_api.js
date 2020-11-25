@@ -16,4 +16,6 @@ router.post('/api/programme/setMode/heatingOff', auth.getBearerHandler(), progra
 router.post('/api/programme/setMode/comfort', auth.getBearerHandler(), programmeapi.setComfortMode);
 router.post('/api/programme/setMode/setback', auth.getBearerHandler(), programmeapi.setSetbackMode);
 
+router.get('/api/programme/getMode', auth.getBearerHandler(), programmeapi.getHeatingMode);
+
 module.exports = router;

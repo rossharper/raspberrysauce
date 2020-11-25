@@ -11,7 +11,7 @@ Uses:
 
 # Issues / TODO
 
-Currently hardcoded to read sensor data and programme data from local filesystem at `/var/lib/homecontrol/sensordata/temperatureSensors/TA/` and `/var/lib/homecontrol/programdata`
+Currently hardcoded by default to read sensor data and programme data from local filesystem at `/var/lib/homecontrol/sensordata/temperatureSensors/TA/` and `/var/lib/homecontrol/programdata`. These can also be set via command line arguments.
 
 The API isn't really an API. It is authenticated using the same session-based authentication the web-front end uses. It also isn't properly RESTful at the moment.
 

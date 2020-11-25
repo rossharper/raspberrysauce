@@ -4,10 +4,6 @@ const TemperatureFile = require('../models/temperatureFile');
 
 const DEFAULT_TEMP_SAMPLE_INTERVAL = 120;
 
-function getTemperatureFromFile(callback) {
-  TemperatureFile.readFromFile(callback);
-}
-
 function tempMaxAge(temp) {
   const tempSampleInterval = temp.sampleInterval || DEFAULT_TEMP_SAMPLE_INTERVAL;
   const nextSampleTimestamp = new Date(temp.timestamp);
@@ -17,7 +13,7 @@ function tempMaxAge(temp) {
 
 module.exports = {
   getCurrentTemperature: function (req, res) {
-    getTemperatureFromFile((err, temp) => {
+    new TemperatureFile(req.app.get('sensorDataPath')).readFromFile((err, temp) => {
       if (err) {
         res.status(500);
         res.end();

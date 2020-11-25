@@ -2,10 +2,16 @@
 
 const ProgrammeFileLoader = require('heatingprogramme').ProgrammeFileLoader;
 
-module.exports = {
-  getProgramme: (callback) => {
-    ProgrammeFileLoader.loadProgramme('/var/lib/homecontrol/programdata', (programme) => {
+function ProgrammeProvider(programmeDataPath) {
+  this.path = programmeDataPath
+}
+
+ProgrammeProvider.prototype = {
+  getProgramme: function(callback) {
+    ProgrammeFileLoader.loadProgramme(this.path, (programme) => {
       callback(programme);
     });
   }
 };
+
+module.exports = ProgrammeProvider;

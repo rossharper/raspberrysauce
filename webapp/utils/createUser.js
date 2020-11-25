@@ -1,9 +1,13 @@
 'use strict';
 
-const createUser = require('../auth/createUser').createUser;
+const UserCreator = require('../auth/UserCreator');
+const UserRepository = require('../auth/userRepository');
+const DEFAULTS = require('../../defaults');
 
 function parseArgs() {
-  const args = {};
+  const args = {
+    webappDataPath: DEFAULTS.webappDataPath
+  };
   if (process.argv.indexOf('-u') !== -1) {
     args.username = process.argv[process.argv.indexOf('-u') + 1];
   }
@@ -16,6 +20,10 @@ function parseArgs() {
     args.email = process.argv[process.argv.indexOf('-e') + 1];
   }
 
+  if (process.argv.indexOf('-webappDataPath') !== -1) {
+    args.webappDataPath = process.argv[process.argv.indexOf('-webappDataPath') + 1]
+  }
+
   return args;
 }
 
@@ -25,7 +33,7 @@ function main() {
   if (!args.username || !args.password || !args.email) {
     console.log('Usage: node createUser.js -u <username> -p <password> -e <email>');
   } else {
-    createUser(args.username, args.password, args.email, (err) => {
+    new UserCreator(new UserRepository(args.webappDataPath)).createUser(args.username, args.password, args.email, (err) => {
       if (err) throw err;
     });
   }

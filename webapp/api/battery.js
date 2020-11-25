@@ -2,13 +2,13 @@
 
 const BatteryFile = require('../models/batteryFile');
 
-function getVoltageFromFile(callback) {
-  BatteryFile.readFromFile(callback);
+function getVoltageFromFile(batteryFile, callback) {
+  batteryFile.readFromFile(callback);
 }
 
 module.exports = {
   getCurrentVoltage: (req, res) => {
-    getVoltageFromFile((voltage) => {
+    getVoltageFromFile(new BatteryFile(req.app.get('sensorDataPath')), (voltage) => {
       res.send(voltage);
     });
   }

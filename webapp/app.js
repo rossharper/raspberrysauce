@@ -67,9 +67,13 @@ function loadSessionSecret() {
 
 function setupAuthenticationMiddleware(app) {
   app.use(cookieParser());
+  let secureCookie = true;
+  if(app.get('serveInsecure') === true) {
+    secureCookie = false
+  }
   const session = expressSession({
     cookie: {
-      secure: true,
+      secure: secureCookie,
       maxAge: SESSION_COOKIE_MAX_AGE
     },
     secret: loadSessionSecret(),
@@ -90,8 +94,13 @@ function setupAuthenticationMiddleware(app) {
   app.use(flash());
 }
 
-function createApp() {
+function createApp(args) {
   const app = express();
+
+  app.set('serveInsecure', args.serveInsecure)
+  app.set('sensorDataPath', args.sensorDataPath);
+  app.set('programmeDataPath', args.programmeDataPath);
+  app.set('webappDataPath', args.webappDataPath);
 
   setupViewEngine(app);
   setupLogging(app);

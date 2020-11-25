@@ -2,16 +2,20 @@
 
 const fs = require('fs');
 
-function readFromFile(callback) {
-  fs.readFile('/var/lib/homecontrol/sensordata/temperatureSensors/TA/batt', 'utf8', (err, contents) => {
-    const battery = {
-      batteryVoltage: parseFloat(contents),
-      device: 'TA'
-    };
-    callback(battery);
-  });
+function BatteryFile(sensorDataPath) {
+  this.sensorPath = sensorDataPath + '/temperatureSensors/TA/batt';
 }
 
-module.exports = {
-  readFromFile: readFromFile
+BatteryFile.prototype = {
+  readFromFile: function(callback) {
+    fs.readFile(this.sensorPath, 'utf8', (err, contents) => {
+      const battery = {
+        batteryVoltage: parseFloat(contents),
+        device: 'TA'
+      };
+      callback(battery);
+    });
+  }
 };
+
+module.exports = BatteryFile;

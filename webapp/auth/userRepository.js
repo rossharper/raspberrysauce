@@ -4,8 +4,6 @@ const jsonfile = require('jsonfile');
 const fs = require('fs');
 const sanitize = require("sanitize-filename");
 
-const PATH = '/var/lib/homecontrol/webapp/users/';
-
 function ensureDataDirectoryExists(path, callback) {
   fs.mkdir(path, { recursive: true }, (err) => {
     if (err) {
@@ -15,13 +13,17 @@ function ensureDataDirectoryExists(path, callback) {
   });
 }
 
-module.exports = {
+function UserRepository(webappDataPath) {
+  this.path = webappDataPath + '/users/';
+}
+
+UserRepository.prototype = {
   addUser: function (user, cb) {
-    ensureDataDirectoryExists(PATH, (err) => {
+    ensureDataDirectoryExists(this.path, (err) => {
       if (err) {
         cb(err);
       } else {
-        jsonfile.writeFile(PATH + user.username, user, (err) => {
+        jsonfile.writeFile(this.path + user.username, user, (err) => {
           cb(err);
         });
       }
@@ -29,9 +31,11 @@ module.exports = {
   },
 
   findUser: function (username, cb) {
-    jsonfile.readFile(PATH + sanitize(username), (err, user) => {
+    jsonfile.readFile(this.path + sanitize(username), (err, user) => {
       if (err && err.code === 'ENOENT') cb(null, null);
       cb(err, user);
     });
   }
 };
+
+module.exports = UserRepository;

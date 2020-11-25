@@ -33,3 +33,4 @@ webapp/public/c3/.DS_Store
 /default.realm.lock
 /default.realm.management
 /default.realm
+.vscode/launch.json

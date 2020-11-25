@@ -1,33 +1,36 @@
 'use strict';
 
 const async = require('async');
-const batteryFile = require('../../models/batteryFile');
-const temperatureFile = require('../../models/temperatureFile');
-const callingForHeatFile = require('../../models/callingForHeatFile');
-const programmeProvider = require('../../models/programmeProvider');
+const BatteryFile = require('../../models/batteryFile');
+const TemperatureFile = require('../../models/temperatureFile');
+const CallingForHeatFile = require('../../models/callingForHeatFile');
+const ProgrammeProvider = require('../../models/programmeProvider');
 const programmeModelBuilder = require('../../models/programmeModelBuilder');
 
 module.exports = {
   getView: function (req, res, next) {
 
+    const programmeDataPath = req.app.get('programmeDataPath');
+    const sensorDataPath = req.app.get('sensorDataPath')
+
     async.parallel({
       callingForHeat: function (callback) {
-        callingForHeatFile.readFromFile((err, callingForHeat) => {
+        new CallingForHeatFile(programmeDataPath).readFromFile((err, callingForHeat) => {
           callback(err, callingForHeat);
         });
       },
       batteryVoltage: function (callback) {
-        batteryFile.readFromFile((voltage) => {
+        new BatteryFile(sensorDataPath).readFromFile((voltage) => {
           callback(null, voltage);
         });
       },
       temperature: function (callback) {
-        temperatureFile.readFromFile((err, temperature) => {
+        new TemperatureFile(sensorDataPath).readFromFile((err, temperature) => {
           callback(err, temperature);
         });
       },
       programme: function (callback) {
-        programmeProvider.getProgramme((programme) => {
+        new ProgrammeProvider(programmeDataPath).getProgramme((programme) => {
           callback(null, programme);
         });
       }
