@@ -7,6 +7,7 @@ const auth = require('../auth/Authentication');
 
 router.get('/api/temperature/currentTemperature', requiresApiAuthorization(), temperatureapi.getCurrentTemperature);
 
-router.get('/api/temperature/', auth.getBearerHandler(), temperatureapi.getCurrentTemperature);
+router.get('/api/temperature/', auth.getBearerHandler(), temperatureapi.getCurrentTemperature); // DEPRECATE ENDPOINT
+router.get('/api/temperature/current', auth.getBearerHandler(), temperatureapi.getCurrentTemperature);
 
 module.exports = router;
