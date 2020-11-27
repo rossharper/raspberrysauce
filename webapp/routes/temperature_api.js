@@ -9,5 +9,6 @@ router.get('/api/temperature/currentTemperature', requiresApiAuthorization(), te
 
 router.get('/api/temperature/', auth.getBearerHandler(), temperatureapi.getCurrentTemperature); // DEPRECATE ENDPOINT
 router.get('/api/temperature/current', auth.getBearerHandler(), temperatureapi.getCurrentTemperature);
+router.get('/api/temperature/target', auth.getBearerHandler(), temperatureapi.getTargetTemperature);
 
 module.exports = router;

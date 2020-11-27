@@ -1,6 +1,7 @@
 'use strict';
 
 const TemperatureFile = require('../models/temperatureFile');
+const ProgrammeProvider = require('../models/programmeProvider');
 
 const DEFAULT_TEMP_SAMPLE_INTERVAL = 120;
 
@@ -21,6 +22,15 @@ module.exports = {
       }
       res.set('Cache-Control', `private, max-age=${tempMaxAge(temp)}`);
       res.send(temp);
+    });
+  },
+
+  getTargetTemperature: function (req, res) {
+    new ProgrammeProvider(req.app.get('programmeDataPath')).getProgramme((programme) => {
+      const response = {
+        targetTemperature: programme.getCurrentTargetTemperature(new Date())
+      }
+      res.send(response);
     });
   }
 };
