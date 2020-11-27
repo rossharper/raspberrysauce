@@ -94,6 +94,7 @@ module.exports = {
       const response = {
         heatingEnabled: programme.isHeatingEnabled(),
         comfortLevelEnabled: programme.isInComfortMode(now),
+        inOverride: programme.isInOverridePeriod(now)
       };
       res.send(response);
     });
