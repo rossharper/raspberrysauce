@@ -22,7 +22,7 @@
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "filehound": "^1.17.4",
-    "heatingprogramme": "github:rossharper/heatingprogramme",
+    "heatingprogramme": "github:rossharper/heatingprogramme#1.0.0",
     "joi": "^11.4.0",
     "jsonfile": "2.4.0",
     "lodash": "^4.17.19",
