@@ -7,7 +7,9 @@ const ProgrammeProvider = require('../models/programmeProvider');
 const CallingForHeatFile = require('../models/callingForHeatFile');
 const Joi = require('joi');
 
-const comfortSetPointSchema = Joi.number().precision(2).required();
+const temperatureValueSchema = Joi.number().precision(2).required(); 
+const comfortSetPointSchema = temperatureValueSchema;
+const targetTemperatureOverideSchema = temperatureValueSchema;
 
 function writeProgrammeAndReturnModes(programme, req, res) {
 
@@ -34,6 +36,41 @@ function writeProgrammeAndReturnModes(programme, req, res) {
     }
     res.send(results);
   });
+}
+
+function writeProgrammeThenRespondWith(req, res, programme, getResponse) {
+  ProgrammeFileWriter.writeProgramme(req.app.get('programmeDataPath'), programme, (err) => {
+    if (err) {
+      res.status(500);
+      res.end();
+      return;
+    }
+    res.send(getResponse());
+  });
+}
+
+function writeProgrammeAndReturnComfortSetpoint(req, res, programme) {
+  writeProgrammeThenRespondWith(req, res, programme, () => {
+    return getComfortSetPointResponseBody(programme);
+  });
+}
+
+function getComfortSetPointResponseBody(programme) {
+  return {
+    comfortSetPoint: programme.getComfortSetPoint()
+  };
+}
+
+function writeProgrammeAndReturnOverrideTemperature(req, res, programme) {
+  writeProgrammeThenRespondWith(req, res, programme, () => {
+    return getTargetTemperatureResponseBody(programme)
+  });
+}
+
+function getTargetTemperatureResponseBody(programme) {
+  return {
+    targetTemperature: programme.getCurrentTargetTemperature(new Date())
+  };
 }
 
 function createProgrammeProvider(req) {
@@ -125,10 +162,7 @@ module.exports = {
 
   getComfortSetPoint: function (req, res) {
     createProgrammeProvider(req).getProgramme((programme) => {
-      const response = {
-        comfortSetPoint: programme.getComfortSetPoint()
-      };
-      res.send(response);
+      res.send(getComfortSetPointResponseBody(programme));
     });
   },
 
@@ -139,17 +173,26 @@ module.exports = {
           res.status(400).send(`Set Point must be a number with maximum precision of 2 decimal places. ${req.body}`);
         } else {
           programme.setComfortSetPoint(setpoint);
-          ProgrammeFileWriter.writeProgramme(req.app.get('programmeDataPath'), programme, (err) => {
-            if (err) {
-              res.status(500);
-              res.end();
-              return;
-            }
-            const response = {
-              comfortSetPoint: programme.getComfortSetPoint()
-            };
-            res.send(response);
-          });
+          writeProgrammeAndReturnComfortSetpoint(req, res, programme);
+        }
+      });
+    });
+  },
+
+  getTargetTemperature: function (req, res) {
+    createProgrammeProvider(req).getProgramme((programme) => {
+      res.send(getTargetTemperatureResponseBody(programme));
+    })
+  },
+
+  setTargetTemperatureOverride: function (req, res) {
+    createProgrammeProvider(req).getProgramme((programme) => {
+      Joi.validate(req.body, targetTemperatureOverideSchema, (err, targetTemperatureOverride) => {
+        if (err) {
+          res.status(400).send(`Target Temperature Override must be a number with maximum precision of 2 decimal places. ${req.body}`);
+        } else {
+          programme.setOverrideTemperature(targetTemperatureOverride, new Date())
+          writeProgrammeAndReturnOverrideTemperature(req, res, programme);
         }
       });
     });
