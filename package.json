@@ -25,7 +25,7 @@
     "heatingprogramme": "github:rossharper/heatingprogramme#1.2.3",
     "joi": "^11.4.0",
     "jsonfile": "2.4.0",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "morgan": "^1.9.1",
     "nib": "^1.1.2",
     "passport": "0.2.2",
