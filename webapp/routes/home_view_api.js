@@ -9,4 +9,6 @@ router.get('/api/views/home', requiresApiAuthorization(), homeviewapi.getView);
 
 router.get('/api/views/ios/home', auth.getBearerHandler(), homeviewapi.getView);
 
+router.get('/api/views/ios/homev2', auth.getBearerHandler(), homeviewapi.getViewV2);
+
 module.exports = router;
