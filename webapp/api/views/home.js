@@ -47,7 +47,8 @@ function mapV1Schema(results) {
     temperature: results.temperature.temperature,
     batteryVoltage: results.batteryVoltage.batteryVoltage,
     programme: programmeModelBuilder.buildFromProgramme(results.programme),
-    callingForHeat: results.callingForHeat
+    callingForHeat: results.callingForHeat,
+    currentTargetTemp: results.programme.getCurrentTargetTemperature(new Date())
   };
 }
 
