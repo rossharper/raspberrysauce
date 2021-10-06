@@ -14,11 +14,12 @@ function getTodaysSortedComfortPeriods(programme, date) {
   return comfortPeriods;
 }
 
-function addPeriod(periods, isComfort, startTime, endTime) {
+function addPeriod(periods, isComfort, startTime, endTime, targetTemperature) {
   periods.push({
     isComfort: isComfort,
     startTime: startTime,
-    endTime: endTime
+    endTime: endTime,
+    targetTemperature: targetTemperature
   });
 }
 
@@ -27,16 +28,20 @@ function getTodaysPeriods(programme, date) {
   const finalPeriods = [];
   comfortPeriods.forEach((period) => {
     if (finalPeriods.length === 0 && DateUtil.getDateFromTimeStr(date, period.startTime) > DateUtil.getDateFromTimeStr(date, '00:00')) {
-      addPeriod(finalPeriods, false, '00:00', period.startTime);
+      addPeriod(finalPeriods, false, '00:00', period.startTime, programme.getSetbackTemperature());
     } else if (finalPeriods.length > 0 && DateUtil.getDateFromTimeStr(date, finalPeriods[finalPeriods.length - 1].endTime) < DateUtil.getDateFromTimeStr(date, period.startTime)) {
-      addPeriod(finalPeriods, false, finalPeriods[finalPeriods.length - 1].endTime, period.startTime);
+      addPeriod(finalPeriods, false, finalPeriods[finalPeriods.length - 1].endTime, period.startTime, programme.getSetbackTemperature());
     }
-    addPeriod(finalPeriods, true, period.startTime, period.endTime);
+    addPeriod(finalPeriods, true, period.startTime, period.endTime, targetTemperatureForComfortPeriod(period, programme));
   });
   if (DateUtil.getDateFromTimeStr(date, finalPeriods[finalPeriods.length - 1].endTime) < DateUtil.getDateFromTimeStr(date, '23:59')) {
-    addPeriod(finalPeriods, false, finalPeriods[finalPeriods.length - 1].endTime, '23:59');
+    addPeriod(finalPeriods, false, finalPeriods[finalPeriods.length - 1].endTime, '23:59', programme.getSetbackTemperature());
   }
   return finalPeriods;
+}
+
+function targetTemperatureForComfortPeriod(period, programme) {
+  return period.targetTemp || programme.getComfortSetPoint()
 }
 
 module.exports = {
