@@ -92,6 +92,8 @@ function setupAuthenticationMiddleware(app) {
   auth.initialize(app);
 
   app.use(flash());
+
+  app.disable('etag');
 }
 
 function createApp(args) {
